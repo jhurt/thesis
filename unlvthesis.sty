@@ -1,0 +1,578 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% This style file was created by Matt Pedersen and Ajoy K. Datta 
+%%% for the MS/PhD reports for the UNLV students.
+%%%
+%%% Please send your comments or questions to matt@cs.unlv.edu.
+%%%
+%%% This file is a modification of the UT Austin thesis style file, 
+%%% version 2.0, January 1995.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\topmargin -0.6in
+\oddsidemargin 0.5in
+\textheight 8.8in
+\textwidth 6.0in
+
+\usepackage{fancyhdr}
+
+\usepackage{epsfig,graphics}
+%\usepackage{amsthm,epsfig,graphics} 
+\usepackage{epsfig}
+\usepackage[hang]{subfigure}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{lscape}
+\usepackage{textcomp}
+
+\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\contentsname}{TABLE OF CONTENTS}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\bibname}{BIBLIOGRAPHY}
+
+\setcounter{secnumdepth}{3}
+
+\makeatletter
+
+
+%%%
+%%% General spacing  - choose one of these for your thesis
+%%%
+\newcommand{\myspace}[1]{\renewcommand{\baselinestretch}{#1}}
+\newcommand{\singlespace}{\renewcommand{\baselinestretch}{1.0}}
+\newcommand{\oneandhalfspace}{\renewcommand{\baselinestretch}{1.5}}
+\newcommand{\doublespace}{\renewcommand{\baselinestretch}{2.0}}
+
+%%%
+%%% General variables
+%%%
+
+\newcommand{\topindent}{0.55in}
+
+\newcommand{\@textpagenumbering}{arabic}
+\newcommand{\@preamblepagenumbering}{roman}
+\newcommand{\@textpagestyle}{plain}
+\newcommand{\@preamblepagestyle}{plain}
+\pagenumbering{\@preamblepagenumbering}
+\newcommand{\clearemptydoublepage}{
+  \newpage{\pagestyle{empty}\cleardoublepage}}
+
+\newcommand{\@chaptertype}{}%\chaptername}
+\newcommand{\@appendix}{0}
+
+\newcommand{\fancyheaders}{
+    \renewcommand{\@textpagestyle}{fancy}}
+
+%%%
+%%% Page style wrt page numbering
+%%%
+
+\fancyheaders
+%\fancyhead[RO,LE]{\thepage}
+\fancyhead{}
+\fancyhead[LO]{}
+\fancyhead[RE]{}
+\renewcommand{\headrulewidth}{0pt}
+%fancyfoot{}
+\fancyfoot[LE]{\thepage}
+
+%%%
+%%% Title page variables  - choose either \mastersthesisA, \mastersthesisS, \phdthesis
+%%%  
+
+\newcommand{\@universityname}{University of Nevada, Las Vegas}
+\newcommand{\@thesisauthor}{Skullhead Bonyhands}
+\newcommand{\thesisauthor}[1]{\renewcommand{\@thesisauthor}{#1}}
+\newcommand{\@thesismonth}{September}
+\newcommand{\thesismonth}[1]{\renewcommand{\@thesismonth}{#1}}
+\newcommand{\@thesisyear}{1995}
+\newcommand{\thesisyear}[1]{\renewcommand{\@thesisyear}{#1}}
+\newcommand{\@thesistitle}{Skeleton Thesis}
+\newcommand{\thesistitle}[1]{\renewcommand{\@thesistitle}{#1}}
+\newcommand{\@thesistitletypesize}{}
+\newcommand{\@thesisauthorpreviousdegrees}{B.B. ACME Looniversity, 1995}
+\newcommand{\thesisauthorpreviousdegrees}[1]{
+    \renewcommand{\@thesisauthorpreviousdegrees}{#1}}
+\newcommand{\@thesiscopyrightholder}{\@thesisauthor}
+\newcommand{\thesiscopyrightholder}[1]{
+    \renewcommand{\@thesiscopyrightholder}{#1}}
+\newcommand{\@thesisdegree}{Doctor of Philosophy}
+\newcommand{\thesisdegree}[1]{\renewcommand{\@thesisdegree}{#1}}
+\newcommand{\@thesisdegreetypesize}{}
+\newcommand{\@thesisdegreeabbreviation}{Ph.D.}
+\newcommand{\thesisdegreeabbreviation}[1]{
+    \renewcommand{\@thesisdegreeabbreviation}{#1}}
+\newcommand{\@thesisacknowledgmenthead}{Acknowledgments}
+\newcommand{\@thesisacknowledgmentheadtypesize}{}
+\newcommand{\@bigthesistype}{A THESIS}
+\newcommand{\@thesistype}{thesis}
+
+%%%
+%%% Commands for \mastersessay and \mastersthesis.  \phdthesis is
+%%% provided for symmetry.
+%%%
+\newcommand{\mastersessayA}{
+    \renewcommand{\@thesisdegree}{Master of Arts Degree}
+    \renewcommand{\@thesisdegreeabbreviation}{M.A.}
+    \renewcommand{\@bigthesistype}{A PROJECT}
+    \renewcommand{\@thesistype}{project}}
+\newcommand{\mastersessayS}{
+    \renewcommand{\@thesisdegree}{Master of Science Degree}
+    \renewcommand{\@thesisdegreeabbreviation}{M.Sc.}
+    \renewcommand{\@bigthesistype}{A PROJECT}
+    \renewcommand{\@thesistype}{project}}
+\newcommand{\mastersthesisA}{
+    \renewcommand{\@thesisdegree}{Master of Arts Degree}
+    \renewcommand{\@thesisdegreeabbreviation}{M.A.}}
+\newcommand{\mastersthesisS}{
+    \renewcommand{\@thesisdegree}{Master of Science Degree}
+    \renewcommand{\@thesisdegreeabbreviation}{M.Sc.}}
+
+\newcommand{\phdthesis}{}
+
+%%%%
+%%%% Title Page
+%%%%
+
+\newcommand{\thesistitlepage}{
+  \thispagestyle{empty}
+  \begin{center}
+    \begin{spacing}{2.0}
+      \vspace*{-0.001cm}
+      \@thesistitletypesize \@thesistitle \\[2.8cm]
+    \end{spacing}
+    \begin{spacing}{1.0}
+      by\\
+      \vspace*{\fill}
+      \@thesisauthor \\[0.55cm]
+   %   \@thesisauthorpreviousdegrees\\
+      \vspace*{\fill}
+      A \@thesistype\ submitted in partial fulfillment\\
+      of the requirements for the\\[2.3cm]
+      \textbf{\@thesisdegreetypesize \@thesisdegree\ in Computer Science} \\
+      \textbf{School of Computer Science}\\
+      \textbf{Howard R. Hughes College of Engineering}\\[1.8cm]
+      \textbf{Graduate College}\\
+      \textbf{\@universityname}\\
+      \textbf{\@thesismonth\ \@thesisyear}
+    \end{spacing}
+  \end{center}
+  \newpage}
+
+
+%%%
+%%% Chapter 
+%%%
+
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+                    \thispagestyle{plain}%
+                    \global\@topnum\z@
+                    \@afterindentfalse
+                    \secdef\@chapter\@schapter}
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\protect CHAPTER\ \numberline{\thechapter}\ #1}%
+                    \else
+                      \addcontentsline{toc}{chapter}{#1}%
+                    \fi
+                    \ifnum\value{chapter}=1
+                      \ifnum\@appendix=0
+                        \pagestyle{\@textpagestyle}
+                        \pagenumbering{\@textpagenumbering}
+                      \fi
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+
+\def\@makechapterhead#1{%
+  \vspace*{\topindent}% space between top of page and 'Chapter X'
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+        \center CHAPTER\space \thechapter
+        % \huge\bfseries \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip \baselineskip % Ajusts the spacing between 'chapter X' and the name of the chapter
+    \fi
+    \interlinepenalty\@M
+    %\Huge \bfseries #1\par\nobreak
+    \center #1\par\nobreak
+    %\vskip \baselineskip % Ajust the spacing between chapter heading and the text
+  }}
+\def\@schapter#1{\if@twocolumn
+                   \@topnewpage[\@makeschapterhead{#1}]%
+                 \else
+                   \@makeschapterhead{#1}%
+                   \@afterheading
+                 \fi}
+\def\@makeschapterhead#1{%
+  \vspace*{\topindent}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    %\Huge \bfseries  #1\par\nobreak
+    \par\nobreak
+    %\vskip \baselineskip % Ajust the spacing between chapter heading and the text
+  }}
+
+
+\renewcommand{\@pnumwidth}{2em}%
+
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 1.0em \@plus\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode 
+      \advance\leftskip\@tempdima
+      \hskip -\leftskip
+      #1\nobreak\ 
+       \leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfil\nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+
+%%%
+%%% List of Tables
+%%%
+
+\renewcommand\listoftables{%
+    \vspace*{\topindent}
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \centerline{\listtablename}
+    %\vspace{\baselineskip}
+    %\vspace*{5cm}
+    \addcontentsline{toc}{chapter}{\listtablename}
+    \begin{spacing}{1.0}
+    \@starttoc{lot}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+}
+
+%%%
+%%% List of Figures
+%%%
+
+\renewcommand\listoffigures{%
+    \vspace*{\topindent}
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \centerline{\listfigurename}
+    %\vspace{\baselineskip}
+    %\vspace*{5cm}
+    \addcontentsline{toc}{chapter}{\listfigurename}
+    \begin{spacing}{1.0}
+    \@starttoc{lof}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+}
+
+%%%
+%%% Table of contents
+%%%
+
+\renewcommand\tableofcontents{%
+    \vspace*{\topindent}
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \centerline{\contentsname}
+    \begin{spacing}{1.0}
+    \@starttoc{toc}%
+    \end{spacing}
+    \if@restonecol\twocolumn\fi
+}
+
+%%%
+%%% Abstract 
+%%%
+
+\newcommand{\@thesisabstractname}{ABSTRACT}
+\newenvironment{thesisabstract}
+    {\vspace*{\topindent}   % ajusts the margin from the top to the 'ABSTRACT'
+    \centerline{\@thesisabstractname}
+    %\vspace*{\baselineskip}
+     \addcontentsline{toc}{chapter}{\@thesisabstractname}
+     \begin{spacing}{2.0} \noindent}
+    {\end{spacing} \newpage}
+
+%%%
+%%% Acknowledgment
+%%%
+
+\newcommand{\@thesisacknowledgmentsname}{ACKNOWLEDGMENTS}
+\newenvironment{thesisacknowledgments}
+    {\vspace*{\topindent}  % ajustthe margin for the top to the 'ACKNOWLEDGEMENT'
+     \centerline{\@thesisacknowledgmentsname}
+     %\vspace*{\baselineskip}
+     \addcontentsline{toc}{chapter}{\@thesisacknowledgmentsname}
+     \begin{spacing}{2.0} \noindent}
+    {\end{spacing} \newpage}
+
+%%%
+%%% Vita
+%%%
+
+\newcommand{\@thesisvitaname}{VITA}
+\newenvironment{thesisvita}
+    {\thispagestyle{plain}
+     \vspace*{\topindent}  % ajust the margin for the top to the 'VITA'
+     \centerline{\@thesisvitaname}
+     %\vspace*{\baselineskip}
+     \addcontentsline{toc}{chapter}{\@thesisvitaname}
+     \begin{spacing}{1.0} \noindent}
+    {\end{spacing} \newpage}
+
+
+%%%
+%%% Who knows ?
+%%%
+
+\ifx\undefined\selectfont
+\def\@setsize#1#2#3#4{\@nomath#1
+   \let\@currsize#1\baselineskip
+   #2\baselineskip\baselinestretch\baselineskip
+   \parskip\baselinestretch\parskip
+   \setbox\strutbox\hbox{\vrule height.7\baselineskip
+      depth.3\baselineskip width\z@}
+   \normalbaselineskip\baselineskip#3#4}
+\else
+\def\@newbaseline{%
+    \ifx\undefined\setnew@baselineskip
+      \baselineskip\f@baselineskip\relax
+    \else
+      \setnew@baselineskip
+    \fi
+    \baselineskip\baselinestretch\baselineskip
+    \setbox\strutbox\hbox{\vrule\@height.7\baselineskip
+    \@depth.3\baselineskip \@width\z@}%
+    \normalbaselineskip\baselineskip}
+\fi
+
+\def\@xfloat #1[#2]{%
+  \@nodocument
+  \def \@captype {#1}%
+   \def \@fps {#2}%
+   \@onelevel@sanitize \@fps
+   \def \reserved@b {!}%
+   \ifx \reserved@b \@fps
+     \@fpsadddefault
+   \else
+     \ifx \@fps \@empty
+       \@fpsadddefault
+     \fi
+   \fi
+   \ifhmode
+     \@bsphack
+     \@floatpenalty -\@Mii
+   \else
+     \@floatpenalty-\@Miii
+   \fi
+  \ifinner
+     \@parmoderr\@floatpenalty\z@
+  \else
+    \@next\@currbox\@freelist
+      {%
+       \@tempcnta \sixt@@n
+       \expandafter \@tfor \expandafter \reserved@a
+         \expandafter :\expandafter =\@fps
+         \do
+          {%
+           \if \reserved@a h%
+             \ifodd \@tempcnta
+             \else
+               \advance \@tempcnta \@ne
+             \fi
+           \fi
+           \if \reserved@a t%
+             \@setfpsbit \tw@
+           \fi
+           \if \reserved@a b%
+             \@setfpsbit 4%
+           \fi
+           \if \reserved@a p%
+             \@setfpsbit 8%
+           \fi
+           \if \reserved@a !%
+             \ifnum \@tempcnta>15
+               \advance\@tempcnta -\sixt@@n\relax
+             \fi
+           \fi
+           }%
+       \@tempcntb \csname ftype@\@captype \endcsname
+       \multiply \@tempcntb \@xxxii
+       \advance \@tempcnta \@tempcntb
+       \global \count\@currbox \@tempcnta
+       }%
+    \@fltovf
+  \fi
+  \global \setbox\@currbox
+  \color@vbox
+  \normalcolor
+  \vbox \bgroup
+  \def\baselinestretch{1}
+  \ifx\undefined\selectfont
+  \small\normalsize
+  \else
+  \@newbaseline
+  \fi
+  \boxmaxdepth\z@
+  \hsize\columnwidth
+  \@parboxrestore
+  \@floatboxreset
+  }
+
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty 
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+
+%%%
+%%% Custom spacing environment
+%%%
+
+\def\spacing#1{\par%
+ \begingroup
+ \def\baselinestretch{#1}
+ \ifx\undefined\selectfont
+ \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi
+ \else
+ \@newbaseline
+ \fi}
+\def\endspacing{\par
+ \vskip \parskip
+ \vskip \baselineskip
+ \endgroup
+ \vskip -\parskip
+ \vskip -\baselineskip}
+
+%%%
+%%% Bibliography
+%%%
+
+\renewenvironment{thebibliography}[1] {
+  \vspace*{\topindent}
+  \centerline{\bibname}
+  \addcontentsline{toc}{chapter}{\bibname}
+  \list{\@biblabel{\arabic{enumiv}}}%
+       {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\arabic{enumiv}}}%
+       \sloppy\clubpenalty4000 \@clubpenalty \clubpenalty
+       \widowpenalty4000%
+       \sfcode`\.=\@m}
+		 {\def\@noitemerr
+		   {\@latex@warning{Empty `thebibliography' environment}}%
+		   \endlist}
+		 
+\newcommand{\thesisbibliography}[1]{
+  \thispagestyle{plain}
+  \begin{spacing}{1.0}
+    \bibliography{#1}
+  \end{spacing}
+}
+
+
+%%%
+%%% Section, Subsection, Subsubsection, Paragraph
+%%%
+
+\renewcommand{\section}{\@startsection
+    {section}%
+    {1}%
+    {0mm}%
+    {8mm}
+    {0.0001mm}
+    {\centering\normalfont\normalsize}}
+   
+\renewcommand{\subsection}{\@startsection
+    {subsection}%
+    {2}%
+    {0mm}%
+    {0.65mm}
+    {0.0001mm}
+    {\centering\normalfont\normalsize}}
+
+\renewcommand{\subsubsection}{\@startsection
+    {subsubsection}%
+    {3}%
+    {0mm}%
+    {0.65mm}
+    {0.0001mm}
+    {\centering\normalfont\normalsize}}
+
+\renewcommand{\paragraph}{\@startsection
+    {paragraph}
+    {4}
+    {0mm}%
+    {3.5ex \@plus 1ex \@minus .2ex}%
+    {-1em}%
+    {\normalfont\normalsize\bfseries}}
+
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa>\z@
+    \begingroup
+      #6{%
+        \@hangfrom{\hskip #3\relax\@svsec}%
+          \interlinepenalty \@M #8\@@par}%
+    \endgroup
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else
+        \protect{}%
+      \fi
+      #7}%
+  \else
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else
+          \protect{}%
+        \fi
+        #7}}%
+  \fi
+  \@xsect{#5}}
+
+\makeatother

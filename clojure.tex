@@ -1,0 +1,140 @@
+\section{Clojure}
+The application is written in Clojure which is a LISP-like language for the JVM whose syntax is very similar to Scheme.   
+Clojure combines many of the benefits of functional programming with the power of the JVM to allow for a very 
+powerful tool for creating a distributed and multithreaded application such as this one. 
+Clojure is fully interoperable with Java and so the parts of the application that interface with existing Java libraries are also written in Clojure.
+Programmers that have used languages in the LISP family will be familiar with some concepts in Clojure
+that are different enough to those coming from a C++/Java/C# background to be worth mentioning here.
+
+
+
+
+
+
+
+
+
+ 
+The phrase "benefits of functional programming" is a somewhat arbitrary term that will be loosely defined by the few examples
+discussed next. 
+
+\subsection{Simplicity and Verbosity}
+Functional programs take the programmer farther away from the hardware than non-functional ones. Consider the following simple example when asked to write a function that takes a list of integers as its input and outputs a list of integers of the same arity whose values are the incremented value of the corresponding value of the original list. So for example, given the input (-1 -2 -3 1 2 3) the output is (0 -1 -2 2 3 4). If asked to write this in C, Java, Pascal, or any other non-functional language, a typical implementation might look like the following Java code: 
+
+%#Java
+%[
+void increment(int[] x) {
+	int y = new int[x.length];
+	for(int i = 0; i < x.length; i++) { 
+	  y[i]=x[i]+1;
+         }
+         return y;
+}
+%]
+
+A typical Clojure implementation may look like the following: 
+
+%#Scheme
+%[
+(defn inc_func [x] (map inc x))
+%]
+
+Syntactically, obviously the Clojure version is much less verbose than the Java one.
+Ignoring syntactical differences, one piece of code in the Java version that we see is uninteresting is the declaration,
+checking, and incrementing of the variable 'i'. Here we must explicitly create and use a separate piece of state for indexing into the arrays. This temporary state is unnecessary
+and can be replaced with Clojure's 'map' function. The 'map' function "returns a lazy sequence consisting of the result of applying f to the
+set of first items of each coll, followed by applying f to the set
+of second items in each coll, until any one of the colls is
+exhausted". Map is a n-ary function, and when called with a single list, it applies an arbitrary function to every item in the list and returns the result. There is no 
+temporary state to be able to index into the list. Although it can become natural to create and use temporary state in performing an operation on each item in a list of items,
+it is usually not necessary to use the state in the computation, and it clutters the solution. 
+
+Another uninteresting piece of code in the Java version is the line where y is defined. 
+This declaration is really just an artifact of how John von Neumann based architectures work. In order to write this function without making changes to 
+the original list, a new list of the same size must first be created, making the code unnecessarily verbose.
+
+
+\subsection{Threads]
+Clojure fully acknowledges the fact that mutable state is needed somewhere in most real world applications, however it does not use the problematic thread model to provide for reading and writing mutable state. Here we briefly examine a few of the problems with using threads. For a more thorough inspection refer to ~\cite{1076522}.
+
+Problems arise if you do decide to edit a list inline either for terseness or to save memory and therefore compromise on the "without making changes to
+the original list" constraint: 
+
+%#Java
+%[
+void incrementInPlace(int[] x) {
+	for(int i = 0; i < x.length; i++) { 
+	  x[i]++;
+         }
+         return x;
+}
+%]
+
+For single threaded programs, there is no issue; in a multi-threaded environment, though, consider how the above code
+causes issues even with just 2 threads calling it at the same time. If thread A attempts to access list at the same time as thread B is modified the list, then the result
+that thread A computes is also invalid. It gets worse, the thread solution to this is to use a monitor or mutual exclusion block to ensure that no two threads can call the function at the
+same time. In Java, the monitor can be implicit by using the method modifier 'synchronized' to the method definition. If the method is static,
+the monitor is implicitly the singleton instance of an object's 'getClass' method:
+
+%#Java
+%[
+static synchronized void foo() { }
+%]
+
+If the method is a non-static method of a class, the monitor is a 
+particular instance of the class:
+
+%#Java
+%[
+synchronized void foo() { }
+%]
+
+You can also declare arbitrary objects and use them as monitors:
+%#Java
+%[
+Object x = new Object();
+synchronized (x) {
+ //holding monitor of x
+}
+%]
+
+In C\#, the monitor is a library:
+ 
+%#Java
+%[
+System.Object obj = (System.Object)x;
+System.Threading.Monitor.Enter(obj);
+try
+{
+    DoSomething();
+}
+finally
+{
+    System.Threading.Monitor.Exit(obj);
+} 
+%]
+
+With some syntactic sugar:
+
+%#Java
+%[
+lock (x)
+{
+    DoSomething();
+}
+%]
+
+Whether built into the language or provided as a library, locks create problems.
+Consider what happens when thread A grabs a lock to object X and then waits for
+a lock on object Y to be released, then gets interrupted, then thread B which is holding a lock
+on object Y gets switched in and immediately begins waiting on the lock to object X, deadlock.
+This makes it hard to create robust multithreaded API's, since the client code may grab the locks out of order not
+knowing the lock ordering rules of the API. 
+
+Another problem with locks is that when used in non-functional language they cause 
+readers to block readers and writers, and writers to block readers and writers. Functional 
+languages have no shared state, and so all functions are pure, meaning they have no observable
+side effects. This is a very desirable property and it allows Clojure to provide a more optimistic version
+of mutating shared state with the tradeoff being that some operations may have to run multiple times if run 
+in a very contentious environment. 
+

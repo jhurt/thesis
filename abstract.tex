@@ -1,0 +1,8 @@
+\section*{Abstract}
+An artificial neural network can be used to solve various statistical problems by approximating a function that provides a mapping from input to output data. No universal method exists for architecting an optimal neural network. Training one with a low error rate is often a manual process requiring the programmer to have specialized knowledge of the domain for the problem at hand.  
+
+A distributed architecture is proposed and implemented for generating a neural network capable of solving a particular problem without specialized knowledge of the problem domain.  The only knowledge the application needs is a training set that the network will be trained with.  
+
+The application uses a master-slave architecture to generate and select a neural network capable of solving a given problem.  The algorithm begins by generating a set of neural networks with random structures and giving each slave a network to train.  Each slaves trains the network starting with a random weight selection and a fixed training set common to all slaves. The master gathers the results of the training at each stage and applies genetic algorithm-like crossover and mutation operations to a the architectures of the fittest of the networks.  The new generation are the children of these "fit" parents which are then distributed to the slaves, and the algorithm continues in this manner until a specified number of generations has been created.  The fittest network of the last generation is selected as the network most capable of solving the particular problem.  
+
+
