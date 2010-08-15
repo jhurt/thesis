@@ -1,11 +1,17 @@
 \newcommand{\etalchar}[1]{$^{#1}$}
 \begin{thebibliography}{PGB{\etalchar{+}}05}
 
+\bibitem[act10]{activeMQ}
+2010.
+
 \bibitem[Hic10a]{clj}
 Rick Hickey, 2010.
 
 \bibitem[Hic10b]{cljDataStructures}
 Rick Hickey, 2010.
+
+\bibitem[jms10]{jms}
+2010.
 
 \bibitem[Mic10a]{jvm}
 Sun Microsystems, 2010.

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ./lgrind -e clojure.tex > clojure-lgrind.tex
+./lgrind -e implementation.tex > implementation-lgrind.tex
 ./lgrind -e xor-results.tex > xor-results-lgrind.tex
 latex thesis
 bibtex thesis
