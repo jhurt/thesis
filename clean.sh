@@ -6,6 +6,7 @@ rm thesis.toc
 rm thesis.pdf
 rm thesis.dvi
 rm thesis.blg
+rm thesis.bbl
 rm clojure-lgrind.tex
 rm xor-results-lgrind.tex
 rm implementation-lgrind.tex
