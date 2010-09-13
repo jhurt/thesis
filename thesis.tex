@@ -1,11 +1,12 @@
-\documentclass{report}
-
+\documentclass[12pt]{report}
+\usepackage{unlvthesis}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{url}
 \usepackage{lgrind}
-\usepackage{unlvthesis}
- \usepackage{url}
 
 \numberwithin{algorithm}{chapter}
 
@@ -15,19 +16,26 @@
 \thesisauthor{Jason Lee Hurt}
 \thesismonth{January}
 \thesisyear{2010}
-\thesistitle{Automating Construction of Neural Networks Using Stochastic Optimization}
+\thesistitle{Automating Construction of Neural Networks}
+
+\bibliographystyle{alpha} 
 
 \begin{document}
 
 \thesistitlepage
 
-% TODO \input{copyright}
+\input{copyright}
 \input{abstract}
+\input{acknowledgements}
 
 \tableofcontents
+
+%%% List of tables, figures and algorithms - Note some of these might not be needed.
+%%% If they are not, just delete them or comment them out using a % before the \
 \newpage
-% TODO \listoffigures
-% TODO \listofalgorithms
+\listoftables
+\listoffigures
+\listofalgorithms
 
 \input{introduction}
 \input{nn}
@@ -44,12 +52,29 @@
 %\input{algorithms}
 
 \newpage
-\bibliographystyle{alpha}
-\bibliography{bibliography}
-%\thesisbibliography{bibliography}
+\thesisbibliography{bibliography}   %references is the name of the bib file.
 
 
-%\newpage
-%\input{acknowledgements}
+\newpage
+\begin{thesisvita}
+\begin{center}
+Graduate College\\
+University of Nevada, Las Vegas\\[1cm]
+Jason Hurt\\[1cm]
+\end{center}
+
+\noindent Degrees:\\
+\indent Bachelor of Science in Computer Science 2004\\
+\indent University of Nevada Las Vegas\\
+
+\noindent Thesis Title: Title \\
+
+\noindent Thesis Examination Committee:\\
+\indent Chairperson, Name\\
+\indent Committee Member, Name\\
+\indent Committee Member, Name \\
+\indent Graduate Faculty Representative, Name
+
+\end{thesisvita}
 
 \end{document}

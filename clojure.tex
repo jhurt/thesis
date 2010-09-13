@@ -1,15 +1,15 @@
-\section{Clojure}
+\chapter[Clojure]{Clojure}
 The application is written in Clojure~\cite{clj} which is a LISP-like language for the Java Virtual Machine~\cite{jvm} or JVM whose syntax is very similar to Scheme. Clojure is fully interoperable with Java and so the parts of the application that interface with existing Java libraries are also written in Clojure.
 Programmers that have used languages in the LISP family will be familiar with some concepts in Clojure
 that are different enough to those coming from a C++/Java/C\# background to be worth mentioning here. 
 
-\subsection{Dynamic Typing}
+\section{Dynamic Typing}
 Clojure is a dynamically typed language, it accomplishes this via the Java Reflection Library~\cite{reflection}. In rare cases where using reflection causes performance issues type hints can be provided. In Java 7 a new bytecode instruction called invokedynamic~\cite{invokedynamic} has been added which allows dynamic languages on the JVM to have native support for dynamic typing without using the Reflection library. This instruction is similar to the invokevirtual instruction which is used whenever a virtual method is called in Java, and by default all methods in Java are virtual unless marked as private or static. The addition of this instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection which is slow in comparison.  
 
-\subsection{Lazy Evaluation}
+\section{Lazy Evaluation}
 Clojure supports lazy evaluation which means that statements are not evaluated line by line as they are with imperative langauges. The results of a computation are not actually computed until the moment they are needed in the computation of another expression or forced via special syntax for methods that have side effects. This allows Clojure to support things such as infinite sequences which are otherwise very hard to implement in imperative langauages. A downside of laziness is that it makes debugging harder since while stepping through code some things may not be evaluated. 
 
-\subsection{Simplicity and Verbosity}
+\section{Simplicity and Verbosity}
 Functional programs take the programmer farther away from the hardware than non-functional ones. Consider the following simple example when asked to write a function that takes a list of integers as its input and outputs a list of integers of the same arity whose values are the incremented value of the corresponding value of the original list. So for example, given the input (-1 -2 -3 1 2 3) the output is (0 -1 -2 2 3 4). If asked to write this in C, Java, Pascal, or any other non-functional language, a typical implementation might look like the following Java code: 
 
 %#Java
@@ -44,10 +44,10 @@ Another uninteresting piece of code in the Java version is the line where y is d
 This declaration is really just an artifact of how John von Neumann based architectures work. In order to write this function without making changes to 
 the original list, a new list of the same size must first be created, making the code unnecessarily verbose. 
 
-\subsection{State}
+\section{State}
 Many functional languages are called pure functional languages. They are "pure" in the sense that every function takes some state and returns some state and does not modify any global state. In fact there is no global state. This makes reasoning about code and verifying certain properties much simpler than a procedural or object oriented language where state is everywhere and functions can do whatever they want with that state. In fact these languages do not even enforce correctness when working with state from multiple threads, the programmer is forced to come up with correct solutions to these problems themselves. All of the data types native to Clojure support the concept of purity, when you do operations on lists for example, the results of those operations are actually new lists and the original one passed in remains unchanged. In some LISP implementations this causes huge performance problems since lists are getting copied around a lot, Clojure uses a much more efficient way of doing this which underneath the hood shares the data structures~\cite{cljDataStructures} and so can give the same performance guarantees as using mutable data structures in Java without the added complexity of mutable state. Another problem with state and object oriented languages is misuse of mutability. By default member variables are mutable unless declared as final by the programmer. Even the final modifier only enforces that the referenced object cannot be changed after being set in the constructor, it does not enforce any immutability with respect to the object's data members. In Clojure, the opposite is true, every data definition is immutable by default unless it is explicitly made not mutable by the programmer. When defining a Java data type, it cannot enforce anything with regard to mutating that object's state, and this is one thing to watch out for when using the Clojure/Java interop feature. Although lack of global and mutable state can be nice for theorem proving and code reasoning, in the real world programs that do something useful usually have some mutable state somewhere and are not just collections of pure functions and immutable data.  
 
-\subsection{Threads}
+\section{Threads}
 Clojure fully acknowledges the fact that mutable state is needed somewhere in most real world applications, however it does not use the problematic thread model to provide for reading and writing mutable state. Here we briefly examine a few of the problems with using threads. For a more thorough inspection refer to ~\cite{1076522}.
 
 Problems can arise if one decides to edit a list inline either for terseness or to save memory and therefore compromise on the 
