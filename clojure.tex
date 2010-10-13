@@ -1,18 +1,18 @@
-\chapter[Clojure]{Clojure}
+\section{Clojure}
 The application is written in Clojure~\cite{clj} which is a LISP-like language for the Java Virtual Machine~\cite{jvm} or JVM. Clojure is fully interoperable with Java and so the parts of the application that interface with existing Java libraries are also written in Clojure.
 Programmers that have used languages in the LISP family may be familiar with some concepts that are present in Clojure such as functions as arguments, dynamic typing and lazy evaluation. Other feature present in Clojure used in NNGenerator are interesting enough to be worth mentioning here also, including multimethods and software transaction memory.
 
-\section{Closures}
+\subsection{Closures}
 The name for Clojure is based on the term closure, which describes a function that has access to all variables bound in the closure's current scope. In function languages, functions are first class objects, they can be passed to other functions as arguments. In the case of a closure, in addition to the function definition, hidden state can be optionally passed. In this way functions can be generated which are using state behind the scenes from the functions they get passed to. An example is a counter and two functions, inc and dec. inc will increment the count, and dec will decrement the count, but the functions that increment and decrement get passed to don't have direct access to the counter variable. With closures, you eliminate the need for passing arguments as interfaces since one or more function(s) can be passed instead of passing an interface and then using one or more function(s) from it. 
 
-\section{Dynamic Typing}
+\subsection{Dynamic Typing}
 Java is a statically typed language, it's function arguments are checked at compile time and the programmer must tag references with a type declaration. This can help to catch errors in calling functions at compile time rather than at run time, but the code is littered with types and changing the structure of a type or adding functionality to an object is difficult.  
 Clojure is a dynamically typed language, it determines the actual type of method parameters at runtime, and it accomplishes this via the Java Reflection Library~\cite{reflection}. In rare cases where using reflection causes performance issues type hints can be provided. In Java 7 a new bytecode instruction called invokedynamic~\cite{invokedynamic} has been added which allows dynamic languages on the JVM to have native support for dynamic typing without using the Reflection library. This instruction is similar to the invokevirtual instruction which is used whenever a virtual method is called in Java, and by default all methods in Java are virtual unless marked as private or static. This is because static and private methods cannot be overridden in a subclass, so there is no need to lookup their location at runtime since it can be hardcoded at compile time. The addition of the invokevirtual instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection which is much slower in comparison.  
 
-\section{Lazy Evaluation}
+\subsection{Lazy Evaluation}
 Clojure supports lazy evaluation which means that statements are not evaluated line by line as they are with imperative langauges. The results of a computation are not actually computed until the moment they are needed in the computation of another expression or forced via special syntax for methods that have side effects. This allows Clojure to represent things such as infinite sequences which are otherwise very hard to represent in imperative langauages. A downside of laziness is that it makes debugging harder since while stepping through code some things may not be evaluated. Special syntax is provided for when it is necessary to force evaluation in the case of Java interop where functions are not typically pure and need to be executed to force some side effect.
 
-\section{Multimethods}
+\subsection{Multimethods}
 Many object oriented languages such as Java and C\# support dynamic method dispatch through a concept called polymorphism. The runtime selects an appropriate method to call for an object based on the runtime type of the object. One reason for this is to be able to pass functionality into methods via interface type declarations because the languages do not support functions as first class objects. 
 Clojure goes beyond polymorphism and offers a more general concept of dynamic method dispatch in which the programmer defines
 the dispatch function as opposed to always using the runtime type of a particular object. 
@@ -91,7 +91,7 @@ If simply writing a String is all that a switch statement does, the advantage of
 methods is not noticeable. For complex logic that would typically be handled with a long else if or a switch statement, 
 multimethods help keep code clean and more readable.
 
-\section{Simplicity and Verbosity}
+\subsection{Simplicity and Verbosity}
 Functional programs take the programmer farther away from the hardware than non-functional ones. Consider the following simple example when asked to write a function that takes a list of integers as its input and outputs a list of integers of the same arity whose values are the incremented value of the corresponding value of the original list. So for example, given the input (-1 -2 -3 1 2 3) the output is (0 -1 -2 2 3 4). If asked to write this in C, Java, Pascal, or any other non-functional language, a typical implementation might look like the following Java code: 
 
 %#Java
@@ -126,15 +126,10 @@ Another uninteresting piece of code in the Java version is the line where 'y' is
 This declaration is really just an artifact of how John von Neumann based architectures work. In order to write this function without making changes to 
 the original list, a new list of the same size must first be created, making the code unnecessarily verbose. 
 
-\section{Software Transactional Memory}
-Software transactional memory, or STM, is a pattern that is used for providing transactional memory in a distributed shared memory\cite{stm}. STM in Clojure is completely non-blocking. Readers don't block readers, and writers don't block readers. Readers read the value of a reference at the time requested, in other words the latest committed value. Writers don't block writers, and readers don't block writers. Many writers can run in parallel, and, before they commit their transactions, they check the value of the memory the shared state they are going to write to. If the value has changed since the start of the transaction, the writer does its work again with the new value of the shared state. In this way, writers do not block each other, and high contention to write a particular value results in writers repeating their work more than once. In Java, this would prove difficult since most functions are not pure and cannot be run repeatedly in transactions blindly. 
-
-Another benefit of STM in Clojure is that nested transactions are handled without other functions knowing the order and nature of the transactions. Using the thread model in Java, locks shared among classes must be grabbed in a certain order to avoid deadlocking multiple threads. The correct use of the knowledge of this ordering is often missing from programs and providing the ordering couples classes together in a way that is not necessary with Clojure's STM.  
-
-\section{State}
+\subsection{State}
 Many functional languages are called pure functional languages. They are "pure" in the sense that every function takes some state and returns some state and does not modify any global state. In fact there is no global state. This makes reasoning about code and verifying certain properties much simpler than a procedural or object oriented language where state is everywhere and functions can do whatever they want with that state\cite{process}. In fact these languages do not even enforce correctness when working with state from multiple threads, the programmer is forced to come up with correct solutions to these problems themselves. All of the data types native to Clojure support the concept of purity, when you do operations on lists for example, the results of those operations are actually new lists and the original one passed in remains unchanged. This has the same semantics as call by value with performance comparable to call by reference without the danger of destroying the reference. In some LISP implementations this causes huge performance problems since lists are getting copied around a lot, Clojure uses a much more efficient way of doing this which underneath the hood shares the data structures~\cite{cljDataStructures} and so can give the same performance guarantees as using mutable data structures in Java without the added complexity of mutable state. Another problem with state and object oriented languages is misuse of mutability. By default member variables are mutable unless declared as final by the programmer. Even the final modifier only enforces that the referenced object cannot be changed after being set in the constructor, it does not enforce any immutability with respect to the object's data members. In Clojure, the opposite is true, every data definition is immutable by default unless it is explicitly made not mutable by the programmer. When defining a Java data type, it cannot enforce anything with regard to mutating that object's state, and this is one thing to watch out for when using the Clojure/Java interop feature. Although lack of global and mutable state can be nice for theorem proving and code reasoning, in the real world programs that do something useful usually have some mutable state somewhere and are not just collections of pure functions and immutable data.  
 
-\section{Threads}
+\subsubsection{Threads}
 Clojure fully acknowledges the fact that mutable state is needed somewhere in most real world applications, however it does not use the problematic thread model to provide for reading and writing mutable state. Here we briefly examine a few of the problems with using threads. For a more thorough inspection refer to ~\cite{1076522}.
 
 Problems can arise if one decides to edit a list inline either for terseness or to save memory and therefore compromise on the 
@@ -162,7 +157,7 @@ static synchronized void foo() { }
 %]
 
 If the method is a non-static method of a class, the monitor is a 
-particular instance of the class:
+particular instance of the class and is shared among all non-static synchronized methods of a particular object:
 
 %#Java
 %[
@@ -204,7 +199,7 @@ lock (x)
 }
 %]
 
-Whether built into the language or provided as a library, locks create problems.
+Whether built into the language or provided as a library, locks create problems\cite{problemsWithThreads}.
 Consider what happens when thread A grabs a lock to object X and then waits for
 a lock on object Y to be released, then gets interrupted, then thread B which is holding a lock
 on object Y gets switched in and immediately begins waiting on the lock to object X, deadlock.
@@ -212,14 +207,13 @@ This makes it hard to create robust multithreaded API's, since the client code m
 knowing the lock ordering rules of the API. 
 
 Another problem with locks is that when used in non-functional language they cause 
-readers to block readers and writers, and writers to block readers and writers. Functional 
-languages have no shared state, and so all functions are pure, meaning they have no observable
-side effects. This is a very desirable property and it allows Clojure to provide a more optimistic version
-of mutating shared state with the tradeoff being that some operations may have to run multiple times if run 
-in a very contentious environment.
+readers to block readers and writers, and writers to block readers and writers. All of this blocking leads to performance problems
+when many threads are reading or writing some shared state.
 
+\subsubsection{Software Transactional Memory}
+Software transactional memory, or STM, is a pattern that is used for providing transactional memory in a distributed shared memory\cite{stm}. STM in Clojure is completely non-blocking. Readers don't block readers, and writers don't block readers. Readers read the value of a reference at the time requested, in other words the latest committed value. Writers don't block writers, and readers don't block writers. Many writers can run in parallel, and, before they commit their transactions, they check the value of the memory the shared state they are going to write to. If the value has changed since the start of the transaction, the writer does its work again with the new value of the shared state. In this way, writers do not block each other, and high contention to write a particular value results in writers repeating their work more than once. In Java, this would prove difficult since most functions are not pure and cannot be run repeatedly in transactions blindly. 
 
-
+Another benefit of STM in Clojure is that nested transactions are handled without other functions knowing the order and nature of the transactions. As previously described, using the thread model in Java, locks shared among classes must be grabbed in a certain order to avoid deadlocking multiple threads. The correct use of the knowledge of this ordering is often missing from programs and providing the ordering couples classes together in a way that is not necessary with Clojure's STM.  
 
 Clojure combines many of the benefits of functional programming with the power of the JVM to allow for a very powerful tool for creating a distributed and multithreaded application such as this one.  
 
