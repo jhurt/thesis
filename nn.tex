@@ -1,4 +1,52 @@
 \chapter[Neural Networks]{Neural Networks}
-The purpose of an artificial neural network is to provide a mapping from a set of input data to output data. It builds this mapping in an iterative fashion from training data consisting of known input/output pairs that are presented to it. The training inputs are a subset of the total possible inputs to the network, and assuming there is a function of input to output data, a neural network is a black box that will approximate that function for us. Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1}\cite{ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1}\cite{decisionMaking2}.
+An artifical neural network ``ANN'' is a way of processing information that is loosely based on the way nervous systems in brains works. The basic building
+blocks of ANN's are neurons. Each neuron is connected to one or more others neurons in the network. Each neuron outputs a single value based on 0 or more input values to it. In a biological neural network, the value is binary, either fire or don't fire. If an input neuron A whose output is connected to another neuron B causes neuron B to fire repeatedly, the connection, known as a synapse, between neuron A and neuron B changes biologically. The changing of these synapses causes the brain to learn and adapt to inputs as it encounters them. In an ANN, these synapses are called weights, and they can similarly be adapted based on data fed to the artificial neural network, and in this way a neural network can learn how to process the information presented to it based on past experience. Henceforth, the term neural network will be used for brevity, with the implicit assumption being that an artificial neural network is meant unless otherwise stated.
 
-The effectiveness of a neural network can be found by calculating it's error rate. A low error rate means the network is good at estimating the problem/solution function. Finding a network with a low error rate for a particular problem is challenging. One of the challenges comes from choosing which features of data to use to form inputs of a training set and how to represent this data. Another challenge is choosing how many hidden layers the network will have, how many nodes per hidden layer should be used, and what the activation function should be used in each hidden layer. The combination of these three things determines the network structure. 
+The purpose of an artificial neural network is to provide a mapping from a set of input data to output data. 
+In mathematical terms the goal is to map an n-dimensional real input
+\begin{math}(x1,x2,...,xn)\end{math} to an m-dimensional real output \begin{math}(y1,y2,...,ym)\end{math}, 
+approximating a function \begin{math} F : R^n \rightarrow R^m. \end{math}\cite{rojas1} 
+A neural network builds this mapping in an iterative fashion from training data consisting of known input/output pairs that are presented to it. The training inputs are a subset of the total possible inputs to the network, and assuming there is a function of input to output data, a neural network can be viewed as a black box that may approximate that function for us.
+
+
+
+
+The simplest example of a neuron in action is the perceptron. A perceptron is a neural network with a single node. The node takes a vector of input values and outputs a single value. The following is an example of a perceptron: 
+
+%TODO 
+
+The perceptron is known as a feed-forward neural network since no input to the neuron is ever affected by the output of any other neuron. In general, a network is feed-forward if the connections between its neurons do not form a cycle, and all information flows in one direction from left to right.
+
+
+The following is a basic neural network: 
+
+%TODO
+
+%\newcommand{\Neuron}[1]{\POS*+=<1em>[o]+[F]{#1}}
+%\newcommand{\Link}[1]{\ar @{-} "#1''}
+%\newcommand{\Out}{\ar +/r8mm/}
+%\newcommand{\In}{\slave +/19mm/*{}\ar +/r5mm/\restore}
+%\newgraphescape{O}[1]{!{\Neuron{#1}=''#1''\Out}}
+%\newgraphescape{H}[1]{!{\Neuron{#1}=''#1''\Link{A}\Link{B}}}
+%\newgraphescape{I}[1]{!{\Neuron{#1}\In\Link{a}\Link{b}\Link{c}}}
+%\[\xygraph{!{0;<18mm,0mm>:<0mm,10mm>::}
+%[] !O{A} [d]!O{B} 
+%[dd]*[left]!U[F]\txt<12mm>{output\\layer}="T"
+%"A" [u(.5)l]!H{a}
+%[d]!H{b} [d]!H{c}
+%"T" [l] *[left]!U[F]\txt<12mm>{hidden\\layer}
+%"a" [ul]!I{t_1}     [d] !I{t_2}     [d] !I{t_3}
+%     [d] !I{t_4}     [d] !I{t_5}
+%"T"[ll] *[left]!U[F]\txt<12mm>{input\\layer}
+%\]
+
+
+
+Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1}\cite{ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1}\cite{decisionMaking2}.
+
+
+
+There are 3 types of neurons. An input neuron takes
+
+
+One effectiveness measure of a neural network can be found by calculating it's error rate. A low error rate means the network is good at estimating the problem/solution function. Finding a network with a low error rate for a particular problem is challenging. One of the challenges comes from choosing which features of data to use to form inputs of a training set and how to represent this data. Another challenge is choosing how many hidden layers the network will have, how many nodes per hidden layer should be used, and what the activation function should be used in each hidden layer. The combination of these three things determines the network structure. 

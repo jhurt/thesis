@@ -11,3 +11,4 @@ rm thesis.lot
 rm clojure-lgrind.tex
 rm xor-results-lgrind.tex
 rm implementation-lgrind.tex
+rm texput.log
