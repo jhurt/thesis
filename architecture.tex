@@ -45,27 +45,74 @@ The master then assembles the resultant sub-images into the resultant image:
 \section{Using the Master/Slave Pattern to Train Neural Networks}
 The NNGenerator consists of two modules, one of these is the master and runs on a single computer with a display and keyboard so that it can accept user input.
 The second of these is the slave module which is run multiple times depending on the environment.
-The master and slaves communicate with each other via netwok sockets and so the slaves can run in a hybrid distributed environment as one or more instances on a single box with a network connection. 
-Each slave is a trainer of neural networks and the master, as the implementor of the genetic algorithm, is responsible for overseeing and coordinating the search.
-The master starts by generating a number of random neural network structures based on upper bounds given by the user. 
-It pushes each of these structures to a message queue that the slaves on the network consume messages from one at a time. 
-Each slave trains the neural network structure it consumed from the queue starting with a random set of initial weights and a training data set common across all slaves. Upon finishing training, each slave places a training result in a separate message queue for the master to consume. 
-This message contains the network structure, the weight matrix, and the error percentage of the network that it trained. 
-The master consumes these messages and once it has gathered all of the current populations' results, it performs reproduction, crossover, and mutation operations to the network structures to create a new population of structures for the slaves to train. 
-The process continues in this manner until a certain number of generations have been bred. 
-This number is specified by the user. 
-The fittest network of the last generation is selected as the neural network most capable of solving the particular problem.  
+The master and slaves communicate with each other via netwok sockets and so the slaves can run in a hybrid distributed environment as one or more instances on a single box with a network connection.
+The slaves do not communicate with each other and are not aware of each other's presence.
+In fact, there does not have to be more than one slave for the software to function.
+In the case of only a single slave, the inherent parallelism of the algorithm is not exploited but a solution will still be found, albeit rather slowly.
 
-The population are encoded as data structures in Clojure, struct maps. 
+Each slave is a trainer of neural networks and the master, as the implementor of the genetic algorithm, is responsible for overseeing and coordinating the search.
+The master starts by generating a number of random neural network structures based on the inputs given by the user.
+A typical structure may look like the following:
+
+\includegraphics{images/nn_structure}
+
+This is an example randomly generated structure by the software.
+It can be used for a data set with two inputs and one output.
+There is one hidden layer with six nodes, the last node of a hidden layer is always a bias node whose value is always equal to 1.0.
+There are three input nodes because the last input node is always a bias node.
+In general, for an \begin{math}N x M\end{math} data set, there will be \begin{math}N + 1\end{math} input nodes and \begin{math}M\end{math} output nodes.
+The upper bound on the number of generated layers is four in this case, and the upper bound for the number of nodes per layer, except for the input and output layers which are fixed, is five.
+Notice the connectivity of the structure, each node in layer \begin{math}N\end{math} is connected to every other node in layer \begin{math}N+1\end{math}.  
+
+The slave nodes understand how to train these structures against various data sets.
+After generating a set of random structures constituting the first population, the master then puts these structures into messages that also contains a type field that indicates to a slave which data set to train the structure with:
+
+\includegraphics{images/training_message}
+
+It pushes each of these structures to a message queue that holds training messages that have not yet been processes by a slave:
+
+\includegraphics{images/message_queue}
+
+The slaves on the network consume messages from in first in, first out fashion:
+
+\includegraphics{images/slaves_consume}
+
+Each slave trains the neural network structure it consumed from the queue starting with a random set of initial weights and a training data set common across all slaves.
+Upon finishing training, each slave has computed a weight matrix for the neural network structure and data set.
+The final combined structure may look like the following: 
+
+\includegraphics{images/nn}
+
+The numbers along each weight indicate the weight value of each partical input node to its corresponding output node. 
+
+Each member of the population are encoded as data structures in Clojure, struct maps. 
 These maps contain information about the structure and fitness of a trained neural network. 
 The specific information is the number of hidden layers, the activation function and derivative of the activation function at each hidden node, the number of nodes at each layer, the connectivity of the nodes, the alpha and gamma constants of the network, and the training error of the network. 
 The alpha constant is the momentum factor for help in preventing oscillation during learning. 
 The gamma constant is a learning constant that defines step length of correction at each step of the training.
+The slave places the resultant neural network structure along with the other information into a training result message:
 
+\includegraphics{images/result_message}
+
+It then enqueues the message to a resultant message queue for the master to process:
+
+\includegraphics{images/slaves_publish} 
+
+The master consumes these messages from the queue in a first in, first out fashion:
+
+\includegraphics{images/master_consume} 
+
+It stores the messages in memory until it has gathered all of the current populations' resultant messages. 
+The size of each population is specified by the user before the algorithm starts.
+The master then performs reproduction, crossover, and mutation operations to the network structures to create a new population of structures for the slaves to train.
 The master discards the bottom half of the population sorted in order of fitness, so the least fit of the population. 
 The remaining results consist of the possible parents for the new generation. 
 A number of children is generated from two parents by applying crossover and reproduction to the possible parents using a roulette wheel based selection for each set of parents. 
 The probability of selecting a parent is determined based on the fitness of the parent in comparison to the fitness of all other parents. 
 This way the fitter of any two parents has a higher probability of getting selection for reproduction and/or breeding.
 
-A single network will be generated by presenting the application with a training set, then a test data set that is disjoint from the training set will be used to test the accuracy of the network.  
+The process continues in this manner until a certain number of generations have been bred. 
+This number is specified by the user. 
+The fittest network of the last generation is selected as the neural network most capable of solving the particular problem.  
+
+A single network will be generated by presenting the application with a training set, then a test data set that is disjoint from the training set will be used to test the accuracy of the network.
