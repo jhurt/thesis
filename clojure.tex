@@ -1,19 +1,163 @@
 \section{Clojure}
-The application is written in Clojure~\cite{clj} which is a LISP-like language for the Java Virtual Machine~\cite{jvm} or JVM. Clojure is fully interoperable with Java and so the parts of the application that interface with existing Java libraries are also written in Clojure.
-Programmers that have used languages in the LISP family may be familiar with some concepts that are present in Clojure such as functions as arguments, dynamic typing and lazy evaluation. Other feature present in Clojure used in NNGenerator are interesting enough to be worth mentioning here also, including multimethods and software transaction memory.
+The application is written in Clojure~\cite{clj} which is a LISP-like language for the Java Virtual Machine~\cite{jvm} or JVM. 
+Clojure is fully interoperable with Java and so the parts of the application that interface with existing Java libraries are also written in Clojure.
+Programmers that have used languages in the LISP family may be familiar with some concepts that are present in Clojure such as
+functions as arguments, dynamic typing and lazy evaluation. 
+Other features present in Clojure used in {\em NNGenerator} are interesting enough to be worth mentioning here also, including multimethods and software transaction memory.
+
+\subsection{Functions as Data Types}
+In functional languages, functions are first class data types, they
+can be passed to other functions as arguments thereby allowing specific behavior not related to the calling function to be coded
+separately from the calling function. 
+Object oriented languages accomplish similar behavior with polymorphism which is
+facilitated through inheritance. 
+Having functions as first class data types in a language is more
+flexible than inheritance since the runtime only needs to check a
+function's signature and does not need to examine the type hierarchy
+that a function belongs to.   
 
 \subsection{Closures}
-The name for Clojure is based on the term closure, which describes a function that has access to all variables bound in the closure's current scope. In function languages, functions are first class objects, they can be passed to other functions as arguments. In the case of a closure, in addition to the function definition, hidden state can be optionally passed. In this way functions can be generated which are using state behind the scenes from the functions they get passed to. An example is a counter and two functions, inc and dec. inc will increment the count, and dec will decrement the count, but the functions that increment and decrement get passed to don't have direct access to the counter variable. With closures, you eliminate the need for passing arguments as interfaces since one or more function(s) can be passed instead of passing an interface and then using one or more function(s) from it. 
+The name for Clojure is based on the term {\it closure}, which
+describes a function that has access to all variables bound in the
+closure's current scope. 
+In the case of a closure, in addition to a function definition, pieces
+of state that are not in global scope can be optionally bound. 
+In this a function can be created that uses state that is hidden
+from the function that invokes it.
+A simple example of this concept is the following function {\it incrementAndGet}.
+It keeps track of a variable to increment and return without using
+global state: 
 
+%#Scheme
+%[
+(let [i (ref 0)]
+  (defn incrementAndGet []
+     (dosync (ref-set i (inc @i))) @i))
+%]
+
+Here is the example output from calling this multiple times in a
+Clojure REPL:
+
+%#Scheme
+%[
+user=> (incrementAndGet)
+1
+user=> (incrementAndGet)
+2
+user=> (incrementAndGet)
+3
+%]
+ 
 \subsection{Dynamic Typing}
-Java is a statically typed language, it's function arguments are checked at compile time and the programmer must tag references with a type declaration. This can help to catch errors in calling functions at compile time rather than at run time, but the code is littered with types and changing the structure of a type or adding functionality to an object is difficult.  
-Clojure is a dynamically typed language, it determines the actual type of method parameters at runtime, and it accomplishes this via the Java Reflection Library~\cite{reflection}. In rare cases where using reflection causes performance issues type hints can be provided. In Java 7 a new bytecode instruction called invokedynamic~\cite{invokedynamic} has been added which allows dynamic languages on the JVM to have native support for dynamic typing without using the Reflection library. This instruction is similar to the invokevirtual instruction which is used whenever a virtual method is called in Java, and by default all methods in Java are virtual unless marked as private or static. This is because static and private methods cannot be overridden in a subclass, so there is no need to lookup their location at runtime since it can be hardcoded at compile time. The addition of the invokevirtual instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection which is much slower in comparison.  
+Java is a statically typed language, its function arguments are
+checked at compile time, and the programmer must explicitly mark all
+object references with a
+type declaration. 
+This can help to catch errors in calling functions at compile time
+rather than at run time, but the code is littered with types and
+changing the structure of a type or adding functionality to an object
+is difficult.     
+Clojure is a dynamically typed language, it determines the actual type
+of method parameters at runtime, and it accomplishes this via the Java
+Reflection Library~\cite{reflection}. 
+In the rare case that reflection is causing performance issues, such
+as a tight CPU bound loop, type hints can be provided for variables. 
+In Java 7, a new bytecode instruction called
+{\tt invokedynamic}~\cite{invokedynamic} has been added.
+This instruction allows dynamic
+languages on the JVM to have native support for dynamic typing without
+using the Reflection library. 
+This instruction is similar to the {\tt invokevirtual} instruction which is
+used whenever a virtual method is called in Java, and by default all
+methods in Java are virtual unless marked as private or static. 
+This is because static and private methods cannot be overridden in a
+subclass, so there is no need to lookup their location at runtime
+since it can be hardcoded at compile time. 
+The addition of the invokevirtual instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection which is much slower in comparison.  
 
 \subsection{Lazy Evaluation}
-Clojure supports lazy evaluation which means that statements are not evaluated line by line as they are with imperative langauges. The results of a computation are not actually computed until the moment they are needed in the computation of another expression or forced via special syntax for methods that have side effects. This allows Clojure to represent things such as infinite sequences which are otherwise very hard to represent in imperative langauages. A downside of laziness is that it makes debugging harder since while stepping through code some things may not be evaluated. Special syntax is provided for when it is necessary to force evaluation in the case of Java interop where functions are not typically pure and need to be executed to force some side effect.
+Clojure supports lazy evaluation, meaning that program statements are not
+evaluated line by line as they are with imperative langauges. 
+The result of any particular computation is not actually computed until the
+exact moment it is needed.
+The result may be needed in order to evalauate the result of another
+computation. 
+It may also be needed in a method that has side effects, such as
+writing data to a socket or writing some data to a video buffer, or in
+the case of Clojure/Java interop where the Java functions are not
+typically pure and need to be executed to force some side effect.
+This lack of pureness in Java functions is typical in object oriented
+program and means that most methods are not idempotent.
+In other words, calling the same set of functions repeatedly with the
+same arguments does not necessarily produce the same result.
+This makes reasoning about the code particularly hard.
+The result may never actually be needed in the course of the program
+and in this case it will never be calculated.
+Special syntax is provided for when it is necessary for the programmer
+to force
+evaluation. The following in a snippet from {\em NNGenerator} that
+uses the {\it doall} keyword to force the side effect of the {\it rmdir} Java method: 
+
+%#Scheme
+%[
+(defn rmdir [dir]
+  (if (.isDirectory dir)
+      (doall (map rmdir (.listFiles dir))))
+  (.delete dir))
+%]
+
+Lazy evaluation allows Clojure to represent things such as infinite sequences,
+which are otherwise very hard to represent in imperative langauages. 
+The following defines the infinite set of positive even integers: 
+
+%#Scheme
+%[
+(def evens (iterate (fn [x] (+ 2 x)) 0))
+%]
+
+Obviously realizing this full set at once is not possible because it
+is an infinite set and the machine has a finite memory.
+Parts of this set can be realized in smaller pieces. Here is some
+output of using the {\it take} method to fetch pieces of the set: 
+%#Scheme
+%[
+user=> (take 4 evens)
+(0 2 4 6)
+user=> (take 10 evens)
+(0 2 4 6 8 10 12 14 16 18)
+user=> (take 15 evens)
+(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28)
+%]
+
+A particular downside of laziness is that it makes debugging harder. 
+While stepping through code line by line, some expressions may not
+ever be calculated even though the code for the expression has already
+been seen by the runtime.
+
+Another interesting case of lazy evaluation is that it is possible to
+blow the call stack if the level of unevaluated expressions gets too
+deep. While writing the {\em NNGenerator} software this happened in
+the Slave module for large training sets. The matrix multiplication
+calls were not being evaluated since the result was not needed until
+the training of the entire neural network was complete.
+To circumvent this issue, the {\it doall} is used in the {\it
+  matrixAdd} method:
+ 
+%#Scheme
+%[
+(defn matrixAdd [matrixA matrixB]
+  (if (and (not (empty? matrixA)) (not (empty? matrixB)))
+    (conj
+      (matrixAdd (rest matrixA) (rest matrixB))
+      (doall (map + (first matrixA) (first matrixB))))))
+%]
 
 \subsection{Multimethods}
-Many object oriented languages such as Java and C\# support dynamic method dispatch through a concept called polymorphism. The runtime selects an appropriate method to call for an object based on the runtime type of the object. One reason for this is to be able to pass functionality into methods via interface type declarations because the languages do not support functions as first class objects. 
+Many object oriented languages such as Java and C\# support dynamic
+method dispatch through a concept called polymorphism. 
+The runtime selects an appropriate method to call for an object based
+on the runtime type of the object. 
+One reason for this is to be able to pass functionality into methods via interface type declarations because the languages do not support functions as first class objects. 
 Clojure goes beyond polymorphism and offers a more general concept of dynamic method dispatch in which the programmer defines
 the dispatch function as opposed to always using the runtime type of a particular object. 
 
@@ -29,7 +173,7 @@ class FooBar implements Foo {
         public String foo { return "foobar"; }
 }
 
-class FooCar implements Foo {
+class FooCat implements Foo {
         public String foo { return "foocat"; }
 }
 %]
@@ -44,6 +188,15 @@ To implement polymorphism in Clojure using the same Java types:
 
 (defmethod foo "FooCat" [obj] "foocat")
 %]
+
+The {\it defmulti} macro is used to define the name of the function, in this
+case {\it foo}. It also defines the dispatch function for the argument
+or arguments that gets passed to the function. In this case, a single
+argument will be passed to the function, and the classname of the
+argument will be returned by the dispatch function.
+The {\it defmethod} macros creates and install two new methods of
+multimethod {\it foo} associated with the dispatch-values {\it FooBar}
+and {\it FooCat}. 
 
 The following is a switch statement in Java:
 %#Java
@@ -96,8 +249,8 @@ Functional programs take the programmer farther away from the hardware than non-
 
 %#Java
 %[
-void increment(int[] x) {
-	int y = new int[x.length];
+int[] increment(int[] x) {
+	int[] y = new int[x.length];
 	for(int i = 0; i < x.length; i++) { 
 	  y[i]=x[i]+1;
          }
@@ -114,20 +267,64 @@ A typical Clojure implementation may look like the following:
 
 Syntactically, obviously the Clojure version is much less verbose than the Java one.
 Ignoring syntactical differences, one piece of code in the Java version that we see is uninteresting is the declaration,
-checking, and incrementing of the variable 'i'. Here we must explicitly create and use a separate piece of state for indexing into the arrays. This temporary state is unnecessary
-and can be replaced with Clojure's 'map' function. The 'map' function "returns a lazy sequence consisting of the result of applying 'f' to the
-set of first items of each coll, followed by applying 'f' to the set
-of second items in each coll, until any one of the colls is
-exhausted". Map is a n-ary function, and when called with a single list, it applies an arbitrary function to every item in the list and returns the result. There is no 
-temporary state to be able to index into the list. Although it can become natural to create and use temporary state in performing an operation on each item in a list of items,
+checking, and incrementing of the variable {\tt i}. 
+Here we must explicitly create and use a separate piece of state for indexing into the arrays. 
+This temporary state is unnecessary and can be replaced with Clojure's
+{\it map} function. The {\it map} function returns a lazy sequence
+consisting of the result of applying {\it f} to the
+set of first items of each collection, followed by applying {\it f} to the set
+of second items in each collection, until any one of the collections is
+exhausted. {\it map} is a n-ary function, and when called with a
+single list, it applies a function {\it f} to every item in the list
+and returns the result. 
+There is no temporary state to be able to index into the list. 
+Although it can become natural to create and use temporary state in performing an operation on each item in a list of items,
 it is usually not necessary to use the state in the computation, and it clutters the solution. 
 
-Another uninteresting piece of code in the Java version is the line where 'y' is defined. 
+Another uninteresting piece of code in the Java version is the line
+where {\tt y} is defined. 
 This declaration is really just an artifact of how John von Neumann based architectures work. In order to write this function without making changes to 
 the original list, a new list of the same size must first be created, making the code unnecessarily verbose. 
 
 \subsection{State}
-Many functional languages are called pure functional languages. They are "pure" in the sense that every function takes some state and returns some state and does not modify any global state. In fact there is no global state. This makes reasoning about code and verifying certain properties much simpler than a procedural or object oriented language where state is everywhere and functions can do whatever they want with that state\cite{process}. In fact these languages do not even enforce correctness when working with state from multiple threads, the programmer is forced to come up with correct solutions to these problems themselves. All of the data types native to Clojure support the concept of purity, when you do operations on lists for example, the results of those operations are actually new lists and the original one passed in remains unchanged. This has the same semantics as call by value with performance comparable to call by reference without the danger of destroying the reference. In some LISP implementations this causes huge performance problems since lists are getting copied around a lot, Clojure uses a much more efficient way of doing this which underneath the hood shares the data structures~\cite{cljDataStructures} and so can give the same performance guarantees as using mutable data structures in Java without the added complexity of mutable state. Another problem with state and object oriented languages is misuse of mutability. By default member variables are mutable unless declared as final by the programmer. Even the final modifier only enforces that the referenced object cannot be changed after being set in the constructor, it does not enforce any immutability with respect to the object's data members. In Clojure, the opposite is true, every data definition is immutable by default unless it is explicitly made not mutable by the programmer. When defining a Java data type, it cannot enforce anything with regard to mutating that object's state, and this is one thing to watch out for when using the Clojure/Java interop feature. Although lack of global and mutable state can be nice for theorem proving and code reasoning, in the real world programs that do something useful usually have some mutable state somewhere and are not just collections of pure functions and immutable data.  
+Many functional languages are called pure functional languages. 
+They are "pure" in the sense that every function takes some state and
+returns some state and does not modify any global state. 
+In fact there is no global state. 
+This makes reasoning about code and verifying certain properties much
+simpler than a procedural or object oriented language where state is
+everywhere and functions can do whatever they want with that
+state~\cite{process}. 
+In fact, these languages do not even enforce correctness when working
+with state from multiple threads, programmers are forced to come up
+with correct solutions to these problems themselves.
+ All of the data types native to Clojure support the concept of
+ purity, when you do operations on lists for example, the results of
+ those operations are actually new lists and the original one passed
+ in remains unchanged. 
+This has the same semantics as call by value with performance
+comparable to call by reference without the danger of destroying the
+reference. 
+In some LISP implementations this causes huge performance problems
+since lists are getting copied around a lot, Clojure uses a much more
+efficient way of doing this which underneath the hood shares the data
+structures~\cite{cljDataStructures} and so can give the same
+performance guarantees as using mutable data structures in Java
+without the added complexity of mutable state. 
+Another problem with state and object oriented languages is misuse of
+mutability. 
+By default, member variables are mutable unless declared as final by
+the programmer. 
+Even the final modifier only enforces that the referenced object
+cannot be changed after being set in the constructor, it does not
+enforce any immutability with respect to the object's data members. 
+In Clojure, the opposite is true, every data definition is immutable
+by default unless it is explicitly made not mutable by the
+programmer. 
+When defining a Java data type, it cannot enforce anything with regard
+to mutating that object's state, and this is one thing to watch out
+for when using the Clojure/Java interop feature. 
+Although lack of global and mutable state can be nice for theorem proving and code reasoning, in the real world programs that do something useful usually have some mutable state somewhere and are not just collections of pure functions and immutable data.  
 
 \subsubsection{Threads}
 Clojure fully acknowledges the fact that mutable state is needed somewhere in most real world applications, however it does not use the problematic thread model to provide for reading and writing mutable state. Here we briefly examine a few of the problems with using threads. For a more thorough inspection refer to ~\cite{1076522}.
@@ -137,7 +334,7 @@ Problems can arise if one decides to edit a list inline either for terseness or 
 
 %#Java
 %[
-void incrementInPlace(int[] x) {
+int[] incrementInPlace(int[] x) {
 	for(int i = 0; i < x.length; i++) { 
 	  x[i]++;
          }
@@ -148,8 +345,9 @@ void incrementInPlace(int[] x) {
 For single threaded programs, there is no issue; in a multi-threaded environment, though, consider how the above code
 causes issues even with just two threads calling it at the same time. If thread A attempts to access list at the same time as thread B is modified the list, then the result
 that thread A computes is also invalid. It gets worse, the thread solution to this is to use a monitor or mutual exclusion block to ensure that no two threads can call the function at the
-same time. In Java, the monitor can be implicit by using the method modifier 'synchronized' to the method definition. If the method is static,
-the monitor is implicitly the singleton instance of an object's 'getClass' method:
+same time. In Java, the monitor can be implicit by using the method
+modifier {\tt synchronized} to the method definition. If the method is static,
+the monitor is implicitly the singleton instance of an object's {\it getClass} method:
 
 %#Java
 %[
@@ -199,7 +397,7 @@ lock (x)
 }
 %]
 
-Whether built into the language or provided as a library, locks create problems\cite{problemsWithThreads}.
+Whether built into the language or provided as a library, locks create problems~\cite{problemsWithThreads}.
 Consider what happens when thread A grabs a lock to object X and then waits for
 a lock on object Y to be released, then gets interrupted, then thread B which is holding a lock
 on object Y gets switched in and immediately begins waiting on the lock to object X, deadlock.
@@ -211,9 +409,25 @@ readers to block readers and writers, and writers to block readers and writers. 
 when many threads are reading or writing some shared state.
 
 \subsubsection{Software Transactional Memory}
-Software transactional memory, or STM, is a pattern that is used for providing transactional memory in a distributed shared memory\cite{stm}. STM in Clojure is completely non-blocking. Readers don't block readers, and writers don't block readers. Readers read the value of a reference at the time requested, in other words the latest committed value. Writers don't block writers, and readers don't block writers. Many writers can run in parallel, and, before they commit their transactions, they check the value of the memory the shared state they are going to write to. If the value has changed since the start of the transaction, the writer does its work again with the new value of the shared state. In this way, writers do not block each other, and high contention to write a particular value results in writers repeating their work more than once. In Java, this would prove difficult since most functions are not pure and cannot be run repeatedly in transactions blindly. 
+Software transactional memory, or STM, is a pattern that is used for
+providing transactional memory in a distributed shared
+memory~\cite{stm}. 
+STM in Clojure is completely non-blocking. 
+Readers do not block readers, and writers do not block readers. 
+Readers read the value of a reference at the time requested, in other
+words the latest committed value. 
+Writers do not block writers, and readers do not block writers. 
+Many writers can run in parallel, and, before they commit their
+transactions, they check the value of the memory the shared state they
+are going to write to. 
+If the value has changed since the start of the transaction, the
+writer does its work again with the new value of the shared state. 
+In this way, writers do not block each other, and high contention to
+write a particular value results in writers repeating their work more
+than once. 
+In Java, this would prove difficult since most functions are not pure and cannot be run repeatedly in transactions blindly. 
 
-Another benefit of STM in Clojure is that nested transactions are handled without other functions knowing the order and nature of the transactions. As previously described, using the thread model in Java, locks shared among classes must be grabbed in a certain order to avoid deadlocking multiple threads. The correct use of the knowledge of this ordering is often missing from programs and providing the ordering couples classes together in a way that is not necessary with Clojure's STM.  
+Another benefit of STM in Clojure is that nested transactions are handled without other functions knowing the order and nature of the transactions. As previously described, using the thread model in Java, locks shared among classes must be acquired in a certain order to avoid deadlocking multiple threads. The correct use of the knowledge of this ordering is often missing from programs and providing the ordering couples classes together in a way that is not necessary with Clojure's STM.  
 
 Clojure combines many of the benefits of functional programming with the power of the JVM to allow for a very powerful tool for creating a distributed and multithreaded application such as this one.  
 
