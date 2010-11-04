@@ -1,17 +1,82 @@
 \chapter[Implementation]{Implementation}
-This section describes the tools used to create the NNGenerator software. The language, libraries, and runtime used are described as well as the motivation for each. A few of the data structures used are also discussed.
+This section describes the tools used to create the {\em NNGenerator} software. The language, libraries, and runtime used are described as well as the motivation for each. A few of the data structures used are also discussed.
 
 \input{clojure-lgrind}
 
 \section{User Interface}
-When the program starts, a graphical user interface or GUI is provided that allows for controlling some parameters of the application. One of these is number of slaves, which does not have to match the number of actual network slaves, it is the number of networks to train at each step. So if you have only eight slaves and you enter sixteen, then each slave will train two neural networks at each iteration of the algorithm. Another parameter is the number of generations to train. As you increase this parameter the time to complete the algorithm increases linearly. One of the hopes of this project is that the neural networks will get progressively better during each iteration. Another parameter sets the amount iterations a slave should train a single network. This is a constant for all slaves so that each generated neural network has been given a fair chance at training it's weights. The remaning parameters put upper bounds on the neural network structures themselves. A maximum number of hidden layers parameter sets an upper bound of the number of hidden layers for a neural network. A maximum number of nodes per layer parameter sets an upper bound on the number of nodes for a hidden layer, the number of input and output nodes depends on the map of input vectors to outputs used during training and cannot be changed by the user. Tweaking the number of iterations to train a network, the number of nodes per layer and number of layers can have a substantial effect on the time it takes for the algorithm to complete. To get the output of each hidden layer and the output layer is on the order of N*M or the multiplication between the weight matrix between the previous layer and the current layer and the nodes in that layer. As the number of nodes increases, the time to complete the operation for a layer increases.
+When the master module is started, a graphical user interface, or GUI, is displayed that allows for controlling various parameters of the application. 
+One of these is the population size, which does not have to match the number of actual network slaves, it is the number of networks to train at each step. 
+So if you have only eight slaves and you enter sixteen, then each slave will train two neural networks at each iteration of the search algorithm. 
+Another parameter is the number of generations to train. 
+As you increase this parameter the time to complete the algorithm increases linearly. 
+Another parameter sets the amount iterations a slave should train a single network. 
+This is a constant for all slaves so that each generated neural network has been given a fair chance at training its weights. 
+The remaning parameters put upper bounds on the neural network structures themselves. 
+A maximum number of hidden layers parameter sets an upper bound of the number of hidden layers for a neural network. 
+A maximum number of nodes per layer parameter sets an upper bound on the number of nodes for a hidden layer, the number of input and output nodes depends on the map of input vectors to outputs used during training and cannot be changed by the user. 
+Tweaking the number of iterations to train a network, the number of nodes per layer and number of layers can have a substantial effect on the time it takes for the algorithm to complete. 
+To get the output of each hidden layer and the output layer is on the order of $NM$, or the multiplication between the weight matrix between the previous layer and the current layer and the nodes in that layer. 
+As the number of nodes increases, the time to complete the operation for a layer increases.
 
-The user interface is written using the Java Swing library~\cite{swing}. This library comes bundled with the Java Runtime Environment and allows creating cross-platform GUI's that look native to the OS or can be skinned in a customizable way. Swing uses a single threaded model and embraces the Model-View-Controller or MVC design pattern. This pattern keeps the view code separate from the model code, and the view can save or update data the model only though the controller. In Swing the controllers are action listeners which are fired based on events such as a mouse click or keyboard input. The action listeners all spawn a new thread to do their work, and later the UI may be updated asynchronously on the main GUI thread called the Event Dispatch Thread or EDT.
+The user interface is written using the Java Swing library~\cite{swing}. This library comes bundled with the Java Runtime Environment and allows creating cross-platform GUI's that look native to the OS or can be skinned in a customizable way. Swing uses a single threaded model and embraces the Model-View-Controller or MVC design pattern~\cite{mvc}. This pattern keeps the view code separate from the model code, and the view can save or update data the model only though the controller. In Swing the controllers are action listeners which are fired based on events such as a mouse click or keyboard input. The action listeners all spawn a new thread to do their work, and later the UI may be updated asynchronously on the main GUI thread called the Event Dispatch Thread or EDT.
 
 \section{Java Messaging Service}
-Although the concurrency features of Clojure are nice, they are limited in that they only provide support for shared memory concurrency on a single JVM. The distributed architecture uses a publish/subscribe model that is facilitated via the Java Messaging Service or JMS library~\cite{jms}. JMS provides message brokering for Java applications on a network. The provider of the brokering services do not have to be the same, they just have to implement the JMS specification for a broker. During testing and while collecting results this application uses a message broker provided by Apache ActiveMQ~\cite{activeMQ} but it could have just as easily used another JMS broker. The ActiveMQ broker listens on a single TCP socket for messages from other nodes on the network. Nodes never have to talk directly to each other on the network, they only need to be able to connect to the broker. This allows the master and the slaves to operate on different networks and they never have to communicate directly.
+Although the concurrency features of Clojure are nice, they are limited in that they only provide support for shared memory concurrency on a single JVM. 
+The distributed architecture uses a messaging model that is facilitated via the Java Messaging Service or JMS API~\cite{jms}.
+JMS is a Java API that provides applications with the ability to communicate via objects called messages.
+A program that uses JMS to produce and/or consume messages is called a JMS client.
+Message passing in JMS uses an asynchronous send, a producer produces a message and does not block waiting for it to be consumed, though it does block waiting for the message broker to confirm receipt.
+On the consumer side, receiving a message can either block until it has a message, or it can process messages asynchronously through an event listener.
+In the latter case, an event will fire for every single message that the client receives.
+JMS is also reliable, it ensures that every message successfully produced by a JMS client gets consumed by a subscriber if one is available.
 
-The messaging model is simple, there are two message queues, one for the single master node to write to and for the slaves to read to, and one for the entire set of slaves to write to and for the master to read from. As soon as a master or slave node sends a message, it does not block waiting for a response. An event listener is wired up for both the slaves and master for when messages are received. Clojure multimethods are used to process the messages based on the type of message. Slaves receive a different message type for each problem. The type allows the slave to select the training data set to use for training the network. For example, the XOR input output map will be selected when it receives a TRAIN XOR message. The training sets are distributed along with the slave jars to keep the master from having to send the data set, which can get really large in the case of training images and sound. The master receives a message for each neural network that a slaves trains. It also receives heartbeat messages from slaves to determine when slaves disconnect or might have ran into some other problem that will prevent them from being able to train a network. The algorithm can continue as long as one slave on the network is still able to receive messages. This is undesirable however as the algorithm is meant to fully exploit the parallelism of genetic algorithms by having a one to one mapping between the number of slaves on the network and the size of the population. 
+There are two available approaches to messaging in JMS.
+The first is a publish/subscribe model in which JMS clients publish messages to queues called {\it topics}.
+A topic can have one or more subscribers and will send all messages in the topic to all current subscribers, meaning that a particular message may get processed more than once.
+A client must be subscribed to a topic before it can receive messages from that topic.
+This implies an ordering on the time a publisher publishes a message to a topic and the time a subscriber consumes that message from the topic, the publish must happen first.
+The following is an illustrative example of the publish/subscribe model in JMS:
+
+\includegraphics[scale=0.75]{images/pub_sub}
+
+The second approach is a point-to-point model which is very similar to the publish/subscribe approach.
+With this approach, messages are queued to named queues.
+Each message will only get consumed once by a single JMS client.
+There is no ordering on the when a client consumes a message from a queue and when a client publishes that message to the queue.
+The following shows how the point-to-point model works in JMS:
+
+\includegraphics[scale=0.75]{images/point_to_point}
+
+
+The {\em NNGenerator} software uses the point-to-point model.
+We do not want either training messages or training result messages to ever be processed more than once.
+The messaging model is simple, and as described in the architecture, there are two message queues. 
+One queue is for the single master node to write to and for the slaves to read from, and the other is for the entire set of slaves to write to and for the master to read from. 
+As soon as a master or slave node sends a message, it does not block waiting for a response. 
+
+JMS message queues and topics are provided via JMS brokers.
+Implementors of the brokering services come in many different implementations. 
+An implementation must implement the JMS specification for a broker in order to work with JMS clients.
+During testing and while collecting results we are using a message broker provided by Apache ActiveMQ~\cite{activeMQ}.
+The software could just as easily use another JMS broker to run. 
+The ActiveMQ broker listens on a single TCP socket for messages from other nodes on the network. 
+Nodes never have to talk directly to each other on the network, they only need to be able to connect to the broker. 
+This allows the master and the slaves to operate on different networks and they never have to communicate directly.
+The {\em NNGenerator} master and slave JMS clients both use asynchronous receives.
+An event listener is wired up for both the slaves and master for when messages are received. 
+The slave will sit idle until it has a training message to consume, at which point it will become CPU bound while it trains a neural network.
+After it finishes training, it will sit idle again until another training message comes in.
+The master also has a thread that sits idle and waits for result training messages in the same manner.
+The master receives a message for each neural network that a slaves trains. 
+It also receives heartbeat messages from slaves to determine when slaves disconnect or might have run into some other problem that will prevent them from being able to train a network. 
+Clojure multimethods are used to process incoming messages based on the type of the message. 
+Slaves receive a different message type for each different problem. A problem is specified by its training data set. 
+The type allows the slave to select the training data set to use for training the network. 
+For example, the XOR input output map will be selected when a slave receives a {\em TRAIN-XOR} message. 
+The training sets are distributed along with the slave jars to keep the master from having to send the data set over the network. 
+The data can get very large in the case of binary formats such as images and sound. 
+As stated in the architecture chapter, the algorithm can continue as long as one slave on the network is still able to receive messages. 
+This is undesirable, however, as the algorithm is meant to fully exploit the inherent parallelism of genetic algorithms by having a one to one mapping between the number of slaves on the network and the size of the population. 
 
 \section{Data Structures}
 The neural network structures that are generated and bred are all back propagation neural networks with at least one hidden layer. They are encoded as strings representing serialized maps in Clojure. These strings are relatively small compared to serialized Java objects and are also human readable since they are just Clojure data. The serializing and deserializing functions are also simple compared to what would be needed to serialize a Java object. Here is serialization: 
@@ -31,4 +96,5 @@ and here is deserialization:
     (read r)))
 %]
 
+%TODO: example serialized structure
 
