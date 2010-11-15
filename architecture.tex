@@ -7,6 +7,7 @@ A single master is responsible for delegating the work to the slaves and collect
 These smaller tasks may not necessarily work at the same rate.
 This can be due either to external issues outside of the programs control, such as high CPU load, or to the nature of the data or problem at hand.
 
+\subsection{Computing the Mandelbrot Set}
 An example of this pattern in action is as a solution to calculating the Mandelbrot set.
 The Mandelbrot set consists of a set of points in the complex plane. The boundary of the set forms a fractal.
 Take the set of functions \begin{math}f(x)=x^2 + C\end{math} where \begin{math}C\end{math} is a constant complex number
@@ -42,7 +43,7 @@ The master then assembles the resultant sub-images into the resultant image:
 
 \includegraphics{images/mandelbrot}
 
-\section{Using the Master/Slave Pattern to Train Neural Networks}
+\subsection{Training Neural Networks}
 The {\em NNGenerator} consists of two modules, one of these is the master and runs on a single computer with a display and keyboard so that it can accept user input.
 The second of these is the slave module which is run multiple times depending on the environment.
 The master and slaves communicate with each other via netwok sockets and so the slaves can run in a hybrid distributed environment as one or more instances on a single box with a network connection.
