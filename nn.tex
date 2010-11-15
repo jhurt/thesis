@@ -73,29 +73,109 @@ The following shows an example of this topology:
 \includegraphics{images/feed_forward}
 
 Notice that the edges are directed and indicate that the flow of information is from left to right and that there are no cycles.
+A network is feed-forward if the connections between its neurons do not form a cycle, and all information flows in one direction.
 
 \subsubsection{Perceptron}
 A simple example of a feed forward neural network is one with a single neuron known as a perceptron.
-The perceptron takes a vector of values as inputs and outputs a single value. 
-The following is an example of a perceptron: 
+The perceptron takes a vector of values as inputs and outputs a single value, $0$ or $1$:
 
-%TODO 
+\[
+  f(x) = \left\{ 
+  \begin{array}{l l}
+    1 & \quad \text{if $w \cdot x > 0$}\\
+    0 & \quad \text{else}\\
+  \end{array} \right.
+\]
 
-The perceptron is known as a feed-forward neural network since no input to the neuron is ever affected by the output of any other neuron. In general, a network is feed-forward if the connections between its neurons do not form a cycle, and all information flows in one direction from left to right.
+A perceptron is trained to learn by adjusting its weights after an input/output pair is presented to it.
+The following algorithm describes an algorithm for perceptron training:
 
+\begin{algorithm}
+\caption{Perceptron Training Algorithm}
+\label{perceptronAlg}    
+\begin{algorithmic}
 
-The following is a basic neural network: 
+\WHILE {all input/output pairs have not been classified correctly}
+\STATE Select a pair of training data, input $x_n$ and known output $y_n$
+\STATE Present the vector to the perceptron and compute $z$ = $f(x_1 * w_1, x_2 * w_2, ..., x_n * w_n)$
+\IF{$z <= 0$ \AND $y_n > 0$}
+\STATE $w_{i+1} = w_i + x_n$
+\ELSIF{$z > 0$ \AND $y_n <= 0$}
+\STATE $w_{i+1} = w_i - x_n$
+ \ELSE
+\STATE no adjustment
+\ENDIF
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
 
-%TODO
+Although the perceptron can be trained to classify patterns, there are sets of data that can be separated into two classes that a perceptron is not capable of learning to classify.
+A perceptron can only classify data sets that are linearly separable.
+The logic operators {\it AND}, {\it OR} and {\it XOR} provide a simple way of visualizing linear separability.
+Consider the {\it AND} operator with the following truth table: 
+\begin{displaymath}
+\begin{array}{|c|c|c|}
+   X
+ & Y
+ & X \land Y
+\\
+\hline
+0 & 0 & 0\\
+0 & 1 & 0\\
+1 & 0 & 0\\
+1 & 1 & 1\\
+\hline
+\end{array}
+\end{displaymath}
+
+The following shows the separation of input space for the {\it AND} operator:
+
+\includegraphics[scale=0.4]{images/and}
+
+Now consider the {\it OR} operator with the following truth table:
+
+\begin{displaymath}
+\begin{array}{|c|c|c|}
+   X
+ & Y
+ & X \lor Y
+\\
+\hline
+0 & 0 & 0\\
+0 & 1 & 1\\
+1 & 0 & 1\\
+1 & 1 & 1\\
+\hline
+\end{array}
+\end{displaymath}
+
+The following shows the separation of input space for the {\it OR} operator:
+
+\includegraphics[scale=0.4]{images/or}
+
+Now consider the the {\it XOR} operator with the following true table:
+\begin{displaymath}
+\begin{array}{|c|c|c|}
+   X
+ & Y
+ & X \oplus Y
+\\
+\hline
+0 & 0 & 0\\
+0 & 1 & 1\\
+1 & 0 & 1\\
+1 & 1 & 0\\
+\hline
+\end{array}
+\end{displaymath}
+
+Notice how there is no way to draw a straight line to distinguish between the positive and negative classes:
+
+\includegraphics[scale=0.4]{images/xor}
 
 
 
 Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1,ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1,decisionMaking2}.
-
-
-
-
-
 
 One effectiveness measure of a neural network can be found by calculating it's error rate. A low error rate means the network is good at estimating the problem/solution function. Finding a network with a low error rate for a particular problem is challenging. One of the challenges comes from choosing which features of data to use to form inputs of a training set and how to represent this data. Another challenge is choosing how many hidden layers the network will have, how many nodes per hidden layer should be used, and what the activation function should be used in each hidden layer. The combination of these three things determines the network structure. 
 
