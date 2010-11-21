@@ -272,7 +272,7 @@ Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
 \end{figure}
 
 And we want the network to remember which input vector $x$ gets mapped to a
-particular label, seen in Figure \ref{xorss_map}
+particular label, seen in Figure \ref{xorss_map}.
 
 \begin{table}[h!]
 \caption{Mapping of XOR input space to label}
@@ -304,10 +304,29 @@ solution to the XOR problem.
   \label{xff}
 \end{figure}
 
+The neural network has three layers, the input layer, one middle
+layer, and the output layer.
+
+Feed forward networks provide a powerful computational model capable
+of correctly mapping a set of input vectors to a specific output, even
+for non-linearly separable input spaces.
+However, finding a set of weights that solves a problem
+problem becomes increasingly expensive as the arity of the feature
+vector expands, the number of nodes increases, or the number of layers
+increases.
+In addition, traditional methods of solving systems of equations do not work
+well with noisy data, as is the case in most real world problems.
+To solve these problems, the backprogation algorithm can be used.
 
 \subsection{Backpropagation}
 
+The backpropagation algorithm is the most popular algorithm for
+finding a set of weights for a neural network to solve a particular
+problem.
 
+
+
+In this chapter we discuss a popular learning method capable of handling such large learning problems — the backpropagation algorithm. This numerical method was used by different research communities in different contexts, was discovered and rediscovered, until in 1985 it found its way into connectionist AI mainly through the work of the PDP group [382]. It has been one of the most studied and used algorithms for neural networks learning ever since.
 
 
 
