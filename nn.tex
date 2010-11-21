@@ -315,14 +315,19 @@ problem becomes increasingly expensive as the arity of the feature
 vector expands, the number of nodes increases, or the number of layers
 increases.
 In addition, traditional methods of solving systems of equations do not work
-well with noisy data, as is the case in most real world problems.
-To solve these problems, the backprogation algorithm can be used.
+well with noisy data and missing or incomplete data, as is the case in most real world problems.
+To solve these issues, the backprogation algorithm can be used.
 
 \subsection{Backpropagation}
 
 The backpropagation algorithm is the most popular algorithm for
 finding a set of weights for a neural network to solve a particular
 problem.
+It uses a numerical method known as {\it gradient descent} to search
+for the minimum of the error function in weight space.
+
+ 
+
 
 
 
