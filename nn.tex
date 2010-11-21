@@ -370,14 +370,70 @@ Figure \ref{logistic} shows the graph of the logistic function on a cartesian co
   \label{logistic}
 \end{figure}
 
+\begin{algorithm}[h!]
+\caption{Backpropagation training algorithm}
+\label{backpropAlg}    
+\begin{algorithmic}
 
+\WHILE {error rate is sufficiently small or training data has been exhausted}
+\STATE Select a pair of training data, input $o^n$ and known output $t_n$
+\STATE Present the vector to the neural network and compute the
+output vector $o_m$ for the output nodes in a feed forward fashion.
+\STATE Calculate the backpropagated error for the output layer: 
+\begin{displaymath}
+\delta_j = o_j(1 - o_j)(o_j -t_j) 
+\end{displaymath} 
+\STATE Calculate the first set of partial derivatives for the error:
+\begin{displaymath}
+\frac{\partial E}{\partial w_{ij}} = [o_j(1 - o_j)(o_j - t_j)]o_i =
+\delta_j o_i
+\end{displaymath} 
+\STATE In a similar manner, calculate the backpropagated errors and
+partial derivatives for the
+hidden layers, starting with the $j^{th}$ layer connected to the
+output layer, and continuing to the $j-1^{th}$ layer until all layers
+have been exhausted.
+\STATE Use the partial deriviates to update the weights of the
+neural network in the negative gradient direction where $\gamma$ is a
+constant that defines the step length of correction:
+\begin{displaymath}
+\delta w_{ij} = - \gamma o_i \delta_j
+\end{displaymath}
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
 
+The {\it NNGenerator} software uses a modifed version of the
+backpropagation algorithm described in \cite{rojas3}.
+An outline of the algorithm is given in \ref{backpropAlg}.
+The main difference is that it keeps track of the error rate for every
+input presented to it.
+It does so by keeping a map of each input to the current error rate,
+which defaults to one-hundred percent for inputs that have not yet
+been presented to the neural network.
+Here the effectiveness of a neural network is be found by calculating
+its error rate for all inputs it has been trained with. 
+A low error rate means the network is good at estimating the
+problem/solution function. 
+Finding a neural network with a low error rate for a particular
+problem is challenging. 
+One of the challenges comes from choosing which features of data to
+use to form inputs of a training set and how to represent this data. 
+Another challenge is choosing how many hidden layers the network will
+have, how many nodes per hidden layer should be used, and what the
+activation function should be used in each hidden layer. 
+The combination of these three things determines the network structure. 
+With the {\it NNGenerator} software, the structure of a neural
+network, including the type of activation functions at each hidden
+node, the number of nodes per hidden layer, the number of hidden
+layers, the constant that defines step length correction at each step,
+and the constant that defines the momentum factor for help in
+preventing oscillation during learning, may all be bounded by the
+user.
+The software will work within those bounds over a large search space
+to find a neural network structure and accompanying weights that
+outperformed all others in the search.
 
-
-
-
-
-One effectiveness measure of a neural network can be found by calculating it's error rate. A low error rate means the network is good at estimating the problem/solution function. Finding a network with a low error rate for a particular problem is challenging. One of the challenges comes from choosing which features of data to use to form inputs of a training set and how to represent this data. Another challenge is choosing how many hidden layers the network will have, how many nodes per hidden layer should be used, and what the activation function should be used in each hidden layer. The combination of these three things determines the network structure. 
 
 
 
