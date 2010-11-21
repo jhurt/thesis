@@ -33,7 +33,6 @@ The efficiency of an edge can be changed through various biological mechanisms.
 The changing of the efficiencies of the edges over time can be viewed as learning.
 This oversimplification of biological neural networks is sufficient to draw parallels to the theory for artificial neural networks.
 
-
 \section{Artifical Neural Networks}
 An artifical neural network or {\it ANN} is a way of processing
 information that is loosely based on the way the nervous system in a
@@ -50,19 +49,15 @@ Henceforth, the term neural network will be used for brevity, with the implicit 
 As with biological neural networks, the basic building blocks of artificial neural networks are neurons. 
 Each neuron is connected to one or more others neurons in the network. 
 Each neuron outputs a single value based on the evaluation of a function $f$ of the sum of the values of the inputs to the neuron.
-This function is known as an activation function.
-Typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values\cite{mitchell1997}.
-%TODO They are also differentiable,
-The most commonly used sigmoidal function in neural networks is the logisitic function, defined as:
-$P(t) = \frac{1}{1 + e^-t}$
-Figure \ref{logistic} shows the graph of the function a cartesian coordinate system.
+This function is known as the activation function.
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.6]{images/logistic}
-  \caption{Logistic function}
-  \label{logistic}
-\end{figure}
+The activation function can be viewed as a composition of functions
+$g$ and $h$.
+$g$ is an aggregate $n-ary$ function that takes $n$ arguments and outputs a
+single value.
+Typically $g$ is simply the summation function.
+$h$ takes the output of $g$ and produces a value that is the output of
+the neuron. 
 
 The output value of a neuron with unweighted edges is a function of
 its inputs, $f(x_1, x_2, ..., x_n)$ where $x_i$ is the $i^{th}$ of $n$
@@ -137,7 +132,7 @@ A perceptron can only classify data sets that are linearly separable.
 The logic operators {\it AND}, {\it OR} and {\it XOR} provide a simple way of visualizing linear separability.
 Consider the {\it AND} operator with the truth table in Figure \ref{andtt}.
 \begin{table}[h!]
-  \caption{AND truth table}
+  \caption{{\it AND} truth table}
   \label{andtt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -160,14 +155,14 @@ Figure \ref{ands} shows the separation of input space for the {\it AND} operator
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/and}
-  \caption{AND input space separation}
+  \caption{{\it AND} input space separation}
   \label{ands}
 \end{figure}
 
 Now consider the {\it OR} operator with the in Figure \ref{ortt}. 
 
 \begin{table}[h!]
-\caption{OR truth table}
+\caption{{\it OR} truth table}
 \label{ortt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -190,13 +185,13 @@ Figure \ref{ors} shows the separation of input space for the {\it OR} operator.
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/or}
-  \caption{OR input space separation}
+  \caption{{\it OR} input space separation}
   \label{ors}
 \end{figure}
 
 Now consider the the {\it XOR} operator with the truth table in Figure \ref{xortt}.
 \begin{table}[h!]
-\caption{XOR truth table}
+\caption{{\it XOR} truth table}
 \label{xortt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -219,7 +214,7 @@ In Figure \ref{xors} Notice how there is no way to draw a straight line to disti
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/xor}
-  \caption{XOR input space}
+  \caption{{\it XOR} input space}
   \label{xors}
 \end{figure}
 
@@ -228,7 +223,7 @@ Figure \ref{xorss} shows that at least two lines must be used to separate the po
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/xor_2}
-  \caption{XOR input space separation}
+  \caption{{\it XOR} input space separation}
   \label{xorss}
 \end{figure}
 
@@ -267,7 +262,7 @@ Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/xor_labeling}
-  \caption{Labeled three regions of the XOR input space}
+  \caption{Labeled three regions of the {\it XOR} input space}
   \label{xor_label}
 \end{figure}
 
@@ -275,7 +270,7 @@ And we want the network to remember which input vector $x$ gets mapped to a
 particular label, seen in Figure \ref{xorss_map}.
 
 \begin{table}[h!]
-\caption{Mapping of XOR input space to label}
+\caption{Mapping of {\it XOR} input space to label}
 \label{xorss_map}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -293,19 +288,46 @@ particular label, seen in Figure \ref{xorss_map}.
 \end{displaymath}
 \end{table}
 
-Figure \ref{xff} is a neural network with a feed forward architecture
-solution to the XOR problem.
+The {\it XOR} problem can be solved with a feed forward neural network with
+one hidden layer.
+The neural network has three layers, the input layer, one middle
+layer, and the output layer.
+Figure \ref{xffw} shows the structure of the
+network.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/xor_feed_forward_weights}
+  \caption{Weighted feed forward neural network architecture that is
+    capable of solving the {\it XOR}
+    problem}
+  \label{xffw}
+\end{figure}
+
+For the neuron function $f(x) = x * \frac{1}{2}$ is used.
+The goal is to find a set of weights that satisfies the following
+equations for the four known inputs and outputs in the {\it XOR} truth
+table:
+
+\begin{displaymath}
+f^1(x) = (x_1 * w_{11}^1 + x_2 * w_{21}^1) * \frac{1}{2}
+\end{displaymath}
+\begin{displaymath}
+f^2(x) = (x_1 * w_{12}^1 + x_2 * w_{22}^1) * \frac{1}{2}
+\end{displaymath}
+\begin{displaymath}
+f(x) = (f^1(x) * w_{11}^2 + f^2(x) * w_{21}^2) * \frac{1}{2}
+\end{displaymath}
+
+Figure \ref{xff} shows a set of weights that solves the problem.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.4]{images/xor_feed_forward}
-  \caption{Weighted feed forward neural network that solves the XOR
+  \caption{Weighted feed forward neural network that solves the {\it XOR}
     problem}
   \label{xff}
 \end{figure}
-
-The neural network has three layers, the input layer, one middle
-layer, and the output layer.
 
 Feed forward networks provide a powerful computational model capable
 of correctly mapping a set of input vectors to a specific output, even
@@ -326,14 +348,21 @@ problem.
 It uses a numerical method known as {\it gradient descent} to search
 for the minimum of the error function in weight space.
 
+In backpropagation, the function produced by the neural network must be
+differentiable at each point and continous. 
+Since the value of a network can be seen as a composition of the
+functions of its neurons, typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values\cite{mitchell1997}.
+The most commonly used sigmoidal function in neural networks is the logisitic function, defined as:
+$P(t) = \frac{1}{1 + e^-t}$
+Figure \ref{logistic} shows the graph of the logistic function on a cartesian coordinate system.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/logistic}
+  \caption{Logistic function}
+  \label{logistic}
+\end{figure}
  
-
-
-
-
-In this chapter we discuss a popular learning method capable of handling such large learning problems — the backpropagation algorithm. This numerical method was used by different research communities in different contexts, was discovered and rediscovered, until in 1985 it found its way into connectionist AI mainly through the work of the PDP group [382]. It has been one of the most studied and used algorithms for neural networks learning ever since.
-
-
 
 
 
