@@ -347,8 +347,15 @@ finding a set of weights for a neural network to solve a particular
 problem.
 It uses a numerical method known as {\it gradient descent} to search
 for the minimum of the error function in weight space.
+Gradient descent, also called steepest descent, attempts to find the
+local minimum of a function.
+It starts at one point $P_0$ and moves from $P_i$ and $P_{i+1}$ by
+minimizing the line extending from $P_i$ in the direction of $- \nabla
+f(P_i)$\cite{gradient}.
 
-In backpropagation, the function produced by the neural network must be
+%TODO graph of gradient descent
+
+For gradient descent to work properly, the function produced by the neural network must be
 differentiable at each point and continous. 
 Since the value of a network can be seen as a composition of the
 functions of its neurons, typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values\cite{mitchell1997}.
@@ -362,7 +369,11 @@ Figure \ref{logistic} shows the graph of the logistic function on a cartesian co
   \caption{Logistic function}
   \label{logistic}
 \end{figure}
+
  
+
+
+
 
 
 
