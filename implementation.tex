@@ -35,18 +35,27 @@ The first is a publish/subscribe model in which JMS clients publish messages to 
 A topic can have one or more subscribers and will send all messages in the topic to all current subscribers, meaning that a particular message may get processed more than once.
 A client must be subscribed to a topic before it can receive messages from that topic.
 This implies an ordering on the time a publisher publishes a message to a topic and the time a subscriber consumes that message from the topic, the publish must happen first.
-The following is an illustrative example of the publish/subscribe model in JMS:
+Figure \ref{pub_sub} is an illustrative example of the publish/subscribe model in JMS.
 
-\includegraphics[scale=0.75]{images/pub_sub}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/pub_sub}
+  \caption{JMS publish/subscribe model}
+  \label{pub_sub}
+\end{figure}
 
 The second approach is a point-to-point model which is very similar to the publish/subscribe approach.
 With this approach, messages are queued to named queues.
 Each message will only get consumed once by a single JMS client.
 There is no ordering on the when a client consumes a message from a queue and when a client publishes that message to the queue.
-The following shows how the point-to-point model works in JMS:
+Figure \ref{point_to_point} shows how the point-to-point model works in JMS.
 
-\includegraphics[scale=0.75]{images/point_to_point}
-
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/point_to_point}
+  \caption{JMS point-to-point model}
+  \label{point_to_point}
+\end{figure}
 
 The {\em NNGenerator} software uses the point-to-point model.
 We do not want either training messages or training result messages to ever be processed more than once.

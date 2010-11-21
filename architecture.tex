@@ -29,19 +29,32 @@ When the master has received all of the smaller images, it will assemble them in
 
 Consider a distributed environment with 5 nodes, one master node and 4 slave nodes. and an image of size 256 x 256. 
 The algorithm begins with the master assigning the slaves a region of the image to calculate. 
-Each slave will get assigned one of 4 regions of size 128 x 128:
+Each slave will get assigned one of 4 regions of size 128 x 128 as shown in Figure \ref{m2s}.
 
-\includegraphics{images/master_to_slave}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/master_to_slave}
+  \caption{Distribution of image regions from master to slave.}
+  \label{m2s}
+\end{figure}
 
-\newpage
-Each slave calculates its region of the image and sends the resultant sub-image to the master node:
+Each slave calculates its region of the image and sends the resultant sub-image to the master node as shown in Figure \ref{s2m}.
 
-\includegraphics{images/slaves_to_master}
-\newpage
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/slaves_to_master}
+  \caption{Slaves sending fragmented pieces of the complete image region to the master}
+  \label{s2m}
+\end{figure}
 
-The master then assembles the resultant sub-images into the resultant image: 
+The master then assembles the resultant sub-images into the resultant image as shown in Figure \ref{resultant_image}. 
 
-\includegraphics{images/mandelbrot}
+\begin{figure}[h!]
+  \centering
+  \includegraphics{images/mandelbrot}
+  \caption{Master assembles resultant image}
+  \label{resultant_image}
+\end{figure}
 
 \subsection{Training Neural Networks}
 The {\em NNGenerator} consists of two modules, one of these is the master and runs on a single computer with a display and keyboard so that it can accept user input.
@@ -53,9 +66,14 @@ In the case of only a single slave, the inherent parallelism of the algorithm is
 
 Each slave is a trainer of neural networks and the master, as the implementor of the genetic algorithm, is responsible for overseeing and coordinating the search.
 The master starts by generating a number of random neural network structures based on the inputs given by the user.
-A typical structure may look like the following:
+A typical structure may look like Figure \ref{nn_structure}:
 
-\includegraphics{images/nn_structure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.8]{images/nn_structure}
+  \caption{Structure of a neural network in {\it NNGenerator}}
+  \label{nn_structure}
+\end{figure}
 
 This is an example randomly generated structure by the software.
 It can be used for a data set with two inputs and one output.
@@ -66,23 +84,43 @@ The upper bound on the number of generated layers is four in this case, and the 
 Notice the connectivity of the structure, each node in layer \begin{math}N\end{math} is connected to every other node in layer \begin{math}N+1\end{math}.  
 
 The slave nodes understand how to train these structures against various data sets.
-After generating a set of random structures constituting the first population, the master then puts these structures into messages that also contains a type field that indicates to a slave which data set to train the structure with:
+After generating a set of random structures constituting the first population, the master then puts these structures into messages that also contains a type field that indicates to a slave which data set to train the structure as shown in Figure \ref{training_message}.
 
-\includegraphics{images/training_message}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/training_message}
+  \caption{Sample XOR training message}
+  \label{training_message}
+\end{figure}
 
-It pushes each of these structures to a message queue that holds training messages that have not yet been processes by a slave:
+It pushes each of these structures to a message queue that holds training messages that have not yet been processes by a slave as shown in figure \ref{message_queue}.
 
-\includegraphics{images/message_queue}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/message_queue}
+  \caption{Training message queue}
+  \label{message_queue}
+\end{figure}
 
-The slaves on the network consume messages from in first in, first out fashion:
+The slaves on the network consume messages from in first in, first out fashion as shown in Figure \ref{slaves_consume}.
 
-\includegraphics{images/slaves_consume}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/slaves_consume}
+  \caption{Slaves consuming training messages}
+  \label{slave_consume}
+\end{figure}
 
 Each slave trains the neural network structure it consumed from the queue starting with a random set of initial weights and a training data set common across all slaves.
 Upon finishing training, each slave has computed a weight matrix for the neural network structure and data set.
-The final combined structure may look like the following: 
+The final combined structure may look like Figure \ref{nn_combined}. 
 
-\includegraphics{images/nn}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/nn}
+  \caption{Neural network generated by {\it NNGenerator} that solves the XOR problem}
+  \label{nn_combined}
+\end{figure}
 
 The numbers along each weight indicate the weight value of each partical input node to its corresponding output node. 
 
@@ -91,17 +129,32 @@ These struct maps contain information about the structure and fitness of a train
 The specific information is the number of hidden layers, the activation function and derivative of the activation function at each hidden node, the number of nodes at each layer, the connectivity of the nodes, the $\alpha$ and $\gamma$ constants of the network, and the training error of the network. 
 The $\alpha$ constant is the momentum factor for help in preventing oscillation during learning. 
 The $\gamma$ constant is a learning constant that defines step length of correction at each step of the training.
-The slave places the resultant neural network structure along with the other information into a training result message:
+The slave places the resultant neural network structure along with the other information into a training result message as shown in Figure \ref{result_message}.
 
-\includegraphics{images/result_message}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/result_message}
+  \caption{Sample {\it NNGenerator} training result message}
+  \label{result_message}
+\end{figure}
 
-It then enqueues the message to a resultant message queue for the master to process:
+It then enqueues the message to a resultant message queue for the master to process as shown in Figure \ref{slaves_publish}.
 
-\includegraphics{images/slaves_publish} 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/slaves_publish}
+  \caption{Training result message queue}
+  \label{slaves_publish}
+\end{figure}
 
-The master consumes these messages from the queue in a first in, first out fashion:
+The master consumes these messages from the queue in a first in, first out fashion as shown in Figure \ref{master_consume}.
 
-\includegraphics{images/master_consume} 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.7]{images/master_consume}
+  \caption{Master consuming training result message}
+  \label{master_consume}
+\end{figure}
 
 It stores the messages in memory until it has gathered all of the current populations' resultant messages. 
 The size of each population is specified by the user before the algorithm starts.

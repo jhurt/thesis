@@ -5,16 +5,25 @@
 The human nervous system consists in part of many neural cells that are interconnected and can communicate with each other via electrical pulses.
 These cells are called {\it neurons}, and they receive input from other neurons via {\it dendrites}, and they can send a signal to a single other neuron via an {\it axon}.
 A neuron can also receive signals in reaction to outside stimuli.
-The following is a drawing of a biological neuron: 
+Figure \ref{biological_neuron} is a drawing of a biological neuron. 
 
-\includegraphics[scale=0.6]{images/biological_neuron}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/biological_neuron}
+  \caption{Biological Neuron}
+  \label{biological_neuron}
+\end{figure}
 
 A network of neurons stores information at the contact points between the neurons.
 These contact points are called {\it synapses} and provide a biological neural network with a memory.
+Figure \ref{synapses} shows the synapses of a connection between two neurons.
 
-The following shows the synapses of a connection between two neurons:
-
-\includegraphics[scale=0.6]{images/synapses}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/synapses}
+  \caption{Synapses}
+  \label{synapses}
+\end{figure}
 
 Information is stored at the synapses, and the information for a particular neuron synapse can be viewed as a function $f$ of the sum of the weighted edges that are input to the neuron.
 The edges in this case are the one or more axons connected to the neuron and the weighted values correspond the efficiency of the particular edge. 
@@ -26,7 +35,10 @@ This oversimplification of biological neural networks is sufficient to draw para
 
 
 \section{Artifical Neural Networks}
-An artifical neural network or {\it ANN} is a way of processing information that is loosely based on the way the nervous system in a human brain functions.
+An artifical neural network or {\it ANN} is a way of processing
+information that is loosely based on the way the nervous system in a
+human brain functions.
+Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1,ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1,decisionMaking2}.
 The purpose of an artificial neural network is to provide a mapping from a set of input data to output data. 
 In mathematical terms the goal is to map an n-dimensional real input
 $(x1,x2,...,xn)$ to an m-dimensional real output $(y1,y2,...,ym)$, 
@@ -42,19 +54,39 @@ This function is known as an activation function.
 Typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values\cite{mitchell1997}.
 %TODO They are also differentiable,
 The most commonly used sigmoidal function in neural networks is the logisitic function, defined as:
-\begin{displaymath}P(t) = \frac{1}{1 + e^-t}\end{displaymath}
+$P(t) = \frac{1}{1 + e^-t}$
+Figure \ref{logistic} shows the graph of the function a cartesian coordinate system.
 
-The following shows the graph of the function a cartesian coordinate system:
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/logistic}
+  \caption{Logistic function}
+  \label{logistic}
+\end{figure}
 
-\includegraphics[scale=0.75]{images/logistic}
+The output value of a neuron with unweighted edges is a function of
+its inputs, $f(x_1, x_2, ..., x_n)$ where $x_i$ is the $i^{th}$ of $n$
+inputs is shown in Figure \ref{neuron}.
 
-The output value of a neuron with unweighted edges is a function of its inputs, $f(x_1, x_2, ..., x_n)$ where $x_i$ is the $i^{th}$ of $n$ inputs:
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.75]{images/neuron_fn}
+  \caption{Artificial neuron}
+  \label{neuron}
+\end{figure}
 
-\includegraphics[scale=0.75]{images/neuron_fn}
+The output value of a neuron with weighted edges is a function of its
+inputs and weight values of its input edges, $f(x_1 * w_1, x_2 * w_2,
+..., x_n * w_n)$ where $x_i$ is the $i^{th}$ of $n$ inputs and $w_i$
+is the $i_{th}$ of the corresponding $n$ input edges  is shown in
+Figure \ref{weighted_neuron}.
 
-The output value of a neuron with weighted edges is a function of its inputs and weight values of its input edges, $f(x_1 * w_1, x_2 * w_2, ..., x_n * w_n)$ where $x_i$ is the $i^{th}$ of $n$ inputs and $w_i$ is the $i_{th}$ of the corresponding $n$ input edges:
-
-\includegraphics[scale=0.75]{images/weighted_neuron_fn}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.8]{images/weighted_neuron_fn}
+  \caption{Weighted neuron}
+  \label{weighted_neuron}
+\end{figure}
 
 Here we only consider neural networks with weighted edges. 
 In general they are more computationally powerful than neural networks with unweighted edges.
@@ -64,19 +96,8 @@ Unlike biological neural networks, we impose a restriction on the topology of th
 A network is broken into layers, with one or more neurons belonging to a particular layer.
 The restriction depends on the type of neural network.
 
-\subsection{Feed Forward Neural Networks} 
-With feed forward neural networks, the information flows in one direction only.
-A neuron in layer $n$ may only send signals to neurons in layer $n+1$, and it may only receive signals from neurons in layer $n-1$.
-The $0^{th}$ layer does not receive signals from other neurons and the output of the $n^{th}$ layer can be viewed as the output of the network.
-The following shows an example of this topology:
-
-\includegraphics{images/feed_forward}
-
-Notice that the edges are directed and indicate that the flow of information is from left to right and that there are no cycles.
-A network is feed-forward if the connections between its neurons do not form a cycle, and all information flows in one direction.
-
-\subsubsection{Perceptron}
-A simple example of a feed forward neural network is one with a single neuron known as a perceptron.
+\subsection{Perceptron}
+A simple example of a neural network is one with a single neuron known as a perceptron.
 The perceptron takes a vector of values as inputs and outputs a single value, $0$ or $1$:
 
 \[
@@ -87,11 +108,13 @@ The perceptron takes a vector of values as inputs and outputs a single value, $0
   \end{array} \right.
 \]
 
-A perceptron is trained to learn by adjusting its weights after an input/output pair is presented to it.
-The following algorithm describes an algorithm for perceptron training:
+A perceptron is trained to learn by adjusting its weights after an
+input/output pair is presented to it.
 
-\begin{algorithm}
-\caption{Perceptron Training Algorithm}
+Algorithm \ref{perceptronAlg} describes an algorithm for perceptron training.
+
+\begin{algorithm}[h!]
+\caption{Perceptron training algorithm}
 \label{perceptronAlg}    
 \begin{algorithmic}
 
@@ -112,7 +135,10 @@ The following algorithm describes an algorithm for perceptron training:
 Although the perceptron can be trained to classify patterns, there are sets of data that can be separated into two classes that a perceptron is not capable of learning to classify.
 A perceptron can only classify data sets that are linearly separable.
 The logic operators {\it AND}, {\it OR} and {\it XOR} provide a simple way of visualizing linear separability.
-Consider the {\it AND} operator with the following truth table: 
+Consider the {\it AND} operator with the truth table in Figure \ref{andtt}.
+\begin{table}[h!]
+  \caption{AND truth table}
+  \label{andtt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
    X
@@ -127,13 +153,22 @@ Consider the {\it AND} operator with the following truth table:
 \hline
 \end{array}
 \end{displaymath}
+\end{table}
 
-The following shows the separation of input space for the {\it AND} operator:
+Figure \ref{ands} shows the separation of input space for the {\it AND} operator.
 
-\includegraphics[scale=0.4]{images/and}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/and}
+  \caption{AND input space separation}
+  \label{ands}
+\end{figure}
 
-Now consider the {\it OR} operator with the following truth table:
+Now consider the {\it OR} operator with the in Figure \ref{ortt}. 
 
+\begin{table}[h!]
+\caption{OR truth table}
+\label{ortt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
    X
@@ -148,12 +183,21 @@ Now consider the {\it OR} operator with the following truth table:
 \hline
 \end{array}
 \end{displaymath}
+\end{table}
 
-The following shows the separation of input space for the {\it OR} operator:
+Figure \ref{ors} shows the separation of input space for the {\it OR} operator.
 
-\includegraphics[scale=0.4]{images/or}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/or}
+  \caption{OR input space separation}
+  \label{ors}
+\end{figure}
 
-Now consider the the {\it XOR} operator with the following true table:
+Now consider the the {\it XOR} operator with the truth table in Figure \ref{xortt}.
+\begin{table}[h!]
+\caption{XOR truth table}
+\label{xortt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
    X
@@ -168,17 +212,106 @@ Now consider the the {\it XOR} operator with the following true table:
 \hline
 \end{array}
 \end{displaymath}
+\end{table}
 
-Notice how there is no way to draw a straight line to distinguish between the positive and negative classes:
+In Figure \ref{xors} Notice how there is no way to draw a straight line to distinguish between the positive and negative classes.
 
-\includegraphics[scale=0.4]{images/xor}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/xor}
+  \caption{XOR input space}
+  \label{xors}
+\end{figure}
 
-At least two lines must be used to separate the positive and negative classes:
+Figure \ref{xorss} shows that at least two lines must be used to separate the positive and negative classes.
 
-\includegraphics[scale=0.4]{images/xor_2}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/xor_2}
+  \caption{XOR input space separation}
+  \label{xorss}
+\end{figure}
+
+If a perceptron is given a problem whose input space is linearly
+separable, it is guaranteed to find a solution in a finite number of
+steps\cite{patternRecognition1}. 
+In the worst case the number of iteration steps can grow
+exponentially\cite{rojas2}.
+There are better algorithms for finding solutions to linearly separable problems in
+polynomial time such as Karmarkar's polynomial time
+algorithm\cite{karmarkar}.
+
+\subsection{Feed Forward Neural Networks} 
+One way to solve a problem with a non-linearly separable input space
+is with a feed forward neural network.
+With feed forward neural networks, sets of neurons are grouped into
+layers and information flows from the input layer to output layer in one direction only.
+A neuron in layer $n$ may only send signals to neurons in layer $n+1$, and it may only receive signals from neurons in layer $n-1$.
+The $0^{th}$ layer does not receive signals from other neurons and the output of the $n^{th}$ layer can be viewed as the output of the network.
+Figure \ref{ff} shows an example of this topology:
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{images/feed_forward}
+  \caption{Feed forward network topology}
+  \label{ff}
+\end{figure}
+
+Notice that the edges are directed and indicate that the flow of information is from left to right and that there are no cycles.
+A network is feed forward if the connections between its neurons do not form a cycle.
+
+Revisiting the {\it XOR} problem we want to label the input spaces
+and create a mapping of each input vector to a single label.
+Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/xor_labeling}
+  \caption{Labeled three regions of the XOR input space}
+  \label{xor_label}
+\end{figure}
+
+And we want the network to remember which input vector $x$ gets mapped to a
+particular label, seen in Figure \ref{xorss_map}
+
+\begin{table}[h!]
+\caption{Mapping of XOR input space to label}
+\label{xorss_map}
+\begin{displaymath}
+\begin{array}{|c|c|c|}
+   x_1
+ & x_2
+ & label
+\\
+\hline
+0 & 0 & A\\
+0 & 1 & B\\
+1 & 0 & B\\
+1 & 1 & C\\
+\hline
+\end{array}
+\end{displaymath}
+\end{table}
+
+Figure \ref{xff} is a neural network with a feed forward architecture
+solution to the XOR problem.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/xor_feed_forward}
+  \caption{Weighted feed forward neural network that solves the XOR
+    problem}
+  \label{xff}
+\end{figure}
 
 
-Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1,ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1,decisionMaking2}.
+\subsection{Backpropagation}
+
+
+
+
+
+
 
 One effectiveness measure of a neural network can be found by calculating it's error rate. A low error rate means the network is good at estimating the problem/solution function. Finding a network with a low error rate for a particular problem is challenging. One of the challenges comes from choosing which features of data to use to form inputs of a training set and how to represent this data. Another challenge is choosing how many hidden layers the network will have, how many nodes per hidden layer should be used, and what the activation function should be used in each hidden layer. The combination of these three things determines the network structure. 
 
