@@ -2,11 +2,76 @@
 Another one of the problems used to test the program with is a optical character recognition problem, a technique used for converting handwritten text to a digital format. In this case the characters to be recognized are the aritchmetic numerals 0,1,2,3,4,5,6,7,8,9.
 
 The training and data sets are from the MNIST database\cite{mnist}.
-The characters used for training the classifier are a set of subset of 60,000 samples of handwritten numerals of 30,000 patterns from SD-3 and 30,000 patterns from SD-1 from the NIST character set. The characters used for training the classifier are a set of subset of 10,000 samples of handwritten numerals of 5,000 patterns from SD-3 and 5,000 patterns from SD-1 from the NIST character set. The intersection of the training set and test set is null as they are disjoint.
+The characters used for training the classifier are a set of subset of 60,000 samples of handwritten numerals of 30,000 patterns from SD-3 and 30,000 patterns from SD-1 from the NIST character set. 
+The characters used for training the classifier are a set of subset of 10,000 samples of handwritten numerals of 5,000 patterns from SD-3 and 5,000 patterns from SD-1 from the NIST character set. 
+The intersection of the training set and test set is null as they are disjoint.
 
-The training and test sets are comprised of 2 files each, a binary file containing the image data for the numerals, and a label file containing the correct output of the image to a digital format. The test image file is 45MB and so to save time in the feature extraction step, the input/output map for the set is preprocessed once and stored as a Clojure data structure. For training, the 45 MB image file and 60K label file is represented as a 5.6 MB input/output file. The input consists of extracting a binary string of length 16 that represents a threshold of pixel counts in the input image. The string is constructed of taking a 4x4 piece of the image row-wise. If the average pixel value is greater than a certain threshold, the value is 1, otherwise the value is 0. The output is a string of length 4 that represents the digital numeral as a binary string. The values 10,11,12,13,14,15 are never fed to the neural network during training.
+The training and test sets are comprised of 2 files each, a binary file containing the image data for the numerals, and a label file containing the correct output of the image to a digital format. 
+The test image file is 45MB and so to save time in the feature extraction step, the input/output map for the set is preprocessed once and stored as a Clojure data structure. 
+For training, the 45 MB image file and 60K label file is represented as a 5.6 MB input/output file. 
+The input consists of extracting a binary string of length 16 that represents a threshold of pixel counts in the input image. 
+The string is constructed of taking a 4x4 piece of the image row-wise. 
+If the average pixel value is greater than a certain threshold, the value is 1, otherwise the value is 0. 
+The output is a string of length 4 that represents the digital numeral as a binary string. 
+The values 10,11,12,13,14,15 are never fed to the neural network during training.
 
-When a slave starts the OCR trainer, it first reads from disk the training file and deserializes it into a Clojure data structure that the BackPropagation function uses to train a Neural Network. Once this structure is loaded into memory, training begins. After training for the specified number of iterations, the slave posts a message to the master containing the results. If the master posts a message back, it will be another train OCR message and slave will repeat the process. If not, the master has finished breeding and will display the resultant Neural Network structure. This structure can be saved and used to test the Neural Network against the test data set.
+When a slave starts the OCR trainer, it first reads from disk the training file and deserializes it into a Clojure data structure that the backpropagation function uses to train a neural network. 
+Once this structure is loaded into memory, training begins. 
+After training for the specified number of iterations, the slave posts a message to the master containing the results. 
+If the master posts a message back, it will be another train OCR message and slave will repeat the process. 
+If not, the master has finished breeding and will display the resultant neural network structure. 
+This structure can be saved and used to test the neural network against the test data set.
 
-  
+\section{Results}  
 
+\begin{center}
+    \begin{longtable}{ | l | l | l |}
+      \caption{OCR Trainer Test Results 1} \label{ocr1} \\
+    \hline
+  Generation & Lowest RMS Error & Average RMS Error \\ \hline
+1 &	9.8624002250359909E-5 &	0.060645604643200034 \\ \hline
+2 &	2.4480779773816505E-9 &	0.07019090697111649 \\ \hline
+3 &	1.994395321066654E-4 &	0.13288744471609515 \\ \hline
+4 &	0.08121739195296515 &	0.15881086010310858 \\ \hline
+5 &	3.1168711299578786E-4	& 0.07064386663547106 \\ \hline
+6 &	0.09105488502480046 &	0.12167928372357413 \\ \hline
+7 &	8.433285453962877E-9 &	0.08999221159103926 \\ \hline
+8 &	2.05223641502001E-9 &	0.08339026089105508 \\ \hline
+9 &	2.5397306367496087E-11 &	0.08676004067177241 \\ \hline
+10 & 4.0117807804375456E-5 &	0.10673388375244106 \\ \hline
+\end{longtable}
+\end{center}
+
+Table \ref{ocr1} shows the results of running the {\it NNGenerator} software with the following parameters:
+
+\begin{center}
+\includegraphics[scale=0.8]{images/oparams_1}
+\end{center}
+
+The resultant network has 4 hidden layers.
+A screenshot of the resultant network is shown in Figure \ref{oresults_1}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/oresults_1}
+  \caption{Resultant neural network for first OCR trainer result set}
+  \label{oresults_1}
+\end{figure}
+
+\begin{center}
+    \begin{longtable}{ | l | l | l |}
+      \caption{OCR Trainer Test Results 2} \label{ocr2} \\
+    \hline
+  Generation & Lowest RMS Error & Average RMS Error \\ \hline
+1 &	9.8624002250359909E-5 &	0.060645604643200034 \\ \hline
+2 &	2.4480779773816505E-9 &	0.07019090697111649 \\ \hline
+3 &	1.994395321066654E-4 &	0.13288744471609515 \\ \hline
+4 &	0.08121739195296515 &	0.15881086010310858 \\ \hline
+5 &	3.1168711299578786E-4	& 0.07064386663547106 \\ \hline
+6 &	0.09105488502480046 &	0.12167928372357413 \\ \hline
+7 &	8.433285453962877E-9 &	0.08999221159103926 \\ \hline
+8 &	2.05223641502001E-9 &	0.08339026089105508 \\ \hline
+9 &	2.5397306367496087E-11 &	0.08676004067177241 \\ \hline
+10 & 4.0117807804375456E-5 &	0.10673388375244106 \\ \hline
+\end{longtable}
+\end{center}
