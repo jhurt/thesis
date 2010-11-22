@@ -10,19 +10,8 @@ These encodings are called {\it chromosomes} and are analogous to biological chr
 
 \section{Operations}
 A new generation of samples is created by applying simple operations to the current generation of samples. 
-Three of the commonly used operations are mutation, crossover, and reproduction.
+Three of the commonly used operations are crossover, reproduction, and mutation.
 The ideas behind these operations are similar to natural selection mechanisms that occur during evolution, hence the name genetic algorithm. 
-
-\subsection{Mutation}
-During mutation there is a low probability that a part of a sample in the population will be changed in some small way. 
-If a binary encoded string $0100$ were selected for example it may become $0101$ as shown in Figure \ref{mutation}.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.6]{images/mutation}
-  \caption{Mutation on a binary string}
-  \label{mutation}
-\end{figure}
 
 \subsection{Crossover}
 Crossover combines two samples in the population at some randomly selected index called the cross site. 
@@ -35,12 +24,49 @@ For example, the string $00110$ crossed with the string $10001$ at index 2 will 
   \label{crossover}
 \end{figure}
 
+The crossover in the {\it NNGenerator} software crosses over two
+neural network structures in a similar manner, it starts by choosing a
+random cross site to split the structures at.
+It proceeds by creating two new children $C$ and $D$, one with the first part
+structure $A$ crossed with the second part of structure $B$, and a
+second with the first part of structure $B$ crossed with the second
+part of structure $A$, as shown in Figure \ref{crossover_nn}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.4]{images/crossover_nn}
+  \caption{Crossover of neural network structures}
+  \label{crossover_nn}
+\end{figure}
+
 \subsection{Reproduction}
 Reproduction will copy the sample over to the new population based on some probability depending on the sample's fitness. 
 In this way the fittest samples have the best chance of survival as in nature with natural selection.
 
+\subsection{Mutation}
+During mutation there is a low probability that a part of a sample in the population will be changed in some small way. 
+If a binary encoded string $0100$ were selected for example it may become $0101$ as shown in Figure \ref{mutation}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/mutation}
+  \caption{Mutation on a binary string}
+  \label{mutation}
+\end{figure}
+
+The purpose of mutation is to help the large search to not get stuck
+in a local minima.
+In the {\it NNGenerator} software, mutating the data structures was not
+straightforward to implement, so to help with the random nature of a
+genetic algorithm it select up from two to five percent of of the new
+population by creating random neural network structures.
+
+
 \section{Fitness Function}
 At each iteration of a genetic algorithm, a function that evaluates the fitness of each sample is applied to every sample.
+In the {\it NNGenerator} software, the root mean squared or {\it rms}
+training error of a neural network is the only parameter used to
+judge the fitness of each neural network.
 The fittest samples have the best chance of being considered for the crossover, reproduction, and mutation operations.
 A simple way to select the fittest samples is to order them in an descending fashion from highest fitness to lowest fitness, then remove a number of the least fit from the population.
 
