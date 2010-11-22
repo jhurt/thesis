@@ -1,5 +1,8 @@
-\chapter[XOR Results]{XOR Results}
-The test problem that was used while building the application is a simple XOR problem. The input/output map is provided to the program as the following: 
+\chapter[XOR Problem]{XOR Problem}
+The test problem that was used while building the application is a
+simple {\it XOR} problem. 
+The input/output map is provided to the program as the following
+Clojure map: 
 
 %#Scheme
 %[
@@ -11,36 +14,37 @@ The test problem that was used while building the application is a simple XOR pr
 
 The networks are trained with random samples from the map.
 
-local iMac
-8 nodes
-3 hidden layers
-50 max nodes per layer
-3000 training cycles
-16 generations
-16 slaves
+Table \ref{xor1} shows the results for running the {\it NNGenerator}
+software with the following paramters: 
 
 \begin{center}
-    \begin{tabular}{ | l | l | l | l |}
-    \hline
-    Generation & Average RMS Error & Lowest RMS Error & Highest RMS Error \\ \hline
-    1 & 0.0 & 0.0 & 0.0 \\ \hline
-    2 & 0.0 & 0.0 & 0.0 \\ \hline
-    3 & 0.0 & 0.0 & 0.0 \\ \hline
-    4 & 0.0 & 0.0 & 0.0 \\ \hline
-    5 & 0.0 & 0.0 & 0.0 \\ \hline
-    6 & 0.0 & 0.0 & 0.0 \\ \hline
-    7 & 0.0 & 0.0 & 0.0 \\ \hline
-    8 & 0.0 & 0.0 & 0.0 \\ \hline
-    9 & 0.0 & 0.0 & 0.0 \\ \hline
-    10 & 0.0 & 0.0 & 0.0 \\ \hline
-    11 & 0.0 & 0.0 & 0.0 \\ \hline
-    12 & 0.0 & 0.0 & 0.0 \\ \hline
-    13 & 0.0 & 0.0 & 0.0 \\ \hline
-    14 & 0.0 & 0.0 & 0.0 \\ \hline
-    15 & 0.0 & 0.0 & 0.0 \\ \hline
-    16 & 0.0 & 0.0 & 0.0 \\ \hline
-    \end{tabular}
+\includegraphics[scale=0.7]{images/xparams_1}
 \end{center}
 
+\section{Results}
+\begin{center}
+    \begin{longtable}{ | l | l | l | l |}
+      \caption{{\it XOR} Trainer Test Results 1} \label{xor1} \\
+    \hline
+    Generation & Lowest RMS Error & Average RMS Error \\ \hline
+1 &	1.304085683943452E-27 &	0.027801054477356008 \\ \hline
+2 &	7.596454196607839E-65 &	7.339520649571854E-8 \\ \hline
+3 &	5.3432458075627907E-51 &	6.370854343870546E-11 \\ \hline
+4 &	8.702628540823477E-45 &	8.464276299604785E-6 \\ \hline
+5 &	1.0824533539549292E-27 &	5.308576218247767E-10 \\ \hline
+6 &	1.5216521873927184E-53 &	1.1998367829509877E-9 \\ \hline
+7 &	8.830083787845588E-50 &	1.5411988745508003E-9 \\ \hline
+8 &	5.174072288071372E-47 &	3.11123830212436E-5 \\ \hline
+9 &	4.930380657631324E-32 &	4.459504324391615E-12 \\ \hline
+10 &	1.5307706768680235E-57 &	2.2127168768494285E-10  \\ \hline  
+    \end{longtable}
+\end{center}
 
+It generated a neural network with one hidden layer as show in Figure \ref{xresults_1}.
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.5]{images/xresults_1}
+  \caption{Resultant neural network for first {\it XOR} trainer result set}
+  \label{xresults_1}
+\end{figure}
