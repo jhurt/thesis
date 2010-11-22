@@ -1,21 +1,61 @@
 \chapter[Genetic Algorithms]{Genetic Algorithms}
-Genetic algorithms are search algorithms that attempt to find a generally good solution to a problem whose search space
-is very large and therefore computationally inefficient to compute through enumeration or whose functions are discontinuous and cannot
-be solved with methods requiring finding the derivative at points in the space. 
+Genetic algorithms are search algorithms that search over large spaces for generally good solutions to problems.
+The search space for these problems is typically large enough to be computationally inefficient to compute through enumeration methods.
+They can also be used when a function is discontinuous and cannot be solved with methods requiring finding the derivative at points in the space. 
 
-Genetic algorithms start with a random sample of encoded solutions to a problem. 
-A fitness function for each sample is calculated which determines the fitness of a sample. 
-A new generation of samples is created by applying simple operations to the samples. 
-These are mutation, crossover, and reproduction. 
+\section{Encoding}
+Genetic algorithms start with a random sample of possible encoded representations for a problem.
+The encoding is typically a binary string of a fixed length, though it can also be represented using more complex data structures.
+These encodings are called {\it chromosomes} and are analogous to biological chromosomes that are found in cells.
+
+\section{Operations}
+A new generation of samples is created by applying simple operations to the current generation of samples. 
+Three of the commonly used operations are mutation, crossover, and reproduction.
 The ideas behind these operations are similar to natural selection mechanisms that occur during evolution, hence the name genetic algorithm. 
+
+\subsection{Mutation}
 During mutation there is a low probability that a part of a sample in the population will be changed in some small way. 
-If a binary encoded string 0100 were selected for example it may become 0101. 
+If a binary encoded string $0100$ were selected for example it may become $0101$ as shown in Figure \ref{mutation}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/mutation}
+  \caption{Mutation on a binary string}
+  \label{mutation}
+\end{figure}
+
+\subsection{Crossover}
 Crossover combines two samples in the population at some randomly selected index called the cross site. 
-For example, the string 00110 crossed with the string 10001 at index 2 will make the strings 10110 and 00001. 
+For example, the string $00110$ crossed with the string $10001$ at index 2 will produce the strings $10110$ and $00001$ as shown in Figure \ref{crossover}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[scale=0.6]{images/crossover}
+  \caption{Crossover on two binary strings}
+  \label{crossover}
+\end{figure}
+
+\subsection{Reproduction}
 Reproduction will copy the sample over to the new population based on some probability depending on the sample's fitness. 
-In this way the fittest samples have the best chance of survival as in nature.
+In this way the fittest samples have the best chance of survival as in nature with natural selection.
 
-In the {\it NNGenerator} software, each chromosome has a probability of surviving proportional to itss fitness compared to the others in the same generation. 
+\section{Fitness Function}
+At each iteration of a genetic algorithm, a function that evaluates the fitness of each sample is applied to every sample.
+The fittest samples have the best chance of being considered for the crossover, reproduction, and mutation operations.
+A simple way to select the fittest samples is to order them in an descending fashion from highest fitness to lowest fitness, then remove a number of the least fit from the population.
+
+\subsection{Roulette Wheel Selection}
+In the {\it NNGenerator} software, each chromosome has a probability of surviving proportional to its fitness compared to the others in the same generation. 
 So the least fit chromosomes have the least chance of reproduction and crossover when forming the next population of samples. 
-This is implemented as roulette wheel selection where each item along the wheel is a separate chromosome and the probability of selecting a chromosome is directly proportional to its fitness.    
+This is implemented as roulette wheel selection where each item along the wheel is a separate chromosome and the probability of selecting a chromosome is directly proportional to its fitness.
 
+For example, given eight samples labeled: $A, B, C, D, E, F, G, H$, and respective fitness proportional to the entire population's fitness: 
+$5, 23, 10, 10, 5, 37, 5, 5$, then the sample $F$ will have the best chance of reproducing itself and crossing over with another sample at $37\%$, followed by sample $B$ with a chance of $23\%$, and so on.
+Figure \ref{roulette_wheel} shows a pie chart representing the described probability distribution.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{images/roulette_wheel}
+  \caption{Roulette wheel selection example}
+  \label{roulette_wheel}
+\end{figure}
