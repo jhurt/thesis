@@ -7,6 +7,8 @@ thesis.toc
 thesis.pdf
 thesis.dvi
 thesis.blg
+thesis.bbl
+thesis.lot
 clojure-lgrind.tex
 xor-results-lgrind.tex
 implementation-lgrind.tex
