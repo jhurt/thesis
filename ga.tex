@@ -1,7 +1,9 @@
 \chapter[Genetic Algorithms]{Genetic Algorithms}
 Genetic algorithms are search algorithms that search over large spaces for generally good solutions to problems.
 The search space for these problems is typically large enough to be computationally inefficient to compute through enumeration methods.
-They can also be used when a function is discontinuous and cannot be solved with methods requiring finding the derivative at points in the space. 
+They can also be used when a function is discontinuous and cannot be
+solved with methods requiring the derivative at points in the
+space to be found, such as with neural networks.
 
 \section{Encoding}
 Genetic algorithms start with a random sample of possible encoded representations for a problem.
@@ -55,13 +57,15 @@ If a binary encoded string $0100$ were selected for example it may become $0101$
   \label{mutation}
 \end{figure}
 
-The purpose of mutation is to help the large search to not get stuck
+The purpose of the mutation operator is to help the large search to not get stuck
 in a local minima.
 In the {\it NNGenerator} software, mutating the data structures was not
-straightforward to implement, so to help with the random nature of a
-genetic algorithm it select up from two to five percent of of the new
-population by creating random neural network structures.
-
+straightforward to implement. 
+To help introduce a similar random nature into the search, the software generates a random neural network structure for two to five percent of each new
+population.
+These are generated within the same bounds as the initial population,
+so the structures respect the user's specified bounds on the number of
+nodes per layer and maximum number of layers.
 
 \section{Fitness Function}
 At each iteration of a genetic algorithm, a function that evaluates the fitness of each sample is applied to every sample.
@@ -69,7 +73,7 @@ In the {\it NNGenerator} software, the root mean squared or {\it rms}
 training error of a neural network is the only parameter used to
 judge the fitness of each neural network.
 The fittest samples have the best chance of being considered for the crossover, reproduction, and mutation operations.
-A simple way to select the fittest samples is to order them in an descending fashion from highest fitness to lowest fitness, then remove a number of the least fit from the population.
+A simple way to select the fittest samples is to order them in descending fashion from highest fitness to lowest fitness, then remove a number of the least fit from the population.
 
 \subsection{Roulette Wheel Selection}
 In the {\it NNGenerator} software, each chromosome has a probability of surviving proportional to its fitness compared to the others in the same generation. 

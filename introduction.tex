@@ -1,18 +1,19 @@
 \chapter[Introduction]{Introduction}
 Certain problems lend themselves toward solutions that are probabilistic in nature and not always deterministic.
 These include facial recognition, voice recognition, image recognition, and clustering. 
-An artificital neural network ``ANN'' or ``NN'' is one way to solve problems of this nature. 
-From a high level, a neural network is a black box that given an input pattern, produces an output pattern that is the network's best guess to be correct. 
-It essentially estimates a function whose domain is the set of all input patterns and range is the set of all output patterns. 
+An artificial neural network ``ANN'' or ``NN'' is one way to solve problems of this nature. 
+From a high level, a neural network is a black box, that given an input pattern, produces an output pattern that is the network's best guess to be correct. 
+It essentially estimates a function where the domain is the set of all input patterns and the range is the set of all output patterns. 
 Typical neural network implementations train a neural network for a specific task, one at a time, sequentially. 
 Preprocessing of the data for selecting an appropriate feature vector is tuned, as is selecting appropriate training and test data sets that give low error rates. 
 The tuning of the structure of the neural network itself is often ignored. 
 This research focuses on tuning those parameters automatically to find a neural network that performs well for a given training set and feature selection, as opposed to the more typical approach of focusing on feature extraction and representative training data.
 
-{\em NNGenerator} is the software used to train multiple networks at a time and combine the results to generate a network that will attempt to adapt to the training set. This software hopes to mitigate the problem of choosing a neural network structure by using an iterative search algorithm similar to a genetic algorithm to find an optimal structure of a neural network for the features of the training set. 
+{\em NNGenerator} is the software used to train multiple networks at a time and combine the results to generate a network that will attempt to adapt to the training set. 
+This software is an attempt to mitigate the problem of choosing a neural network structure by using an iterative search algorithm similar to a genetic algorithm to find an optimal structure of a neural network for the features of the training set. 
 
-A problem is described to the software as a training set, which is simple a map of inputs, a vector of features, to actual output, a member of the solution space.
-Three problems are described in this paper that were used to test the effectiveness of tuning the structure of an NN and not focus so much on the input/output space. 
+A problem is described to the software as a training set, which is simply a map of inputs (a vector of features) to actual output, a member of the solution space.
+Three problems are described in this paper that were used to test the effectiveness of tuning the structure of a neural network with little focus on preprocessing to obtain feautures of the input space. 
 The first is the problem of recognizing the {\it XOR} pattern commonly found in digital circuits. 
 This is a simple example of a non-linear separable pattern. 
 This problem was also used when constructing the {\em NNGenerator}, to test the functionality of various aspects of the software. 
@@ -23,4 +24,5 @@ The third problem is to recognize a test set of handwritten characters based on 
 This problem is an example of pattern recognition that neural networks are often used in.
 
 With every problem set, we hope to generate a neural network whose structure is demonstratively better than other structures trained with the same data.
-The hope is that as the search progresses, a progressively lower error rate than other structures that were trained for the same amount of iterations with the same training set will be observed.
+The goal is that as the search progresses, a progressively lower error rate than other structures that were trained for the same amount of iterations with the same training set will be observed.
+

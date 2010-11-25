@@ -26,7 +26,8 @@ Figure \ref{synapses} shows the synapses of a connection between two neurons.
 \end{figure}
 
 Information is stored at the synapses, and the information for a particular neuron synapse can be viewed as a function $f$ of the sum of the weighted edges that are input to the neuron.
-The edges in this case are the one or more axons connected to the neuron and the weighted values correspond the efficiency of the particular edge. 
+The edges in this case are the one or more axons connected to the
+neuron, and the weighted values correspond to the efficiency of the particular edge. 
 When a neuron receives a signal from a group of axons, it will determine whether or not to send an output signal by applying $f$ to the sum of the weighted value associated to each input axon.
 If the neuron does send a signal, this is known as {\it firing} or {\it excitation}.
 The efficiency of an edge can be changed through various biological mechanisms.
@@ -37,11 +38,16 @@ This oversimplification of biological neural networks is sufficient to draw para
 An artifical neural network or {\it ANN} is a way of processing
 information that is loosely based on the way the nervous system in a
 human brain functions.
-Neural networks have been used as solutions in pattern recognition problems such as optical character recognition (OCR)\cite{ocr1,ocr2}, facial recognition\cite{face} as well as decision making problems\cite{decisionMaking1,decisionMaking2}.
+Neural networks have been used as solutions in pattern recognition
+problems such as optical character recognition (OCR)\cite{ocr1,ocr2},
+facial recognition\cite{face},  and decision making problems\cite{decisionMaking1,decisionMaking2}.
 The purpose of an artificial neural network is to provide a mapping from a set of input data to output data. 
 In mathematical terms the goal is to map an n-dimensional real input
 $(x1,x2,...,xn)$ to an m-dimensional real output $(y1,y2,...,ym)$, 
-approximating a function: \begin{displaymath} F : R^n \rightarrow R^m \cite{rojas1}\end{displaymath}. 
+approximating a function: 
+\begin{displaymath} F : R^n \rightarrow R^m
+  \cite{rojas1}\end{displaymath}
+
 A neural network builds this mapping in an iterative fashion from training data consisting of known input/output pairs that are presented to it. 
 The training inputs are a subset of the total possible inputs to the network, and assuming there is a function of input to output data, a neural network can be viewed as a black box that may approximate that function for us.
 Henceforth, the term neural network will be used for brevity, with the implicit assumption being that an artificial neural network is meant unless otherwise stated.
@@ -61,7 +67,7 @@ the neuron.
 
 The output value of a neuron with unweighted edges is a function of
 its inputs, $f(x_1, x_2, ..., x_n)$ where $x_i$ is the $i^{th}$ of $n$
-inputs is shown in Figure \ref{neuron}.
+inputs as shown in Figure \ref{neuron}.
 
 \begin{figure}[h!]
   \centering
@@ -72,8 +78,8 @@ inputs is shown in Figure \ref{neuron}.
 
 The output value of a neuron with weighted edges is a function of its
 inputs and weight values of its input edges, $f(x_1 * w_1, x_2 * w_2,
-..., x_n * w_n)$ where $x_i$ is the $i^{th}$ of $n$ inputs and $w_i$
-is the $i_{th}$ of the corresponding $n$ input edges  is shown in
+..., x_n * w_n)$, where $x_i$ is the $i^{th}$ of $n$ inputs and $w_i$
+is the $i_{th}$ of the corresponding $n$ input edges as shown in
 Figure \ref{weighted_neuron}.
 
 \begin{figure}[h!]
@@ -189,7 +195,7 @@ Figure \ref{ors} shows the separation of input space for the {\it OR} operator.
   \label{ors}
 \end{figure}
 
-Now consider the the {\it XOR} operator with the truth table in Figure \ref{xortt}.
+Now consider the {\it XOR} operator with the truth table in Figure \ref{xortt}.
 \begin{table}[h!]
 \caption{{\it XOR} truth table}
 \label{xortt}
@@ -209,7 +215,7 @@ Now consider the the {\it XOR} operator with the truth table in Figure \ref{xort
 \end{displaymath}
 \end{table}
 
-In Figure \ref{xors} Notice how there is no way to draw a straight line to distinguish between the positive and negative classes.
+In Figure \ref{xors} notice how there is no way to draw a straight line to distinguish between the positive and negative classes.
 
 \begin{figure}[h!]
   \centering
@@ -257,7 +263,7 @@ A network is feed forward if the connections between its neurons do not form a c
 
 Revisiting the {\it XOR} problem we want to label the input spaces
 and create a mapping of each input vector to a single label.
-Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
+In Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
 
 \begin{figure}[h!]
   \centering
@@ -266,8 +272,8 @@ Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
   \label{xor_label}
 \end{figure}
 
-And we want the network to remember which input vector $x$ gets mapped to a
-particular label, seen in Figure \ref{xorss_map}.
+And we also want the network to remember which input vector $x$ gets mapped to a
+particular label, as seen in Figure \ref{xorss_map}.
 
 \begin{table}[h!]
 \caption{Mapping of {\it XOR} input space to label}
@@ -332,9 +338,8 @@ Figure \ref{xff} shows a set of weights that solves the problem.
 Feed forward networks provide a powerful computational model capable
 of correctly mapping a set of input vectors to a specific output, even
 for non-linearly separable input spaces.
-However, finding a set of weights that solves a problem
-problem becomes increasingly expensive as the arity of the feature
-vector expands, the number of nodes increases, or the number of layers
+However, finding a set of weights that solves a problem becomes increasingly expensive as the arity of the feature
+vector expands, the number of nodes increases, and/or the number of layers
 increases.
 In addition, traditional methods of solving systems of equations do not work
 well with noisy data and missing or incomplete data, as is the case in most real world problems.
@@ -411,7 +416,7 @@ input presented to it.
 It does so by keeping a map of each input to the current error rate,
 which defaults to one-hundred percent for inputs that have not yet
 been presented to the neural network.
-Here the effectiveness of a neural network is be found by calculating
+Here the effectiveness of a neural network is found by calculating
 its error rate for all inputs it has been trained with. 
 A low error rate means the network is good at estimating the
 problem/solution function. 
@@ -421,7 +426,7 @@ One of the challenges comes from choosing which features of data to
 use to form inputs of a training set and how to represent this data. 
 Another challenge is choosing how many hidden layers the network will
 have, how many nodes per hidden layer should be used, and what the
-activation function should be used in each hidden layer. 
+activation function should be used in the neurons. 
 The combination of these three things determines the network structure. 
 With the {\it NNGenerator} software, the structure of a neural
 network, including the type of activation functions at each hidden
