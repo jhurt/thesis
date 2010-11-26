@@ -14,12 +14,45 @@ The most common, and the one used in this program, is that the dealer must hit u
 There are also more variations on the options a player has in addition to hitting and staying, such as doubling down and splitting pairs. 
 For simplicity of the trainer, these variations are not included in the blackjack trainer.
 
-The input of a training pair for a blackjack player is the value of the cards the player is holding, plus the value of the single card the dealer is showing. 
+The input consists of a binary string of length nine.
+The first five digits represent the value of the player's hand.
+The last four digits represent the value of the card the dealer is
+showing.
 The value of the dealer's hand is unknown to the player in an actual blackjack game, so the dealer's first card is not used in the input. 
+For example, if the players hand totals thirteen and the dealer's top
+card is a three, the input string would be:  $011010011$.
+
 The output pairs are found by playing simulated hands between a dealer and a single player. 
-The output is 1 if hitting resulted in the player winning, -1 if staying resulted in a win, and 0 otherwise.
+The output is 1 if hitting resulted in the player winning, -1 if
+staying resulted in a win, and 0 otherwise.
+The output is determined by using the dealer's rule of continuing to
+hit until the value of the hand is greater than or equal to 17.
+Note that this is not always the optimal strategy, therefore the
+data used during training does not always train the network with the
+optimal strategy.
+
+The simulator used during training deals cards out of a shuffled deck
+for each hand.
+Because this shuffling is random, each slave will train its neural network structure with a different input/output map
+than every other slave.
+The chance that every possible combination of player's hand and dealer's top card
+will be considered increases as the as the number
+of training iterations increases. 
+
+The trainer also has two simulators for testing a neural network.
+One is a simulator that will play a specified number of games where
+the player uses dealer's rules of hitting.
+The second simulator also runs for a specified number of games using
+the output of a neural network to determine whether or not to hit.
+These two simulators are used to determine if a neural network
+solution can do better than dealer's rules for hitting.
 
 \section{Results}
+
+wins:  7961 , ties:  1021 , losses:  41018
+
+dealer wins:  20309 , ties:  9107 , losses:  20584
+
 
 Table \ref{btr1} shows the results of running the {\it NNGenerator} software with the following parameters:
 
@@ -30,59 +63,19 @@ Table \ref{btr1} shows the results of running the {\it NNGenerator} software wit
 \begin{center}
     \begin{longtable}{ | l | l | l |}
       \caption{Blackjack Trainer Test Results 1} \label{btr1} \\
-    \hline
+   \hline
   Generation & Lowest RMS Error & Average RMS Error \\ \hline
-1 &	4.649724505997843E-125 &	0.017234439562711142 \\ \hline
-2 &	8.68589448405814E-186 &	0.002028100562674831 \\ \hline
-3 &	6.938547894622843E-233 &	0.0025666415730775413 \\ \hline
-4 &	3.593023981886003E-230 &	0.0022778220538416435 \\ \hline
-5 &	2.9E-322	& 0.0019480086351036034 \\ \hline
-6 &	2.2171532900580905E-230 &	0.002724022102074109 \\ \hline
-7 &	9.754753974832859E-200 &	0.0028140599160673425 \\ \hline
-8 &	1.3420920655295376E-240 &	0.002231388521558981 \\ \hline
-9 &	2.192545781893474E-197 &	0.0026210999444497836 \\ \hline
-10 &	6.645182623460619E-178 &	0.002173936720451589 \\ \hline
-11 &	9.724023698999583E-200 &	0.0023733793448161102 \\ \hline
-12 &	7.2928017303153E-197 &	0.0022393608956837335 \\ \hline
-13 &	2.998655552032463E-155 &	0.0024740969813044716 \\ \hline
-14 &	1.3725049765299222E-211 &	0.002228470839332495 \\ \hline
-15 &	1.1772898984672749E-213 &	0.0022619259783750478 \\ \hline
-16 &	2.1543343671799357E-253 &	0.0029687373245567963 \\ \hline
-17 &	3.1726788637557815E-142 &	0.0026936907810668526 \\ \hline
-18 &	2.3139859593365553E-211 &	0.002031919702726016 \\ \hline
-19 &	8.616784818327996E-236 &	0.0022836518708367034 \\ \hline
-20 &	9.397434592324269E-207 &	0.002337001951108705 \\ \hline
-21 &	1.3470013076818172E-207 &	0.002139806439560491 \\ \hline
-22 &	3.4982679206457915E-248 &	0.0017415449450885684 \\ \hline
-23 &	1.0256134986870505E-226 &	0.0023731815816354015 \\ \hline
-24 &	4.7637E-319 &	0.0010220798812904219 \\ \hline
-25 &	5.72212543E-316 &	7.46380003354517E-4 \\ \hline
-26 &	3.7784733022680206E-267 &	6.07018664117785E-4 \\ \hline
-27 &	1.5375989121999896E-219 &	9.519032966436913E-4 \\ \hline
-28 &	1.631836140038644E-275 &	6.276851637596476E-4 \\ \hline
-29 &	3.133E-320 &	6.576271963810575E-4 \\ \hline
-30 &	2.0260837464810167E-260 &	0.0010976873471400255 \\ \hline
-31 &	2.913221126447205E-309 &	6.853978435402237E-4 \\ \hline
-32 &	2.95285380535383E-308 &	6.454972039245131E-4 \\ \hline
-33 &	5.714865404955201E-270 &	7.448923178779587E-4 \\ \hline
-34 &	2.9355304857354677E-268 &	5.503732439470597E-4 \\ \hline
-35 &	3.317906139812456E-267 &	6.497599919764506E-4 \\ \hline
-36 &	2.4616036515044635E-267 &	9.203880630055237E-4 \\ \hline
-37 &	4.36388442989504E-285 &	5.22985784517349E-4 \\ \hline
-38 &	2.7779651976647653E-256 &	4.982449801591922E-4 \\ \hline
-39 &	1.64603339439E-311 &	4.7455291333857664E-4 \\ \hline
-40 &	5.322349672722866E-298 &	9.428295313952698E-4 \\ \hline
-41 &	5.456992493765896E-275 &	6.202768374181798E-4 \\ \hline
-42 &	1.3707493076463808E-300 &	4.979944489824447E-4 \\ \hline
-43 &	3.0439044918157736E-239 &	8.179287807094664E-4 \\ \hline
-44 &	9.41687673461859E-235 &	9.639849052605364E-4 \\ \hline
-45 &	8.211471694928568E-282 &	0.001055589887789064 \\ \hline
-46 &	5.695710985252801E-296 &	9.82011393872559E-4 \\ \hline
-47 &	8.816117512694428E-295 &	6.863246950701645E-4 \\ \hline
-48 &	2.9166683449040936E-268 &	0.001613115680539983 \\ \hline
-49 &	3.1146070923239654E-281 &	0.0010171358391843795 \\ \hline
-50 &	1.7771269000057327E-272 &	6.201001462247973E-4 \\ \hline
- \end{longtable}
+1 &	0.0058351248061235105 &	0.008098956382062575 \\ \hline
+2 &	0.005124453989806542 &	0.008788577240515025 \\ \hline
+3 &	3.112780421164862E-4 &	0.006815992145352396 \\ \hline
+4 &	0.001878277865251978 &	0.00615390146502372 \\ \hline
+5 &	0.0033683109943283512 &	0.005027418011111019 \\ \hline
+6 &	7.906376846118689E-26 &	0.0055728544464406365 \\ \hline
+7 &	5.0558238025193206E-20 &	0.0013660235242617068 \\ \hline
+8 &	2.669238353451669E-13 &	0.0019471455135151232 \\ \hline
+9 &	7.581691939386478E-23 &	0.0013389815986515853 \\ \hline
+10 &	5.125102775087759E-25 &	0.001963155659988856 \\ \hline
+\end{longtable}
 \end{center}
 
 The resultant network has 18 hidden layers.
@@ -94,4 +87,5 @@ A screenshot of the resultant network is shown in Figure \ref{bresults_1}.
   \caption{Resultant neural network for first blackjack trainer result set}
   \label{bresults_1}
 \end{figure}
+
 

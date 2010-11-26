@@ -32,7 +32,7 @@ If work is done on the EDT that should be done in a background thread, the user 
 
 \section{Java Messaging Service}
 Although the concurrency features of Clojure are nice, they are limited in that they only provide support for shared memory concurrency on a single JVM. 
-The distributed architecture uses a messaging model that is facilitated via the Java Messaging Service or JMS API~\cite{jms}.
+The distributed architecture uses a messaging model that is facilitated via the Java Messaging Service or JMS API~\cite{jms, jms1}.
 JMS is a Java API that provides applications with the ability to communicate via objects called messages.
 A program that uses JMS to produce and/or consume messages is called a JMS client.
 Message passing in JMS uses an asynchronous send in which a producer produces a message and does not block waiting for it to be consumed, though it does block waiting for the message broker to confirm receipt.
