@@ -1,14 +1,17 @@
 \chapter[Related Work]{Related Work}
 Research regarding combining the artificial intelligence methods of
 genetic algorithms has been done in the past.
-
-
+A brief overview of some of these methods is given here.
+Note that the terms {\it architecture},  {\it topology}, and {\it
+  structure} are all used interchangeably depending on the author.
 
 \section{Training Neural Networks with Genetic Algorithms}
-A number of projects have used genetic algorithms to train neural
-networks.
 
-\cite{montana} used genetic algorithms to train a neural network for
+The most common technique of combining these two powerful learning
+mechanisms is to use a genetic algorithm to train a neural network
+with a fixed architecture rather than the standard backpropagation technique.
+
+~\cite{montana} used genetic algorithms to train a neural network for
 the problem of classifying sonar images.
 Their approach was to use a genetic algorithm instead of
 backpropagation to train the weights for a neural network.
@@ -19,7 +22,63 @@ Their results show that they were able to get better training results
 using a genetic algorithm for training when compared to standard
 backpropagation.
 
-\cite{whitley} 
+
+\section{Learning Neural Network Topologies with Genetic Algorithms}
+
+A less commonly used method of combining genetic algorithms and neural
+networks is to use a genetic algorithm to find a neural network
+topology for a given problem.
+This is the technique used by the {\it NNGenerator} software.
+Other such methods are described briefly here.
+
+~\cite{whitley} used genetic algorithms to search for topologies that
+were better at learning than feed forward neural networks.
+The topologies they considered are not layered, are allowed to contain cycles, and can
+have connections from any node to any other node.
+They used a 2-bit adder to to show that topologies exist that can
+learn to add much faster than a feed forward neural network.
+Figure \ref{whitley1} shows the topologies they used.
+They also ran into the same problem that the {\it NNGenerator}
+software has; namely that the time to compute backpropagation is
+prohibitive when attempting to consider a large number of
+architectures.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.5]{images/whitley}
+  \caption{~\cite{whitley} Neural Network Topologies for the 2-bit
+    adder problem}
+  \label{whitley1}
+\end{figure}  
+
+~\cite{zhang} also used genetic algorithms to find optimal neural
+network architectures. 
+Their algorithm is different, however, because it also uses a genetic
+algorithm for weight training rather than the more common
+backpropagation method.
+They allow partial connectivity, and, like ~\cite{whitley}, allow connectivity between any two nodes.
+They represent each neural network as a set of $N$ tree structures.
+Here the weights are binary so that a less expensive hill climbing
+method can be used since gradient descent is computationally
+expensive.
+The fitness function used employs Occam's razor~\cite{occamsRazor} to construct a neural
+network with minimal complexity.
+They define the complexity of a neural network in terms of the
+weights, minimizing the number of weights and the size of each weight.
+The stopping condition uses both an acceptable fitness function as
+well as a maximum number of iterations.
+They used the top $20\%$ of each population for mating.
+They tested their algorithm in the 4-input parity problem~\cite{4bit} and they
+were able to generate the minimal solution for the problem with their
+algorithm.
+
+
+
+
+
+
+
+
 
 
  
