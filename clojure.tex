@@ -60,7 +60,7 @@ is difficult.
     
 Clojure is a dynamically typed language; it determines the actual type
 of method parameters at runtime, and it accomplishes this via the Java
-Reflection Library~\cite{reflection}. 
+reflection Library~\cite{reflection}. 
 In the rare case that reflection is causing performance issues, such
 as a tight CPU bound loop, type hints can be provided for variables. 
 In Java 7, a new bytecode instruction called
@@ -74,7 +74,7 @@ By default all methods in Java are virtual unless marked as private or static.
 This is because static and private methods cannot be overridden in a
 subclass, so there is no need to lookup their location at runtime
 since it can be hardcoded at compile time. 
-The addition of the invokevirtual instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection, which is much slower in comparison.  
+The addition of the {\tt invokevirtual} instruction will allow future Clojure implementations to see performance improvements as opposed to using reflection, which is much slower in comparison.  
 
 \subsection{Lazy Evaluation}
 Clojure supports lazy evaluation, meaning that program statements are not
@@ -87,7 +87,7 @@ writing data to a socket or writing some data to a video buffer, or in
 the case of Clojure/Java interop where the Java functions are not
 typically pure and need to be executed to force some side effect.
 This lack of pureness in Java functions is typical in object oriented
-program and means that most methods are not idempotent.
+programs and means that most methods are not idempotent.
 In other words, calling the same set of functions repeatedly with the
 same arguments does not necessarily produce the same result.
 This makes reasoning about the code particularly hard.
@@ -291,7 +291,9 @@ it is usually not necessary to use the state in the computation, and it clutters
 
 Another uninteresting piece of code in the Java version is the line
 where {\tt y} is defined. 
-This declaration is really just an artifact of how John von Neumann based architectures work. In order to write this function without making changes to 
+This declaration is really just an artifact of how von Neumann based
+architectures work. 
+In order to write this function without making changes to 
 the original list, a new list of the same size must first be created, making the code unnecessarily verbose. 
 
 \subsection{State}
@@ -304,22 +306,22 @@ simpler than a procedural or object oriented language where state is
 everywhere and functions can do whatever they want with that
 state~\cite{process}. 
 In fact, these languages do not even enforce correctness when working
-with state from multiple threads; programmers are forced to come up
-with correct solutions to these problems themselves.
- All of the data types native to Clojure support the concept of
- purity. 
-When you do operations on lists for example, the results of
+with state from multiple threads; programmers are required to design
+correct solutions to these problems themselves.
+All of the data types native to Clojure support the concept of purity. 
+When you perform operations on lists for example, the results of
  those operations are actually new lists and the original one passed
  in remains unchanged. 
 This has the same semantics as call by value with performance
 comparable to call by reference without the danger of destroying the
 reference. 
 In some LISP implementations this causes performance problems
-since lists are getting copied around a lot. 
+since lists are getting copied a lot. 
 Clojure uses a much more efficient way of doing this, which underneath the hood shares the data
 structures~\cite{cljDataStructures} and so can give the same
 performance guarantees as using mutable data structures in Java
-without the added complexity of mutable state. 
+without the added complexity of mutable state.
+ 
 Another problem with state and object oriented languages is misuse of
 mutability. 
 By default, member variables are mutable unless declared as final by
@@ -328,7 +330,7 @@ Even the final modifier only enforces that the referenced object
 cannot be changed after being set in the constructor; it does not
 enforce any immutability with respect to the object's data members. 
 In Clojure, the opposite is true, every data definition is immutable
-by default unless it is explicitly made not mutable by the
+by default unless it is explicitly made mutable by the
 programmer. 
 When defining a Java data type, it cannot enforce anything with regard
 to mutating that object's state, and this is one thing to watch out
@@ -414,18 +416,21 @@ lock (x)
 %]
 
 Whether built into the language or provided as a library, locks create problems~\cite{problemsWithThreads}.
-Consider what happens when thread $A$ grabs a lock to object $X$ and then waits for
+Consider what happens when thread $A$ acquires a lock to object $X$ and then waits for
 a lock on object $Y$ to be released, then gets interrupted, then thread $B$, which is holding a lock
 on object $Y$, gets switched in and immediately begins waiting on the lock to object $X$, deadlock.
-This makes it hard to create robust multithreaded API's, since the client code may grab the locks out of order not
+This makes it hard to create robust multithreaded API's, since the client code may acquire the locks out of order not
 knowing the lock ordering rules of the API. 
 
 Another problem with locks is that, when used in non-functional language, they cause 
 readers to block readers and writers, and writers to block readers and
 writers. 
-All of this blocking leads to performance problems when many threads are reading or writing some shared state.
+All of this blocking leads to performance problems when many threads
+are reading or writing some shared state.
+
 
 \subsubsection{Software Transactional Memory}
+In addition to the desirable properties offered by functional languages which including composability of functions and lack of shared state, Clojure provides a model for concurrency that is easier to understand, implement, and verify than that of Java threads.
 Software transactional memory, or STM, is a pattern that is used for
 providing transactional memory in a distributed shared
 memory~\cite{stm}. 

@@ -72,6 +72,22 @@ They tested their algorithm in the 4-input parity problem~\cite{4bit} and they
 were able to generate the minimal solution for the problem with their
 algorithm.
 
+~\cite{kitano} also used genetic algorithms for finding neural network
+architectures.
+There approach was different from ~\cite{whitley} in
+that they propose a grammatical encoding of the network architecture
+rather than a direct mapping of the network architecture into a
+chromosome.
+This helps their algorithm to scale better for large networks.
+They encode the structure as a using an L-system~\cite{lSystem} which
+is a mathematical theory commonly used for modeling biological plant
+development.
+The encoding they used greatly reduced the length of the chromosomes
+that represent a neural network architecture.
+The problem they used was N-X-N encoder/decoder
+problem with $N$ of length 4 and 8. 
+They were able to show that their L-system encoding performed better
+on the problem sets than a direct encoding of the architecture.
 
 
 

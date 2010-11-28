@@ -18,11 +18,12 @@ A two-dimensional binary image of the Mandelbrot set can be generated in order t
 complex points on a bounded two-dimensional plane. 
 Black pixels will represent complex numbers that are members of the set and white pixlels will represent complex numbers that are not members of the set.
 Since we have to evaluate a recurrence for each pixel, the runtime of the generation of an image is $O(rNM)$ where $r$ is a constant representing number of recurrence patterns that are evaluated, $N$ is the width of the image and $M$ is the height of the image.
-This algorithm is CPU intensive and grows exponentially as the size of the image grows. 
-An interesting property of generating this image is that each pixel $i,j$ of the image can be calculated independently of the other pixels.
+This algorithm is CPU intensive and grows polynomially as the size of the image grows. 
+An interesting property of generating this image is that each pixel
+$i,j$ of the image can be calculated {\it independently} of the other pixels.
 This is because each complex number $C$ can be tested for membership of the Mandelbrot set regardless of all other complex numbers membership status.
  
-This property makes this algorithm a good candidate for using a master/slave architecture in a shared or distributed memory setting for speedup. 
+Such a problem is called {\it embarassingly parallel} and is a prime candidate for using a master/slave architecture in a shared or distributed memory setting for speedup. 
 The master will split the image up into smaller images, and it will give each slave a small image region to calculate. 
 The slaves will calculate these smaller images in parallel and send the results back to the master. 
 When the master has received all of the smaller images, it will assemble them into the resultant image.
@@ -31,7 +32,7 @@ Consider a distributed environment with five nodes, one master node and four sla
 The algorithm begins with the master assigning the slaves a region of the image to calculate. 
 Each slave will get assigned one of 4 regions of size 128 x 128 as shown in Figure \ref{m2s}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/master_to_slave}
   \caption{Distribution of image regions from master to slave.}
@@ -40,19 +41,19 @@ Each slave will get assigned one of 4 regions of size 128 x 128 as shown in Figu
 
 Each slave calculates its region of the image and sends the resultant sub-image to the master node as shown in Figure \ref{s2m}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/slaves_to_master}
-  \caption{Slaves sending fragmented pieces of the complete image region to the master}
+  \caption{Slaves sending fragmented pieces of the complete image region to the master.}
   \label{s2m}
 \end{figure}
 
 The master then assembles the resultant sub-images into the resultant image as shown in Figure \ref{resultant_image}. 
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics{images/mandelbrot}
-  \caption{Master assembles resultant image}
+  \caption{Master assembles resultant image.}
   \label{resultant_image}
 \end{figure}
 
@@ -66,12 +67,12 @@ In the case of only a single slave, the inherent parallelism of the algorithm is
 
 Each slave is a trainer of neural networks and the master, as the implementor of the genetic algorithm, is responsible for overseeing and coordinating the search.
 The master starts by generating a number of random neural network structures based on the inputs given by the user.
-A typical structure may look like Figure \ref{nn_structure}:
+A typical structure may look like Figure \ref{nn_structure}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.8]{images/nn_structure}
-  \caption{Structure of a neural network in {\it NNGenerator}}
+  \includegraphics[scale=0.6]{images/nn_structure}
+  \caption{Structure of a neural network in {\it NNGenerator}.}
   \label{nn_structure}
 \end{figure}
 
@@ -79,7 +80,7 @@ This is an example randomly generated structure by the software.
 It can be used for a data set with two inputs and one output.
 There is one hidden layer with six nodes, the last node of a hidden layer is always a bias node whose value is always equal to 1.0.
 There are three input nodes because the last input node is always a bias node.
-In general, for an $N x M$ data set, there will be $N + 1$ input nodes and $M$ output nodes.
+In general, for an $N \times M$ data set, there will be $N + 1$ input nodes and $M$ output nodes.
 The upper bound on the number of generated layers is four in this case, and the upper bound for the number of nodes per layer, except for the input and output layers which are fixed, is five.
 Notice the connectivity of the structure, each node in layer $N$ is connected to every other node in layer $N+1$.  
 
@@ -89,28 +90,28 @@ population, the master then puts these structures into messages that
 also contains a type field that indicates to a slave which data set to
 train the structure with as shown in Figure \ref{training_message}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/training_message}
-  \caption{Sample XOR training message}
+  \caption{Sample XOR training message.}
   \label{training_message}
 \end{figure}
 
 It pushes each of these structures to a message queue that holds training messages that have not yet been processed by a slave as shown in figure \ref{message_queue}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/message_queue}
-  \caption{Training message queue}
+  \caption{Training message queue.}
   \label{message_queue}
 \end{figure}
 
 The slaves on the network consume messages from the queue in first in, first out fashion as shown in Figure \ref{slaves_consume}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/slaves_consume}
-  \caption{Slaves consuming training messages}
+  \caption{Slaves consuming training messages.}
   \label{slaves_consume}
 \end{figure}
 
@@ -118,10 +119,10 @@ Each slave trains the neural network structure it consumed from the queue starti
 Upon finishing training, each slave has computed a weight matrix for the neural network structure and data set.
 The final combined structure may look like Figure \ref{nn_combined}. 
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/nn}
-  \caption{Neural network generated by {\it NNGenerator} that solves the XOR problem}
+  \caption{Neural network generated by {\it NNGenerator} that solves the XOR problem.}
   \label{nn_combined}
 \end{figure}
 
@@ -134,32 +135,32 @@ The $\alpha$ constant is the momentum factor for help in preventing oscillation 
 The $\gamma$ constant is a learning constant that defines step length of correction at each step of the training.
 The slave places the resultant neural network structure along with the other information into a training result message as shown in Figure \ref{result_message}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/result_message}
-  \caption{Sample {\it NNGenerator} training result message}
+  \caption{Sample {\it NNGenerator} training result message.}
   \label{result_message}
 \end{figure}
 
-It then enqueues the message to a resultant message queue for the master to process as shown in Figure \ref{slaves_publish}.
+Afterwards, the slave enqueues the message to a resultant message queue for the master to process as shown in Figure \ref{slaves_publish}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/slaves_publish}
-  \caption{Training result message queue}
+  \caption{Training result message queue.}
   \label{slaves_publish}
 \end{figure}
 
 The master consumes these messages from the queue in a first in, first out fashion as shown in Figure \ref{master_consume}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/master_consume}
-  \caption{Master consuming training result message}
+  \caption{Master consuming training result message.}
   \label{master_consume}
 \end{figure}
 
-It stores the messages in memory until it has gathered all of the current populations' resultant messages. 
+Messages are stored in memory until the master has gathered all of the current populations' resultant messages. 
 The size of each population is specified by the user before the algorithm starts.
 The master then performs reproduction, crossover, and mutation operations to the network structures to create a new population of structures for the slaves to train.
 The master discards the bottom half of the population sorted in order of fitness; so the least fit of the population. 
@@ -170,5 +171,5 @@ This way the fitter of any two parents has a higher probability of getting selec
 
 The process continues in this manner until a certain number of generations have been bred. 
 This number is specified by the user. 
-The fittest network of the last generation is selected as the neural network most capable of solving the particular problem.  
-
+The fittest network of the last generation is selected as the neural
+network most capable of solving the particular problem.

@@ -6,25 +6,48 @@ A few of the data structures used are also discussed.
 \input{clojure-lgrind}
 
 \section{User Interface}
-When the master module is started, a graphical user interface, or GUI, is displayed that allows for controlling various parameters of the application. 
-One of these is the population size, which does not have to match the number of actual network slaves; it is the number of networks to train at each step. 
+When the master module is started, a graphical user interface, or GUI,
+is displayed that allows for controlling various parameters of the
+application.
+Figure \ref{gui} shows this user interface when run on OS X Snow
+Leopard.
+A similar interface will appear when run on a Linux or Windows
+operating system.
+
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.3]{images/gui}
+  \caption{{\it NNGenerator} Software Graphical User Interface.}
+  \label{gui}
+\end{figure} 
+
+The table to the right shows how many slaves are connected, the
+hostname followed by a global counter for each host, and the last time
+a heartbeat message was received from the slave.
+The screenshot shows there are 9 slaves connected to the network. 
+Two of them are from a dual core iMac running OS X 10.6, two of them
+are from a dual core Intel running Windows 7, and five of them are
+from a quad core Intel running SuSE Linux 11.0.
+
+One of the parameters the user can enter is the population size, which does not have to match the number of actual network slaves; it is the number of networks to train at each step. 
 So if you have only eight slaves and you enter sixteen, then each slave will train two neural networks at each iteration of the search algorithm. 
 Another parameter is the number of generations to train. 
 As you increase this parameter, the time to complete the algorithm increases linearly. 
 Another parameter sets the amount of iterations a slave should train a single neural network. 
 This is a constant for all slaves so that each generated neural network has been given a fair chance at training its weights. 
-The remaining parameters put upper bounds on the neural network structures themselves. 
+The remaining parameters place upper bounds on the neural network structures themselves. 
 A maximum number of hidden layers parameter sets an upper bound of the number of hidden layers for a neural network. 
 A maximum number of nodes per layer parameter sets an upper bound on the number of nodes for a hidden layer. 
 The number of input and output nodes depends on the map of input vectors to outputs used during training and cannot be changed by the user. 
 Tweaking the number of iterations to train a network, the number of nodes per layer and number of layers can have a substantial effect on the time it takes for the algorithm to complete. 
-To get the output of each hidden layer and the output layer is on the order of $NM$, or the multiplication between the weight matrix between the previous layer and the current layer and the nodes in that layer. 
+To get the output of each hidden layer and the output layer is on the
+order of $NM$, or the product of the weight matrix between the previous layer and the current layer and the nodes in that layer. 
 As the number of nodes increases, the time to complete the operation for a layer increases.
 
 The user interface is written using the Java Swing library~\cite{swing}. 
 This library comes bundled with the Java Runtime Environment and allows creating cross-platform GUI's that look native to the OS or can be skinned in a customizable way. 
 Swing uses a single threaded model and embraces the Model-View-Controller or MVC design pattern~\cite{mvc}. 
-This pattern keeps the view code separate from the model code, and the view can save or update data the model only though the controller. 
+This pattern keeps the view code separate from the model code, and the view can update the model only though the controller. 
 In Swing, the controllers are action listeners which are fired based on events such as a mouse click or keyboard input. 
 The action listeners all spawn a new thread to do their work, and later the UI may be updated asynchronously on the main GUI thread called the {\it Event Dispatch Thread} or EDT.
 Unfortunately, the library cannot enforce this behavior, it is up to the programmer to keep this pattern in mind.
@@ -47,23 +70,25 @@ A client must be subscribed to a topic before it can receive messages from that 
 This implies an ordering on the time a publisher publishes a message to a topic, and the time a subscriber consumes that message from the topic; the publish must happen first.
 Figure \ref{pub_sub} is an illustrative example of the publish/subscribe model in JMS.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/pub_sub}
-  \caption{JMS publish/subscribe model}
+  \caption{JMS publish/subscribe model.}
   \label{pub_sub}
 \end{figure}
 
 The second approach is a point-to-point model which is very similar to the publish/subscribe approach.
 With this approach, messages are queued to named queues.
 Each message will only get consumed once by a single JMS client.
-There is no ordering on the when a client consumes a message from a queue and when a client publishes that message to the queue.
+There is no ordering on the when a client consumes a message from a
+queue and when a client publishes that message to the queue.
+This is not unlike languages that use tuple spaces such as Linda~\cite{linda}.
 Figure \ref{point_to_point} shows how the point-to-point model works in JMS.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.7]{images/point_to_point}
-  \caption{JMS point-to-point model}
+  \caption{JMS point-to-point model.}
   \label{point_to_point}
 \end{figure}
 

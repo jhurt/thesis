@@ -5,12 +5,12 @@
 The human nervous system consists in part of many neural cells that are interconnected and can communicate with each other via electrical pulses.
 These cells are called {\it neurons}, and they receive input from other neurons via {\it dendrites}, and they can send a signal to a single other neuron via an {\it axon}.
 A neuron can also receive signals in reaction to outside stimuli.
-Figure \ref{biological_neuron} is a drawing of a biological neuron. 
+Figure \ref{biological_neuron} is an illustration of a biological neuron. 
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.6]{images/biological_neuron}
-  \caption{Biological Neuron}
+  \caption{Biological Neuron.}
   \label{biological_neuron}
 \end{figure}
 
@@ -18,10 +18,10 @@ A network of neurons stores information at the contact points between the neuron
 These contact points are called {\it synapses} and provide a biological neural network with a memory.
 Figure \ref{synapses} shows the synapses of a connection between two neurons.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.6]{images/synapses}
-  \caption{Synapses}
+  \caption{Synapses.}
   \label{synapses}
 \end{figure}
 
@@ -39,14 +39,13 @@ An artifical neural network or {\it ANN} is a way of processing
 information that is loosely based on the way the nervous system in a
 human brain functions.
 Neural networks have been used as solutions in pattern recognition
-problems such as optical character recognition (OCR)\cite{ocr1,ocr2},
-facial recognition\cite{face},  and decision making problems\cite{decisionMaking1,decisionMaking2}.
+problems such as optical character recognition (OCR)~\cite{ocr1,ocr2},
+facial recognition~\cite{face},  and decision making problems~\cite{decisionMaking1,decisionMaking2}.
 The purpose of an artificial neural network is to provide a mapping from a set of input data to output data. 
-In mathematical terms the goal is to map an n-dimensional real input
-$(x1,x2,...,xn)$ to an m-dimensional real output $(y1,y2,...,ym)$, 
-approximating a function: 
-\begin{displaymath} F : R^n \rightarrow R^m
-  \cite{rojas1}\end{displaymath}
+In mathematical terms the goal is to map an $n$-dimensional real input
+$(x_1,x_2,\ldots,x_n)$ to an $m$-dimensional real output $(y_1,y_2,...,y_m)$, 
+approximating a function~\cite[29-30]{rojas}: 
+\begin{displaymath} F : R^n \rightarrow R^m\end{displaymath}
 
 A neural network builds this mapping in an iterative fashion from training data consisting of known input/output pairs that are presented to it. 
 The training inputs are a subset of the total possible inputs to the network, and assuming there is a function of input to output data, a neural network can be viewed as a black box that may approximate that function for us.
@@ -59,20 +58,20 @@ This function is known as the activation function.
 
 The activation function can be viewed as a composition of functions
 $g$ and $h$.
-$g$ is an aggregate $n-ary$ function that takes $n$ arguments and outputs a
+$g$ is an aggregate {\it n-ary} function that takes $n$ arguments and outputs a
 single value.
 Typically $g$ is simply the summation function.
 $h$ takes the output of $g$ and produces a value that is the output of
 the neuron. 
 
 The output value of a neuron with unweighted edges is a function of
-its inputs, $f(x_1, x_2, ..., x_n)$ where $x_i$ is the $i^{th}$ of $n$
+its inputs, $f(x_1, x_2,\ldots, x_n)$ where $x_i$ is the $i^{th}$ of $n$
 inputs as shown in Figure \ref{neuron}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.75]{images/neuron_fn}
-  \caption{Artificial neuron}
+  \caption{Artificial neuron.}
   \label{neuron}
 \end{figure}
 
@@ -82,10 +81,10 @@ inputs and weight values of its input edges, $f(x_1 * w_1, x_2 * w_2,
 is the $i_{th}$ of the corresponding $n$ input edges as shown in
 Figure \ref{weighted_neuron}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.8]{images/weighted_neuron_fn}
-  \caption{Weighted neuron}
+  \caption{Weighted neuron.}
   \label{weighted_neuron}
 \end{figure}
 
@@ -114,8 +113,8 @@ input/output pair is presented to it.
 
 Algorithm \ref{perceptronAlg} describes an algorithm for perceptron training.
 
-\begin{algorithm}[h!]
-\caption{Perceptron training algorithm}
+\begin{algorithm}[htb!]
+\caption{Perceptron training algorithm.}
 \label{perceptronAlg}    
 \begin{algorithmic}
 
@@ -137,7 +136,7 @@ Although the perceptron can be trained to classify patterns, there are sets of d
 A perceptron can only classify data sets that are linearly separable.
 The logic operators {\it AND}, {\it OR} and {\it XOR} provide a simple way of visualizing linear separability.
 Consider the {\it AND} operator with the truth table in Figure \ref{andtt}.
-\begin{table}[h!]
+\begin{table}[htb!]
   \caption{{\it AND} truth table}
   \label{andtt}
 \begin{displaymath}
@@ -156,14 +155,8 @@ Consider the {\it AND} operator with the truth table in Figure \ref{andtt}.
 \end{displaymath}
 \end{table}
 
-Figure \ref{ands} shows the separation of input space for the {\it AND} operator.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.4]{images/and}
-  \caption{{\it AND} input space separation}
-  \label{ands}
-\end{figure}
+Figure \ref{ands} shows that the discrete input space of the {\it AND}
+operator can indeed be separated by a single straight line.
 
 Now consider the {\it OR} operator with the in Figure \ref{ortt}. 
 
@@ -188,16 +181,25 @@ Now consider the {\it OR} operator with the in Figure \ref{ortt}.
 
 Figure \ref{ors} shows the separation of input space for the {\it OR} operator.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.4]{images/or}
-  \caption{{\it OR} input space separation}
+  \includegraphics[scale=0.3]{images/or}
+  \caption{{\it OR} input space separation.}
   \label{ors}
 \end{figure}
 
-Now consider the {\it XOR} operator with the truth table in Figure \ref{xortt}.
+\begin{figure}[htb!]
+  \centering
+  \includegraphics[scale=0.3]{images/and}
+  \caption{{\it AND} input space separation.}
+  \label{ands}
+\end{figure}
+
+Now consider the {\it XOR} operator with the truth table in Figure
+\ref{xortt}.
+
 \begin{table}[h!]
-\caption{{\it XOR} truth table}
+\caption{{\it XOR} truth table.}
 \label{xortt}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -215,32 +217,24 @@ Now consider the {\it XOR} operator with the truth table in Figure \ref{xortt}.
 \end{displaymath}
 \end{table}
 
-In Figure \ref{xors} notice how there is no way to draw a straight line to distinguish between the positive and negative classes.
+In Figure \ref{xorss} notice how there is no way to draw a straight
+line to distinguish between the positive and negative classes; at least two lines must be used to separate the positive and negative classes.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.4]{images/xor}
-  \caption{{\it XOR} input space}
-  \label{xors}
-\end{figure}
-
-Figure \ref{xorss} shows that at least two lines must be used to separate the positive and negative classes.
-
-\begin{figure}[h!]
-  \centering
-  \includegraphics[scale=0.4]{images/xor_2}
-  \caption{{\it XOR} input space separation}
+  \includegraphics[scale=0.3]{images/xor_2}
+  \caption{{\it XOR} input space separation.}
   \label{xorss}
 \end{figure}
 
 If a perceptron is given a problem whose input space is linearly
 separable, it is guaranteed to find a solution in a finite number of
-steps\cite{patternRecognition1}. 
+steps~\cite{patternRecognition1}. 
 In the worst case the number of iteration steps can grow
-exponentially\cite{rojas2}.
+exponentially~\cite[95-96]{rojas}.
 There are better algorithms for finding solutions to linearly separable problems in
 polynomial time such as Karmarkar's polynomial time
-algorithm\cite{karmarkar}.
+algorithm~\cite{karmarkar}.
 
 \subsection{Feed Forward Neural Networks} 
 One way to solve a problem with a non-linearly separable input space
@@ -251,10 +245,10 @@ A neuron in layer $n$ may only send signals to neurons in layer $n+1$, and it ma
 The $0^{th}$ layer does not receive signals from other neurons and the output of the $n^{th}$ layer can be viewed as the output of the network.
 Figure \ref{ff} shows an example of this topology:
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics{images/feed_forward}
-  \caption{Feed forward network topology}
+  \includegraphics[scale=0.6]{images/feed_forward}
+  \caption{Feed forward network topology.}
   \label{ff}
 \end{figure}
 
@@ -265,18 +259,18 @@ Revisiting the {\it XOR} problem we want to label the input spaces
 and create a mapping of each input vector to a single label.
 In Figure \ref{xor_label} we label the three regions $A$, $B$ and $C$.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.4]{images/xor_labeling}
-  \caption{Labeled three regions of the {\it XOR} input space}
+  \caption{Labeled three regions of the {\it XOR} input space.}
   \label{xor_label}
 \end{figure}
 
 And we also want the network to remember which input vector $x$ gets mapped to a
 particular label, as seen in Figure \ref{xorss_map}.
 
-\begin{table}[h!]
-\caption{Mapping of {\it XOR} input space to label}
+\begin{table}[htb!]
+\caption{Mapping of {\it XOR} input space to label.}
 \label{xorss_map}
 \begin{displaymath}
 \begin{array}{|c|c|c|}
@@ -301,16 +295,16 @@ layer, and the output layer.
 Figure \ref{xffw} shows the structure of the
 network.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.4]{images/xor_feed_forward_weights}
+  \includegraphics[scale=0.3]{images/xor_feed_forward_weights}
   \caption{Weighted feed forward neural network architecture that is
     capable of solving the {\it XOR}
-    problem}
+    problem.}
   \label{xffw}
 \end{figure}
 
-For the neuron function $f(x) = x * \frac{1}{2}$ is used.
+For the neuron function, $f(x) = x * \frac{1}{2}$ is used.
 The goal is to find a set of weights that satisfies the following
 equations for the four known inputs and outputs in the {\it XOR} truth
 table:
@@ -327,11 +321,11 @@ f(x) = (f^1(x) * w_{11}^2 + f^2(x) * w_{21}^2) * \frac{1}{2}
 
 Figure \ref{xff} shows a set of weights that solves the problem.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.4]{images/xor_feed_forward}
+  \includegraphics[scale=0.3]{images/xor_feed_forward}
   \caption{Weighted feed forward neural network that solves the {\it XOR}
-    problem}
+    problem.}
   \label{xff}
 \end{figure}
 
@@ -356,14 +350,14 @@ Gradient descent, also called steepest descent, attempts to find the
 local minimum of a function.
 It starts at one point $P_0$ and moves from $P_i$ and $P_{i+1}$ by
 minimizing the line extending from $P_i$ in the direction of $- \nabla
-f(P_i)$\cite{gradient}.
+f(P_i)$~\cite{gradient}.
 
 %TODO graph of gradient descent
 
 For gradient descent to work properly, the function produced by the neural network must be
 differentiable at each point and continous. 
 Since the value of a network can be seen as a composition of the
-functions of its neurons, typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values\cite{mitchell1997}.
+functions of its neurons, typically the activation function is sigmoidal and it also known as a sqaushing function, since it has the ability to squashes all output between two real values~\cite{mitchell1997}.
 The most commonly used sigmoidal function in neural networks is the logisitic function, defined as:
 $P(t) = \frac{1}{1 + e^-t}$
 Figure \ref{logistic} shows the graph of the logistic function on a cartesian coordinate system.
@@ -371,7 +365,7 @@ Figure \ref{logistic} shows the graph of the logistic function on a cartesian co
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.6]{images/logistic}
-  \caption{Logistic function}
+  \caption{Logistic function.}
   \label{logistic}
 \end{figure}
 
@@ -409,8 +403,8 @@ constant that defines the step length of correction:
 \end{algorithm}
 
 The {\it NNGenerator} software uses a modifed version of the
-backpropagation algorithm described in \cite{rojas3}.
-An outline of the algorithm is given in \ref{backpropAlg}.
+backpropagation algorithm described in ~\cite[166-170]{rojas}.
+An outline of the algorithm is given in Algorithm\ref{backpropAlg}.
 The main difference is that it keeps track of the error rate for every
 input presented to it.
 It does so by keeping a map of each input to the current error rate,
@@ -421,13 +415,23 @@ its error rate for all inputs it has been trained with.
 A low error rate means the network is good at estimating the
 problem/solution function. 
 Finding a neural network with a low error rate for a particular
-problem is challenging. 
-One of the challenges comes from choosing which features of data to
-use to form inputs of a training set and how to represent this data. 
-Another challenge is choosing how many hidden layers the network will
-have, how many nodes per hidden layer should be used, and what the
-activation function should be used in the neurons. 
-The combination of these three things determines the network structure. 
+problem presents a number of challenges:
+\begin{enumerate}
+
+\item Choosing which features from the data to
+use to form inputs of a training set.
+
+\item How to represent the features of a data set.
+
+\item Deciding how many hidden layers the neural network will have.
+
+\item Deciding how many nodes in each hidden layer should be used.
+
+\item Deciding the activation function to use for each neuron.
+
+\end{enumerate}
+The combination of number of hidden layers, number of nodes per hidden
+layer, and activation function of each neuron determines the network structure. 
 With the {\it NNGenerator} software, the structure of a neural
 network, including the type of activation functions at each hidden
 node, the number of nodes per hidden layer, the number of hidden

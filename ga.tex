@@ -15,7 +15,7 @@ These encodings are called {\it chromosomes} and are analogous to biological chr
 \section{Operations}
 A new generation of samples is created by applying simple operations to the current generation of samples. 
 Three of the commonly used operations are crossover, reproduction, and
-mutation \cite{goldberg1}.
+mutation~\cite[62-65]{goldberg}.
 The ideas behind these operations are similar to natural selection mechanisms that occur during evolution, hence the name genetic algorithm. 
 
 \subsection{Crossover}
@@ -80,7 +80,7 @@ A simple way to select the fittest samples is to order them in descending fashio
 \subsection{Roulette Wheel Selection}
 In the {\it NNGenerator} software, each chromosome has a probability of surviving proportional to its fitness compared to the others in the same generation. 
 So the least fit chromosomes have the least chance of reproduction and crossover when forming the next population of samples. 
-This algorithm is known as roulette wheel selection \cite{goldberg2}.
+This algorithm is known as roulette wheel selection ~\cite[237]{goldberg}.
 Each item along the roulette wheel is a separate chromosome and the probability of selecting a chromosome is directly proportional to its fitness.
 
 For example, given eight samples labeled: $A, B, C, D, E, F, G, H$, and respective fitness proportional to the entire population's fitness: 

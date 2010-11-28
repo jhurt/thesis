@@ -1,0 +1,67 @@
+\chapter[Future Work]{Future Work}
+Although a great deal of time was spent writing the {\it NNGenerator}
+software, there is plenty of room for improving upon it. 
+
+\section{Improving the Fitness Function}
+The fitness function used is simply the RMS error of each neural
+network.
+This proved to not be a very good fitness function; there were some
+cases where the calculated RMS error was low but the neural network
+could not converge.
+There were also observations of neural networks that performed better
+on the test data sets than other neural networks with lower RMS
+errors.
+Similar to having a pluggable function that determines the training
+set for each problem, the fitness function could be abstracted out,
+allowing any arbitrary fitness function to be used for a particular
+problem.
+Perhaps a better fitness function would be one that evaluates a given
+neural network architecture and weight set against a test data set.
+
+\section{Speeding Up Backpropagation}
+The strength of a genetic algorithm cannot be exploited for very small
+numbers of generations, such as the ones used for the result sets in
+this paper.
+The software was meant to run on a large cluster, and when that
+cluster became unavailable, the software was run on commodity hardware
+available to me in my own home.
+However, there are platforms available that provide for large scale,
+massively parallel computations at a very small cost.
+One of particular interest is NVIDIA's CUDA platform~\cite{cuda,
+  cuda1}.
+This platform allows the programmer direct access to the grapics
+processing unit, or GPU, available on any modern NVIDIA card.
+The latest Tesla cards boasts:``Delivers up to 515 Gigaflops of
+double-precision peak performance in each GPU, enabling a single
+workstation to deliver a Teraflop or more of performance. Single
+precision peak performance is over a Teraflop per GPU.''
+Backpropagation could be implemented in C using the CUDA toolkit, then
+wrapped by the Java Native Interface, or JNI~\cite{jni}.
+In this way, one or more commodity computers with CUDA enabled GPU's
+could run the backpropagation algorithm quickly, then JMS could be
+used to gather the results and give back to the master for breeding.
+
+\section{Reducing the Encoding Size}
+The software encodes the chromosomes as Clojure data structures that
+directly represent a neural network's architecture.
+Perhaps a more compact encoding, such as the one used in
+~\cite{kitano} could be used to get a fixed length binary string that is not too
+large.
+If this were done, the specialized genetic operations could be
+replaced with the more generic ones that operation on binary strings.
+This may help the genetic algorithm find fitter neural networks.
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
