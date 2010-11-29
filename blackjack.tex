@@ -47,7 +47,13 @@ the output of a neural network to determine whether or not to hit.
 These two simulators are used to determine if a neural network
 solution can do better than dealer's rules for hitting.
 
+The following results are compared against playing 50,000 simulated
+games by dealer rules. 
+When playing by these rules, the player won 20,309 of the games, tied 9,107 of
+the games, and lost 20,584 games.
+
 \section{Results}
+
 \subsection{Result Set 1}
 
 Table \ref{btr1} shows the results of running the {\it NNGenerator} software with the following parameters:
@@ -83,10 +89,8 @@ A screenshot of the resultant network is shown in Figure \ref{bresults_1}.
   \label{bresults_1}
 \end{figure}
 
-wins:  7961 , ties:  1021 , losses:  41018
-
-dealer wins:  20309 , ties:  9107 , losses:  20584
-
+When run in a simulation of 50,000 games, this neural network won 18,508
+games, tied 1,021 games, and lost 30,471 games.
 
 \subsection{Result Set 2}
 Table \ref{btr2} shows the results of running the {\it NNGenerator} software with the following parameters:
@@ -122,7 +126,8 @@ A screenshot of the resultant network is shown in Figure \ref{bresults_2}.
   \label{bresults_2}
 \end{figure}
 
-wins:  19329 , ties:  2442 , losses:  28229
+When run in a simulation of 50,000 games, this neural network won 19,329
+times, tied 2,442 times, and lost 28,229 times.
 
 \subsection{Result Set 3}
 Table \ref{btr3} shows the results of running the {\it NNGenerator} software with the following parameters:
@@ -168,7 +173,8 @@ A screenshot of the resultant network is shown in Figure \ref{bresults_3}.
   \label{bresults_3}
 \end{figure}
 
-wins:  19228 , ties:  2422 , losses:  28350
+When run in a simulation of 50,000 games, this neural network won 19,228
+games, tied 2,422 games, and lost 28,350 games.
 
 \subsection{Result Set 4}
 Table \ref{btr4} shows the results of running the {\it NNGenerator} software with the following parameters:
@@ -214,6 +220,20 @@ A screenshot of the resultant network is shown in Figure \ref{bresults_4}.
   \label{bresults_4}
 \end{figure}
 
-wins:  19259 , ties:  2515 , losses:  28226
+When run in a simulation of 50,000 games, this neural network won 19,259
+times, tied 2,515 times, and lost 28,226 games.
 
+\section{Evaluation}
+The software was not able to beat a player who plays by dealer rules
+in any of the four test runs.
+The first test run had the worst performance with only a $37\%$ win
+rate. 
+The last three result sets had marginally better win rates, at an
+average of about $38\%$.
+The fact that all of the result sets produce a very similar win rate,
+even though the network structures are not the same, indicates that
+the data used to train the network would need to be improved in order
+to achieve a win rate of over $38\%$.
+None of the result sets indicated that the RMS error gets lower with
+each generation; in fact the trend appears seemingly random.
 

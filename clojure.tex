@@ -28,25 +28,25 @@ A simple example of this concept is the following function {\it incrementAndGet}
 It keeps track of a variable to increment and return without using
 global state: 
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (let [i (ref 0)]
   (defn incrementAndGet []
      (dosync (ref-set i (inc @i))) @i))
-%]
+\end{lstlisting}
 
 Here is the example output from calling this multiple times in a
 Clojure REPL:
 
-%#Scheme
-%[
-user=> (incrementAndGet)
+\lstset{language=Clojure}
+\begin{lstlisting}
+ user=> (incrementAndGet)
 1
 user=> (incrementAndGet)
 2
 user=> (incrementAndGet)
 3
-%]
+\end{lstlisting}
  
 \subsection{Dynamic Typing}
 Java is a statically typed language; its function arguments are
@@ -98,36 +98,36 @@ to force
 evaluation. The following in a snippet from {\em NNGenerator} that
 uses the {\it doall} keyword to force the side effect of the {\it rmdir} Java method: 
 
-%#Scheme
-%[
-(defn rmdir [dir]
+\lstset{language=Clojure}
+\begin{lstlisting}
+ (defn rmdir [dir]
   (if (.isDirectory dir)
       (doall (map rmdir (.listFiles dir))))
   (.delete dir))
-%]
+\end{lstlisting}
 
 Lazy evaluation allows Clojure to represent things such as infinite sequences,
 which are otherwise very hard to represent in imperative languages. 
 The following defines the infinite set of positive even integers: 
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (def evens (iterate (fn [x] (+ 2 x)) 0))
-%]
+\end{lstlisting}
 
 Obviously realizing this full set at once is not possible because it
 is an infinite set and the machine has a finite memory.
 Parts of this set can be realized in smaller pieces. Here is some
 output of using the {\it take} method to fetch pieces of the set: 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 user=> (take 4 evens)
 (0 2 4 6)
 user=> (take 10 evens)
 (0 2 4 6 8 10 12 14 16 18)
 user=> (take 15 evens)
 (0 2 4 6 8 10 12 14 16 18 20 22 24 26 28)
-%]
+\end{lstlisting}
 
 A particular downside of laziness is that it makes debugging harder. 
 While stepping through code line by line, some expressions may not
@@ -143,14 +143,14 @@ the training of the entire neural network was complete.
 To circumvent this issue, the {\it doall} is used in the {\it
   matrixAdd} method:
  
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (defn matrixAdd [matrixA matrixB]
   (if (and (not (empty? matrixA)) (not (empty? matrixB)))
     (conj
       (matrixAdd (rest matrixA) (rest matrixB))
       (doall (map + (first matrixA) (first matrixB))))))
-%]
+\end{lstlisting}
 
 \subsection{Multimethods}
 Many object oriented languages such as Java and C\# support dynamic
@@ -163,8 +163,8 @@ the dispatch function as opposed to always using the runtime type of a particula
 
 The following uses polymorphism in Java:
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 interface Foo { 
 	String foo(); 
 }
@@ -176,18 +176,18 @@ class FooBar implements Foo {
 class FooCat implements Foo {
         public String foo { return "foocat"; }
 }
-%]
+\end{lstlisting}
 
 To implement polymorphism in Clojure using the same Java types:
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (defmulti foo (fn [obj] (.getName (.getClass obj))))
 
 (defmethod foo "FooBar" [obj] "foobar")
 
 (defmethod foo "FooCat" [obj] "foocat")
-%]
+\end{lstlisting}
 
 The {\it defmulti} macro is used to define the name of the function, in this
 case {\it foo}. It also defines the dispatch function for the argument
@@ -199,8 +199,8 @@ multimethod {\it foo} associated with the dispatch-values {\it FooBar}
 and {\it FooCat}. 
 
 The following is a switch statement in Java:
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 MyCalendar cal = new MyCalendar();
 switch (cal.getMonth()) {
             case 1:  System.out.println("January"); break;
@@ -217,12 +217,12 @@ switch (cal.getMonth()) {
             case 12: System.out.println("December"); break;
             default: System.out.println("Invalid month.");break;
         }
-%]
+\end{lstlisting}
 
 This can be broken up into many methods using a multimethod in Clojure:
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (defmulti getMonthString (fn [cal] (.getMonth cal)))
 
 (defmethod getMonthString 1 [cal] "January")
@@ -238,7 +238,7 @@ This can be broken up into many methods using a multimethod in Clojure:
 (defmethod getMonthString 11 [cal] "November")
 (defmethod getMonthString 12 [cal] "December")
 (defmethod getMonthString :default [cal] "Invalid month.")
-%]
+\end{lstlisting}
 
 If simply writing a String is all that a switch statement does, the advantage of breaking it up into many
 methods is not noticeable. For complex logic that would typically be handled with a long else if or a switch statement, 
@@ -255,8 +255,8 @@ For example, given the input (-1 -2 -3 1 2 3), the output is (0 -1
 -2 2 3 4). 
 If asked to write this in C, Java, Pascal, or any other non-functional language, a typical implementation might look like the following Java code: 
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 int[] increment(int[] x) {
 	int[] y = new int[x.length];
 	for(int i = 0; i < x.length; i++) { 
@@ -264,14 +264,14 @@ int[] increment(int[] x) {
          }
          return y;
 }
-%]
+\end{lstlisting}
 
 A typical Clojure implementation may look like the following: 
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+\begin{lstlisting}
 (defn inc_func [x] (map inc x))
-%]
+\end{lstlisting}
 
 Syntactically, the Clojure version is much less verbose than the Java one.
 Ignoring syntactical differences, one piece of code in the Java version that we see is uninteresting is the declaration,
@@ -348,15 +348,15 @@ For a more thorough inspection refer to ~\cite{1076522}.
 Problems can arise if one decides to edit a list inline either for terseness or to save memory and therefore compromise on the 
 "without making changes to the original list" constraint: 
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 int[] incrementInPlace(int[] x) {
 	for(int i = 0; i < x.length; i++) { 
 	  x[i]++;
          }
          return x;
 }
-%]
+\end{lstlisting}
 
 For single threaded programs, there is no issue; in a multi-threaded environment, though, consider how the above code
 causes issues even with just two threads calling it at the same time. 
@@ -367,32 +367,33 @@ ensure that no two threads can call the function at the same time.
 In Java, the monitor can be implicit by using the method modifier {\tt synchronized} to the method definition. 
 If the method is static, the monitor is implicitly the singleton instance of an object's {\it getClass} method:
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 static synchronized void foo() { }
-%]
+\end{lstlisting}
 
 If the method is a non-static method of a class, the monitor is a 
 particular instance of the class and is shared among all non-static synchronized methods of a particular object:
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 synchronized void foo() { }
-%]
+\end{lstlisting}
 
 You can also declare arbitrary objects and use them as monitors:
-%#Java
-%[
+
+\lstset{language=Java}
+\begin{lstlisting}
 Object x = new Object();
 synchronized (x) {
  //holding monitor of x
 }
-%]
+\end{lstlisting}
 
 In C\#, the monitor is a library:
  
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 System.Object obj = (System.Object)x;
 System.Threading.Monitor.Enter(obj);
 try
@@ -403,17 +404,17 @@ finally
 {
     System.Threading.Monitor.Exit(obj);
 } 
-%]
+\end{lstlisting}
 
 With some syntactic sugar:
 
-%#Java
-%[
+\lstset{language=Java}
+\begin{lstlisting}
 lock (x)
 {
     DoSomething();
 }
-%]
+\end{lstlisting}
 
 Whether built into the language or provided as a library, locks create problems~\cite{problemsWithThreads}.
 Consider what happens when thread $A$ acquires a lock to object $X$ and then waits for
@@ -459,9 +460,6 @@ The correct use and/or the knowledge of this ordering is often missing
 from programs. 
 Providing the ordering couples classes together in a way that is not necessary with Clojure's STM.  
 
-Clojure combines many of the benefits of functional programming with the power of the JVM to allow for a very powerful tool for creating a distributed and multithreaded application such as this one.  
-
-
-
-
-
+Clojure combines many of the benefits of functional programming with
+the power of the JVM to allow for a very powerful tool for creating a
+distributed and multithreaded application such as this one.

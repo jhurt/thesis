@@ -3,7 +3,7 @@ This section describes the tools used to create the {\em NNGenerator} software.
 The language, libraries, and runtime used are described as well as the motivation for each. 
 A few of the data structures used are also discussed.
 
-\input{clojure-lgrind}
+\input{clojure}
 
 \section{User Interface}
 When the master module is started, a graphical user interface, or GUI,
@@ -16,7 +16,7 @@ operating system.
 
 \begin{figure}[htb!]
   \centering
-  \includegraphics[scale=0.3]{images/gui}
+  \includegraphics[scale=0.4]{images/gui}
   \caption{{\it NNGenerator} Software Graphical User Interface.}
   \label{gui}
 \end{figure} 
@@ -133,20 +133,20 @@ They are encoded as strings representing serialized maps in Clojure.
 These strings are relatively small compared to serialized Java objects and are also human readable since they are just Clojure data. 
 The serializing and deserializing functions are also simple compared to what would be needed to serialize a Java object. Here is serialization: 
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+
+\begin{lstlisting}
 (defn serialize [x]
   (binding [*print-dup* true] (pr-str x)))
-%]
+\end{lstlisting}
 
 and here is deserialization:
 
-%#Scheme
-%[
+\begin{lstlisting}
 (defn deserialize [x]
   (let [r (new PushbackReader (new StringReader x))]
     (read r)))
-%]
+\end{lstlisting}
 
 %TODO: example serialized structure
 

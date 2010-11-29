@@ -67,8 +67,8 @@ A screenshot of the resultant network is shown in Figure \ref{oresults_1}.
 \end{figure}
 
 The resultant neural network was unable to converge and gave the
-following results when run against the test set:
-correct:  1135 , incorrect:  8865
+following results when run against the test set and only classifed
+1,135 of the 10,000 test characters correctly.
 
 \subsection{Result Set 2}
 
@@ -115,4 +115,64 @@ A screenshot of the resultant network is shown in Figure \ref{oresults_2}.
   \label{oresults_2}
 \end{figure}
 
-correct:  3980 , incorrect:  6020
+The resultant neural network was able to classify 3,980 of the 10,000
+test images correctly.
+
+\subsection{Result Set 3}
+
+\begin{center}
+    \begin{longtable}{ | l | l | l |}
+      \caption{OCR Trainer Test Results 3} \label{ocr3} \\
+    \hline
+  Generation & Lowest RMS Error & Average RMS Error \\ \hline
+1 &	7.989291092433633E-5 &	0.019821599105480103 \\ \hline
+2 &	4.004050993350956E-11 &	0.00781206556488213 \\ \hline
+3 &	2.953372921182323E-8 &	0.011670288713386441 \\ \hline
+4 &	3.561004565825299E-10 &	0.013758225968169701 \\ \hline
+5 &	4.969952505241766E-12 &	0.012584144555919543 \\ \hline
+6 &	9.620313006394983E-13 &	0.010457804379950851 \\ \hline
+7 &	1.3588012614107163E-8 &	0.01021952393825524 \\ \hline
+8 &	3.1156755853397372E-12 &	0.00900057086660724 \\ \hline
+9 &	2.900200837302653E-13 &	0.010918656380408584 \\ \hline
+10 &	1.0123949301175608E-12 &	0.008882579007562777 \\ \hline
+11 &	3.272790896905573E-11 &	0.009509713284177332 \\ \hline
+12 &	2.809366733938291E-11 &	0.009178001985773981 \\ \hline
+13 &	1.6355062166394745E-6 &	0.01386270936376654 \\ \hline
+14 &	6.541201436743673E-14 &	0.009129671062543086 \\ \hline
+15 &	2.3385156478767894E-11 &	0.012915654815698315 \\ \hline
+16 &	1.9655423855241817E-11 &	0.010588685426136333 \\ \hline
+17 &	1.6125954810677866E-13 &	0.009769752475599788 \\ \hline
+18 &	7.890250832783692E-15 &	0.0092041872140139 \\ \hline
+19 &	3.2510336758984747E-12 &	0.00768497129908572 \\ \hline
+20 &	1.561943265362401E-15 &	0.0086760219170695 \\ \hline
+\end{longtable}
+\end{center}
+
+Table \ref{ocr3} shows the results of running the {\it NNGenerator} software with the following parameters:
+
+\begin{center}
+\includegraphics[scale=0.7]{images/oparams_3}
+\end{center}
+
+A screenshot of the resultant network is shown in Figure \ref{oresults_3}.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[scale=0.3]{images/oresults_3}
+  \caption{Resultant neural network for third OCR result set}
+  \label{oresults_2}
+\end{figure}
+
+The resultant neural network was able to classify 3,135 of the 10,000
+test images correctly.
+
+\section{Evaluation}
+All three test runs gave admittedly poor results, with the third (and
+best) neural network only able to classify about $40\%$ of the test
+characters correctly.
+This is probably due to a poor selection of features for recognizing
+the characters.
+The RMS error did get better over time for the second and third result
+sets.
+For the first result set, the RMS error over each generation indicates
+no trend in either direction.

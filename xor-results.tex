@@ -4,13 +4,14 @@ simple {\it XOR} problem.
 The input/output map is provided to the program as the following
 Clojure map: 
 
-%#Scheme
-%[
+\lstset{language=Clojure}
+
+\begin{lstlisting}
 (def XOR-table {[-1 -1] [-1]
                 [-1 1] [1]
                 [1 -1] [1]
                 [1 1] [-1]})
-%]
+\end{lstlisting}
 
 The networks are trained with random samples from the map.
 
