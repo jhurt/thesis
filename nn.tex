@@ -135,45 +135,29 @@ Algorithm \ref{perceptronAlg} describes an algorithm for perceptron training.
 Although the perceptron can be trained to classify patterns, there are sets of data that can be separated into two classes that a perceptron is not capable of learning to classify.
 A perceptron can only classify data sets that are linearly separable.
 The logic operators {\it AND}, {\it OR} and {\it XOR} provide a simple way of visualizing linear separability.
-Consider the {\it AND} operator with the truth table in Figure \ref{andtt}.
-\begin{table}[htb!]
-  \caption{{\it AND} truth table}
-  \label{andtt}
-\begin{displaymath}
-\begin{array}{|c|c|c|}
-   X
- & Y
- & X \land Y
-\\
-\hline
-0 & 0 & 0\\
-0 & 1 & 0\\
-1 & 0 & 0\\
-1 & 1 & 1\\
-\hline
-\end{array}
-\end{displaymath}
-\end{table}
+Consider the {\it AND} operator with the truth table in Figure \ref{orandtt}.
 
 Figure \ref{ands} shows that the discrete input space of the {\it AND}
 operator can indeed be separated by a single straight line.
 
-Now consider the {\it OR} operator with the in Figure \ref{ortt}. 
+Now consider the {\it OR} operator with the truth table in \ref{orandtt}. 
 
 \begin{table}[h!]
-\caption{{\it OR} truth table}
-\label{ortt}
+\caption{{\it OR} and {\it AND} truth table.}
+\label{orandtt}
 \begin{displaymath}
-\begin{array}{|c|c|c|}
+\begin{array}{|c|c|c|c|}
    X
  & Y
  & X \lor Y
+ & X \land Y
+
 \\
 \hline
-0 & 0 & 0\\
-0 & 1 & 1\\
-1 & 0 & 1\\
-1 & 1 & 1\\
+0 & 0 & 0 & 0\\
+0 & 1 & 1 & 0\\
+1 & 0 & 1 & 0\\
+1 & 1 & 1 & 1\\
 \hline
 \end{array}
 \end{displaymath}
@@ -243,7 +227,7 @@ With feed forward neural networks, sets of neurons are grouped into
 layers and information flows from the input layer to output layer in one direction only.
 A neuron in layer $n$ may only send signals to neurons in layer $n+1$, and it may only receive signals from neurons in layer $n-1$.
 The $0^{th}$ layer does not receive signals from other neurons and the output of the $n^{th}$ layer can be viewed as the output of the network.
-Figure \ref{ff} shows an example of this topology:
+Figure \ref{ff} shows an example of this topology.
 
 \begin{figure}[htb!]
   \centering
@@ -369,38 +353,6 @@ Figure \ref{logistic} shows the graph of the logistic function on a cartesian co
   \label{logistic}
 \end{figure}
 
-\begin{algorithm}[h!]
-\caption{Backpropagation training algorithm}
-\label{backpropAlg}    
-\begin{algorithmic}
-
-\WHILE {error rate is sufficiently small or training data has been exhausted}
-\STATE Select a pair of training data, input $o^n$ and known output $t_n$
-\STATE Present the vector to the neural network and compute the
-output vector $o_m$ for the output nodes in a feed forward fashion.
-\STATE Calculate the backpropagated error for the output layer: 
-\begin{displaymath}
-\delta_j = o_j(1 - o_j)(o_j -t_j) 
-\end{displaymath} 
-\STATE Calculate the first set of partial derivatives for the error:
-\begin{displaymath}
-\frac{\partial E}{\partial w_{ij}} = [o_j(1 - o_j)(o_j - t_j)]o_i =
-\delta_j o_i
-\end{displaymath} 
-\STATE In a similar manner, calculate the backpropagated errors and
-partial derivatives for the
-hidden layers, starting with the $j^{th}$ layer connected to the
-output layer, and continuing to the $j-1^{th}$ layer until all layers
-have been exhausted.
-\STATE Use the partial deriviates to update the weights of the
-neural network in the negative gradient direction where $\gamma$ is a
-constant that defines the step length of correction:
-\begin{displaymath}
-\delta w_{ij} = - \gamma o_i \delta_j
-\end{displaymath}
-\ENDWHILE
-\end{algorithmic}
-\end{algorithm}
 
 The {\it NNGenerator} software uses a modifed version of the
 backpropagation algorithm described in ~\cite[166-170]{rojas}.
@@ -442,3 +394,36 @@ user.
 The software will work within those bounds over a large search space
 to find a neural network structure and accompanying weights that
 outperformed all others in the search.
+
+\begin{algorithm}[htb!]
+\caption{Backpropagation training algorithm.}
+\label{backpropAlg}    
+\begin{algorithmic}
+
+\WHILE {error rate is sufficiently small or training data has been exhausted}
+\STATE Select a pair of training data, input $o^n$ and known output $t_n$
+\STATE Present the vector to the neural network and compute the
+output vector $o_m$ for the output nodes in a feed forward fashion.
+\STATE Calculate the backpropagated error for the output layer: 
+\begin{displaymath}
+\delta_j = o_j(1 - o_j)(o_j -t_j) 
+\end{displaymath} 
+\STATE Calculate the first set of partial derivatives for the error:
+\begin{displaymath}
+\frac{\partial E}{\partial w_{ij}} = [o_j(1 - o_j)(o_j - t_j)]o_i =
+\delta_j o_i
+\end{displaymath} 
+\STATE In a similar manner, calculate the backpropagated errors and
+partial derivatives for the
+hidden layers, starting with the $j^{th}$ layer connected to the
+output layer, and continuing to the $j-1^{th}$ layer until all layers
+have been exhausted.
+\STATE Use the partial deriviates to update the weights of the
+neural network in the negative gradient direction where $\gamma$ is a
+constant that defines the step length of correction:
+\begin{displaymath}
+\delta w_{ij} = - \gamma o_i \delta_j
+\end{displaymath}
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}

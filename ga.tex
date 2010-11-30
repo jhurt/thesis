@@ -25,7 +25,7 @@ For example, the string $00110$ crossed with the string $10001$ at index 2 will 
 \begin{figure}[h!]
   \centering
   \includegraphics[scale=0.6]{images/crossover}
-  \caption{Crossover on two binary strings}
+  \caption{Crossover on two binary strings.}
   \label{crossover}
 \end{figure}
 
@@ -37,7 +37,7 @@ structure $A$ crossed with the second part of structure $B$, and a
 second with the first part of structure $B$ crossed with the second
 part of structure $A$, as shown in Figure \ref{crossover_nn}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.4]{images/crossover_nn}
   \caption{Crossover of neural network structures}
@@ -52,10 +52,10 @@ In this way the fittest samples have the best chance of survival as in nature wi
 During mutation there is a low probability that a part of a sample in the population will be changed in some small way. 
 If a binary encoded string $0100$ were selected for example it may become $0101$ as shown in Figure \ref{mutation}.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
   \includegraphics[scale=0.6]{images/mutation}
-  \caption{Mutation on a binary string}
+  \caption{Mutation on a binary string.}
   \label{mutation}
 \end{figure}
 
@@ -87,9 +87,9 @@ For example, given eight samples labeled: $A, B, C, D, E, F, G, H$, and respecti
 $5, 23, 10, 10, 5, 37, 5, 5$, then the sample $F$ will have the best chance of reproducing itself and crossing over with another sample at $37\%$, followed by sample $B$ with a chance of $23\%$, and so on.
 Figure \ref{roulette_wheel} shows a pie chart representing the described probability distribution.
 
-\begin{figure}[h!]
+\begin{figure}[htb!]
   \centering
-  \includegraphics{images/roulette_wheel}
-  \caption{Roulette wheel selection example}
+  \includegraphics[scale=0.7]{images/roulette_wheel}
+  \caption{Roulette wheel selection example.}
   \label{roulette_wheel}
 \end{figure}
