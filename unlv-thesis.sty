@@ -97,6 +97,9 @@
 \newcommand{\thesismonth}[1]{\renewcommand{\@thesismonth}{#1}}
 \newcommand{\@thesisyear}{2011}
 \newcommand{\thesisyear}[1]{\renewcommand{\@thesisyear}{#1}}
+\newcommand{\@copyrightyear}{2011}
+\newcommand{\copyrightyear}[1]{\renewcommand{\@copyrightyear}{#1}}
+
 \newcommand{\@thesistitle}{Skeleton Thesis}
 \newcommand{\thesistitle}[1]{\renewcommand{\@thesistitle}{#1}}
 \newcommand{\@thesistitletypesize}{\Large}
@@ -193,7 +196,7 @@
       \vspace*{2cm}
       \textbf{\large \@thesisdegree} \\
       \textbf{\large \@departmentname} \\
-      \textbf{\large \@collegename} \\
+%      \textbf{\large \@collegename} \\
       \textbf{\large The Graduate College} \\
       \vspace*{2cm}
       %in \\
@@ -219,13 +222,13 @@
 % move to next page      \copyright\ \@thesiscopyrightholder, \@thesisyear
       \vspace*{\fill}
     \end{center}\end{spacing}
-    \newpage
-    \thispagestyle{empty}
-    $ $\\
+ %   \newpage
+%    \thispagestyle{empty}
+%   $ $\\
     \newpage
     \thispagestyle{empty}
     \vspace*{5cm}
-    \centerline{\copyright\ \@thesiscopyrightholder, \@thesisyear}
+    \centerline{\copyright\ \@thesiscopyrightholder, \@copyrightyear}
     \centerline{All Rights Reserved}
     \vspace*{\fill}
     \newpage
