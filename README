@@ -1,0 +1,8 @@
+LaTeX project for my master's thesis from the University of Nevada, Las Vegas
+
+To build:
+./build.sh
+
+To clean:
+./clean.sh
+
