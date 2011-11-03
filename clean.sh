@@ -9,3 +9,5 @@ rm thesis.blg
 rm thesis.bbl
 rm thesis.lot
 rm texput.log
+rm thesis.idx
+rm my_macros.aux

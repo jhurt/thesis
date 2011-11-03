@@ -1,0 +1,676 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% File: ubc-thesis.sty, version 1.0, December 1995
+%%% ===============================================
+
+%%% This style was modified by Brian Edmonds from utthesis.sty, written
+%%% by Dinesh Das.  All modifications are copyright 1995, The University
+%%% of British Columbia.  Further modifications by Makoto Kobayashi to
+%%% support the \mastersessay, April 1997.  Modified by Brian, May 1997
+%%% to support openright,twoside options.  More modifications by
+%%% Allan Rempel to accomodate a 2nd reader on \mastersessay as well as
+%%% making more room for acknowledgements.  Modified by Bettina
+%%% Speckmann, July 2001, to support the new (narrower) library
+%%% margins, Helvetica headings, and running headers. 
+%%% The original copyright statement follows:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% File: utthesis.sty, version 2.0, January 1995
+%%% =============================================
+%%% Copyright (c) 1995 by Dinesh Das.  All rights reserved.
+%%% This file is free and can be modified or distributed as long as
+%%% you meet the following conditions:
+%%%
+%%% (1) This copyright notice is kept intact on all modified copies.
+%%% (2) If you modify this file, you MUST NOT use the original file name.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%% This file defines macros used for preparing theses for The
+%%% University of British Columbia.  It has been tested with LaTeX2e.  I
+%%% do NOT guarantee that it will meet all requirements of the Graduate
+%%% School; however, if you find that something violates the
+%%% specifications, please send me email at <bedmonds@cs.ubc.ca> and I
+%%% will try to fix it.
+%%%
+%%% Usage:
+%%% ======
+%%%
+%%% To use this file with LaTeX2e, make sure the directory containing
+%%% this package is on the default load path, or is explicitly specified
+%%% in your TEXINPUTS environment variable.  On non-UNIX systems,
+%%% consult your manual, as I have no idea what local quirks you may be
+%%% subject to.  Include this file as a package in the preamble:
+%%%
+%%% \documentclass[...]{report}
+%%% \usepackage{unlv-thesis}
+
+\typeout{*************************************************************} 
+\typeout{** UT Austin Thesis Style File, version 2.0, January 1995    }
+\typeout{** Modified for UBC, Department of Computer Science, December
+  1995}
+\typeout{** Modified for UNLV, Department of Computer Science, October
+2011}
+\typeout{*************************************************************}
+
+%%%
+%%% support for infix length/counter calculations
+%%%
+\usepackage{calc}
+
+%%%
+%%% Set up page layout parameters.
+%%%
+
+\setlength{\oddsidemargin}{0.45in}
+\setlength{\evensidemargin}{0.05in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{0.75in}
+\advance\topmargin by -1in
+\setlength{\headheight}{0.25in}
+\setlength{\headsep}{0.4in}
+\setlength{\textheight}{8.5in}
+
+% setup my favourit section headers
+
+%\def\@titlestyle{\sffamily\bfseries\large}
+\def\@titlestyle{\large\bfseries}
+
+\def\section{\@startsection {section}{1}{\z@}{-3.5ex plus -1ex minus
+    -.2ex}{2.3ex plus .2ex}{\@titlestyle}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{-3.25ex plus -1ex minus
+   -.2ex}{1.5ex plus .2ex}{\@titlestyle}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-3.25ex plus
+-1ex minus -.2ex}{1.5ex plus .2ex}{\@titlestyle}}
+
+%%%
+%%% Set up default values.
+%%%
+\newcommand{\@universityname}{University of Nevada, Las Vegas}
+\newcommand{\@departmentname}{School of Computer Science}
+\newcommand{\@collegename}{Howard R. Hughes College of Engineering}
+
+\newcommand{\@thesisauthor}{Skullhead Bonyhands}
+\newcommand{\thesisauthor}[1]{\renewcommand{\@thesisauthor}{#1}}
+\newcommand{\@thesismonth}{October}
+\newcommand{\thesismonth}[1]{\renewcommand{\@thesismonth}{#1}}
+\newcommand{\@thesisyear}{2011}
+\newcommand{\thesisyear}[1]{\renewcommand{\@thesisyear}{#1}}
+\newcommand{\@thesistitle}{Skeleton Thesis}
+\newcommand{\thesistitle}[1]{\renewcommand{\@thesistitle}{#1}}
+\newcommand{\@thesistitletypesize}{\Large}
+\newcommand{\@thesisauthorpreviousdegrees}{B.B. ACME Looniversity, 1995}
+\newcommand{\thesisauthorpreviousdegrees}[1]{
+    \renewcommand{\@thesisauthorpreviousdegrees}{#1}}
+\newcommand{\@thesiscopyrightholder}{\@thesisauthor}
+\newcommand{\thesiscopyrightholder}[1]{
+    \renewcommand{\@thesiscopyrightholder}{#1}}
+\newcommand{\@thesisdegree}{Doctor of Philosophy Degree in Computer Science}
+\newcommand{\thesisdegree}[1]{\renewcommand{\@thesisdegree}{#1}}
+\newcommand{\@thesisdegreetypesize}{\large}
+\newcommand{\@thesisdegreeabbreviation}{Ph.D.}
+\newcommand{\thesisdegreeabbreviation}[1]{
+    \renewcommand{\@thesisdegreeabbreviation}{#1}}
+\newcounter{thesiscommitteesize}
+\setcounter{thesiscommitteesize}{3}
+\newcommand{\thesiscommitteesize}[1]{
+    \setcounter{thesiscommitteesize}{#1}}
+    %\setcounter{thesiscommitteesize}{\real{#1}}}
+
+\newcommand{\@thesisacknowledgmenthead}{Acknowledgments}
+\newcommand{\@thesisacknowledgmentheadtypesize}{\Large}
+\newcommand{\@bigthesistype}{A thesis}
+\newcommand{\@thesistype}{thesis}
+
+%%%
+%%% Commands for \mastersessay and \mastersthesis.  \phdthesis is
+%%% provided for symmetry.
+%%%
+\newcommand{\mastersessay}{
+    \renewcommand{\@thesisdegree}{Master of Science Degree in Computer Science}
+    \renewcommand{\@thesisdegreeabbreviation}{M.Sc.}
+    \setcounter{thesiscommitteesize}{2}
+    \renewcommand{\@bigthesistype}{AN ESSAY}
+    \renewcommand{\@thesistype}{essay}}
+\newcommand{\mastersthesis}{
+    \renewcommand{\@thesisdegree}{Master of Science Degree in Computer Science}
+    \renewcommand{\@thesisdegreeabbreviation}{M.Sc.}
+    \setcounter{thesiscommitteesize}{2}}
+\newcommand{\phdthesis}{}
+
+%%%
+%%% Set up other commands.
+%%%
+\newcommand{\@defaultbaselinestretch}{1.1}
+\newcommand{\@base}[1]{\renewcommand{\baselinestretch}{#1}}
+\newcommand{\singlespace}{\renewcommand{\@defaultbaselinestretch}{1.4}}
+\newcommand{\oneandhalfspace}{\renewcommand{\@defaultbaselinestretch}{1.8}}
+\newcommand{\doublespace}{\renewcommand{\@defaultbaselinestretch}{1.5}}
+
+%%%
+%%% Indent the first paragraph after a sectioning command.
+%%%
+%%% \let\@afterindentfalse\@afterindenttrue
+%%% \@afterindenttrue
+
+%%%
+%%% Set up default page numbering and line spacing.
+%%%
+\renewcommand{\footnotesize}{\fontsize{10}{12}\selectfont}
+\newcommand{\@textpagenumbering}{arabic}
+\newcommand{\@preamblepagenumbering}{roman}
+\newcommand{\@textpagestyle}{plain}
+\newcommand{\@preamblepagestyle}{plain}
+\pagenumbering{\@preamblepagenumbering}
+\@base{\@defaultbaselinestretch}
+\newcommand{\clearemptydoublepage}{
+  \newpage{\pagestyle{empty}\cleardoublepage}}
+
+\newcommand{\@chaptertype}{}%\chaptername}
+\newcommand{\@appendix}{0}
+
+%%%
+%%% Command to generate title page.
+%%%
+\newcommand{\thesistitlepage}{
+    \thispagestyle{empty}
+    \begin{spacing}{2}\begin{center}
+      \vspace*{\fill}
+%%      \textbf{\@thesistitletypesize \@thesistitle} \\
+      {\@thesistitletypesize \@thesistitle} \\
+      \vspace*{2cm}
+      by \\
+      \vspace*{2cm}
+      \@thesisauthor \\
+      \@thesisauthorpreviousdegrees
+      \vfill
+      \end{center}
+      \end{spacing}
+      \begin{spacing}{1.5}\begin{center}
+      \@bigthesistype\ submitted in partial fulfillment of\\
+      the requirements for the\\
+      \vspace*{2cm}
+      \textbf{\large \@thesisdegree} \\
+      \textbf{\large \@departmentname} \\
+      \textbf{\large \@collegename} \\
+      \textbf{\large The Graduate College} \\
+      \vspace*{2cm}
+      %in \\
+      %THE FACULTY OF GRADUATE STUDIES \\
+      %(Department of Computer Science)
+      \vfill
+      %\begin{spacing}{1}
+      %  \ifnum\value{thesiscommitteesize}=1 I \else We \fi
+      %  accept this \@thesistype\ as conforming \\
+      %  to the required standard
+      %\end{spacing}
+      %\setlength{\unitlength}{1mm}
+     % \newcounter{thesiscommitteesignatureheight}
+     % \setcounter{thesiscommitteesignatureheight}{10*\value{thesiscommitteesize}+5}
+     % \begin{picture}(100,\value{thesiscommitteesignatureheight})(0,0)
+      %  \multiput(0,0)(0,+10)
+      %  {\value{thesiscommitteesize}}{\line(1,0){100}}
+     % \end{picture}
+      \vfill
+
+      \textbf{\large \@universityname} \\
+      \textbf{\large \@thesismonth\ \@thesisyear} \\
+% move to next page      \copyright\ \@thesiscopyrightholder, \@thesisyear
+      \vspace*{\fill}
+    \end{center}\end{spacing}
+    \newpage
+    \thispagestyle{empty}
+    $ $\\
+    \newpage
+    \thispagestyle{empty}
+    \vspace*{5cm}
+    \centerline{\copyright\ \@thesiscopyrightholder, \@thesisyear}
+    \centerline{All Rights Reserved}
+    \vspace*{\fill}
+    \newpage
+}
+
+%%%
+%%% Environment to generate abstract page.
+%%%
+\newcommand{\@thesisabstractname}{Abstract}
+\newenvironment{thesisabstract}
+{\chapter*{\@thesisabstractname}%
+\addcontentsline{toc}{chapter}{\@thesisabstractname}%
+\begin{spacing}{1.1}}%
+{\end{spacing} \newpage}%
+
+%%%
+%%% Command to generate dedication page.
+%%%
+\newcommand{\@thesisDedicationName}{Dedication}
+\newenvironment{thesisdedication}
+  {\if@openright\clearemptydoublepage\else\clearpage\fi
+   \addcontentsline{toc}{chapter}{\@thesisDedicationName}
+   \vspace*{\fill}
+   \begin{spacing}{\@defaultbaselinestretch}
+   \begin{center}}
+  {\end{center} \end{spacing} \vspace*{\fill}
+   \newpage}
+
+%%%
+%%% Environment to generate acknowledgments page.
+%%%
+\newenvironment{thesisacknowledgments}
+    {\chapter*{Acknowledgements}
+     \addcontentsline{toc}{chapter}{Acknowledgements}
+     \begin{spacing}{1.1}}
+    {\par \vspace{10mm}
+     \raggedleft \textsc{\large \@thesisauthor} \\[10mm]
+     \raggedright \textit{\@universityname} \\
+                  \textit{\@thesismonth\ \@thesisyear}
+     \end{spacing} \newpage}
+
+\newcommand{\@chapteralignment}{\centering}
+\renewcommand{\chapter}{\if@openright\clearemptydoublepage\else\clearpage\fi
+   \ifnum\@appendix=1
+     \renewcommand{\@chaptertype}{\appendixname}
+   \else
+     \renewcommand{\@chaptertype}{}%\chaptername}
+   \fi
+   \thispagestyle{plain}%
+   \global\@topnum\z@
+   \@afterindentfalse
+   \secdef\@chapter\@schapter
+   }
+\renewcommand\appendix{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \renewcommand{\@chapapp}{\appendixname}%
+  \renewcommand{\thechapter}{\Alph{chapter}}
+  \renewcommand{\@appendix}{1}}
+
+%%% VITA stuff                                                                                                                                                                                                                             \newcommand\vitaname{vita}
+\newcommand\vita{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\@chapapp{}%
+  \gdef\thechapter{}
+}
+
+\renewcommand\vita{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \renewcommand{\appendixname}{Vita}
+  \renewcommand{\@chapapp}{Vita}%
+  \renewcommand{\thechapter}{}
+  \renewcommand{\@appendix}{1}}
+
+
+%%%
+%%% Define chapter heading placement commands.
+%%%
+\newcommand{\leftchapter}{
+    \renewcommand{\@chapteralignment}{\raggedright}}
+\newcommand{\centerchapter}{
+    \renewcommand{\@chapteralignment}{\centering}}
+\newcommand{\rightchapter}{
+    \renewcommand{\@chapteralignment}{\raggedleft}}
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                      \refstepcounter{chapter}%
+                      \typeout{\@chapapp\space\thechapter.}%
+                      \addcontentsline{toc}{chapter}%
+                          {\@chaptertype{} \protect\numberline{\thechapter}#1}%
+                    \else
+                      \addcontentsline{toc}{chapter}{\@chaptertype{} #1}
+                    \fi
+                    \ifnum\value{chapter}=1
+                      \ifnum\@appendix=0
+                        \pagestyle{\@textpagestyle}
+                        \pagenumbering{\@textpagenumbering}
+                      \fi
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi
+                    }
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\def\@makechapterhead#1{%
+  \vspace*{40\p@}%
+  {\parindent \z@ \@chapteralignment \reset@font
+    \ifnum \c@secnumdepth >\m@ne
+%      \huge\sffamily\bfseries \@chapapp{} \thechapter
+      \Huge\bfseries \@chapapp{} \thechapter
+      \par
+      \vskip 20\p@
+    \fi
+%    \Huge \sffamily\bfseries #1\par
+    \Huge\bfseries #1\par
+    \nobreak
+    \vskip 40\p@
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{40\p@}%
+  {\parindent \z@ \@chapteralignment
+    \reset@font
+%    \Huge \sffamily\bfseries  #1\par
+    \Huge\bfseries #1\par
+    \nobreak
+    \vskip 40\p@
+  }}
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\renewenvironment{thebibliography}[1]
+     {\chapter*{\bibname
+         \@mkboth{\uppercase{\bibname}}{\uppercase{\bibname}}}%
+      \addcontentsline{toc}{chapter}{\bibname}
+      \list{\@biblabel{\arabic{enumiv}}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+%            \if@openbib
+%              \advance\leftmargin\bibindent
+%              \itemindent -\bibindent
+%              \listparindent \itemindent
+%              \parsep \z@
+%            \fi
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\arabic{enumiv}}}%
+%      \if@openbib
+%        \renewcommand\newblock{\par}
+%      \else
+%        \renewcommand\newblock{\hskip .11em \@plus.33em \@minus.07em}%
+%      \fi
+      \sloppy\clubpenalty4000 \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.=\@m}
+     {\def\@noitemerr
+        {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+
+\newcommand{\thesisbibliography}[1]
+  {\begin{spacing}{1.1}
+     \bibliography{#1}
+   \end{spacing}}
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+\renewcommand\listoftables{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listtablename
+      \@mkboth{\uppercase{\listtablename}}{\uppercase{\listtablename}}}%
+    \addcontentsline{toc}{chapter}{\listtablename}
+    \@starttoc{lot}%
+    \if@restonecol\twocolumn\fi
+    }
+\renewcommand\listoffigures{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listfigurename
+      \@mkboth{\uppercase{\listfigurename}}%
+              {\uppercase{\listfigurename}}}%
+    \addcontentsline{toc}{chapter}{\listfigurename}
+    \@starttoc{lof}%
+    \if@restonecol\twocolumn\fi
+    }
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname
+        \@mkboth{\uppercase{\contentsname}}{\uppercase{\contentsname}}}%
+    \addcontentsline{toc}{chapter}{\contentsname}
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+    }
+
+%%%
+%%% Command to print draft version of the thesis.
+%%%
+\newcommand{\thesisdraft}{
+    \setlength{\topmargin}{0in}
+    \setlength{\headheight}{0.2in}
+    \setlength{\headsep}{0.25in}
+    \renewcommand{\@textpagestyle}{myheadings}
+    \def\ps@myheadings{%
+     \let\@oddfoot\@empty\let\@evenfoot\@empty
+     \def\@oddhead{\textsl{Draft of \timestamp}\hfil\thepage}%
+     \let\@mkboth\@gobbletwo
+     \let\chaptermark\@gobble
+     \let\sectionmark\@gobble}
+    }
+
+% command to produce headings
+
+\newcommand{\fancyheaders}{
+    \renewcommand{\@textpagestyle}{fancy}}
+
+
+%%%
+%%% Code to compute current timestamp.  Some parts by Martin Minow.
+%%%
+\newcount\hour \newcount\minute
+\hour=\time  \divide \hour by 60
+\minute=\time
+\loop \ifnum \minute > 59 \advance \minute by -60 \repeat
+\def\thesistime{\ifnum \hour<13 \number\hour:%
+                      \ifnum \minute<10 0\fi
+                      \number\minute
+                      \ifnum \hour<12 \ am\else \ pm\fi
+         \else \advance \hour by -12 \number\hour:%
+                      \ifnum \minute<10 0\fi
+                      \number\minute \ pm\fi}
+
+\def\thesisdate{\ifcase\month\or
+January\or February\or March\or April\or May\or June\or
+July\or August\or September\or October\or November\or December\fi
+\space\number\day, \number\year}
+
+\newcount\dow
+\newcount\leap
+\newcount\x
+\newcount\y
+
+%leap = year + (month - 14)/12
+\leap=\month \advance\leap by -14 \divide\leap by 12
+  \advance\leap by \year
+
+%dow = (13 * (month + 10 - (month + 10)/13*12) - 1)/5
+\dow=\month \advance\dow by 10
+  \y=\dow \divide\y by 13 \multiply\y by 12
+  \advance\dow by -\y \multiply\dow by 13 \advance\dow by -1 \divide\dow by 5
+
+%dow += day + 77 + 5 * (leap % 100)/4
+\advance\dow by \day \advance\dow by 77
+  \x=\leap \y=\x \divide\y by 100 \multiply\y by 100 \advance\x by -\y
+  \multiply\x by 5 \divide\x by 4 \advance\dow by \x
+
+%dow += leap / 400
+\x=\leap \divide\x by 400 \advance\dow by \x
+
+%dow -= leap / 100 * 2;
+%dow = (dow % 7)
+\x=\leap \divide\x by 100 \multiply\x by 2 \advance\dow by -\x
+  \x=\dow \divide\x by 7 \multiply\x by 7 \advance\dow by -\x
+
+\def\thesisdayofweek{\ifcase\dow
+Sunday\or Monday\or Tuesday\or
+Wednesday\or Thursday\or Friday\or Saturday\fi}
+
+\def\timestamp{\thesistime, \thesisdayofweek, \thesisdate}
+
+%%%
+%%% Commands for spacing.  Some parts from spacing.sty by Stephen Page.
+%%% 
+\ifx\undefined\selectfont
+\def\@setsize#1#2#3#4{\@nomath#1
+   \let\@currsize#1\baselineskip
+   #2\baselineskip\baselinestretch\baselineskip
+   \parskip\baselinestretch\parskip
+   \setbox\strutbox\hbox{\vrule height.7\baselineskip
+      depth.3\baselineskip width\z@}
+   \normalbaselineskip\baselineskip#3#4}
+\else
+\def\@newbaseline{%
+    \ifx\undefined\setnew@baselineskip
+      \baselineskip\f@baselineskip\relax
+    \else
+      \setnew@baselineskip
+    \fi
+    \baselineskip\baselinestretch\baselineskip
+    \setbox\strutbox\hbox{\vrule\@height.7\baselineskip
+    \@depth.3\baselineskip \@width\z@}%
+    \normalbaselineskip\baselineskip}
+\fi
+%%%
+%%% Reset baselinestretch within footnotes and floats. Fixed by Patrice
+%%% Belleville on July 13th, 2000.
+%%%
+\def\@xfloat #1[#2]{%
+  \@nodocument
+  \def \@captype {#1}%
+   \def \@fps {#2}%
+   \@onelevel@sanitize \@fps
+   \def \reserved@b {!}%
+   \ifx \reserved@b \@fps
+     \@fpsadddefault
+   \else
+     \ifx \@fps \@empty
+       \@fpsadddefault
+     \fi
+   \fi
+   \ifhmode
+     \@bsphack
+     \@floatpenalty -\@Mii
+   \else
+     \@floatpenalty-\@Miii
+   \fi
+  \ifinner
+     \@parmoderr\@floatpenalty\z@
+  \else
+    \@next\@currbox\@freelist
+      {%
+       \@tempcnta \sixt@@n
+       \expandafter \@tfor \expandafter \reserved@a
+         \expandafter :\expandafter =\@fps
+         \do
+          {%
+           \if \reserved@a h%
+             \ifodd \@tempcnta
+             \else
+               \advance \@tempcnta \@ne
+             \fi
+           \fi
+           \if \reserved@a t%
+             \@setfpsbit \tw@
+           \fi
+           \if \reserved@a b%
+             \@setfpsbit 4%
+           \fi
+           \if \reserved@a p%
+             \@setfpsbit 8%
+           \fi
+           \if \reserved@a !%
+             \ifnum \@tempcnta>15
+               \advance\@tempcnta -\sixt@@n\relax
+             \fi
+           \fi
+           }%
+       \@tempcntb \csname ftype@\@captype \endcsname
+       \multiply \@tempcntb \@xxxii
+       \advance \@tempcnta \@tempcntb
+       \global \count\@currbox \@tempcnta
+       }%
+    \@fltovf
+  \fi
+  \global \setbox\@currbox
+  \color@vbox
+  \normalcolor
+  \vbox \bgroup
+  \def\baselinestretch{1}
+  \ifx\undefined\selectfont
+  \small\normalsize
+  \else
+  \@newbaseline
+  \fi
+  \boxmaxdepth\z@
+  \hsize\columnwidth
+  \@parboxrestore
+  \@floatboxreset
+  }
+%%%
+%%% Reset baselinestretch within footnotes and floats. Originally stolen
+%%% from Stanford thesis style.  Kept for history. -be
+%%%
+%\def\@xfloat#1[#2]{\ifhmode \@bsphack\@floatpenalty -\@Mii\else
+%   \@floatpenalty-\@Miii\fi\def\@captype{#1}\ifinner
+%      \@parmoderr\@floatpenalty\z@
+%    \else\@next\@currbox\@freelist{\@tempcnta\csname ftype@#1\endcsname
+%       \multiply\@tempcnta\@xxxii\advance\@tempcnta\sixt@@n
+%       \@tfor \@tempa :=#2\do
+%                        {\if\@tempa h\advance\@tempcnta \@ne\fi
+%                         \if\@tempa t\advance\@tempcnta \tw@\fi
+%                         \if\@tempa b\advance\@tempcnta 4\relax\fi
+%                         \if\@tempa p\advance\@tempcnta 8\relax\fi
+%         }\global\count\@currbox\@tempcnta}\@fltovf\fi
+%    \global\setbox\@currbox\vbox\bgroup 
+%    \def\baselinestretch{1}
+%    \ifx\undefined\selectfont
+%    \small\normalsize
+%    \else
+%    \@newbaseline
+%    \fi
+%    \boxmaxdepth\z@
+%    \hsize\columnwidth \@parboxrestore}
+\long\def\@footnotetext#1{\insert\footins{\def\baselinestretch{1}\footnotesize
+    \interlinepenalty\interfootnotelinepenalty 
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+   \edef\@currentlabel{\csname p@footnote\endcsname\@thefnmark}\@makefntext
+    {\rule{\z@}{\footnotesep}\ignorespaces
+      #1\strut}}}
+%%%
+%%% Stolen from MIT.
+%%%
+\def\spacing#1{\par%
+ \begingroup
+ \def\baselinestretch{#1}
+ \ifx\undefined\selectfont
+ \ifx\@currsize\normalsize\@normalsize\else\@currsize\fi
+ \else
+ \@newbaseline
+ \fi}
+\def\endspacing{\par
+ \vskip \parskip
+ \vskip \baselineskip
+ \endgroup
+ \vskip -\parskip
+ \vskip -\baselineskip}
+
+
+
+%%% EOF

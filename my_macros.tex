@@ -1,0 +1,401 @@
+%\newcounter{defcounter}
+%\setcounter{defcounter}{1}
+%\newcounter{excounter}
+%\setcounter{excounter}{1}
+%\newcounter{propcounter}
+%\setcounter{propcounter}{1}
+%\newcounter{lemmacounter}
+%\setcounter{lemmacounter}{1}
+%\newcounter{theoremcounter}
+%\setcounter{theoremcounter}{1}                    
+\newcommand{\mytheoremcounter}{section}
+\newcommand{\cheapHack}{ }
+\newcommand{\BAPrn}{BAP$_{\mbox{r}}$}
+\newcommand{\BAPr}{BAP$_{\mbox{r}}$\ }
+\newcommand{\BAPsn}{BAP$_{\mbox{s}}$}
+\newcommand{\BAPs}{BAP$_{\mbox{s}}$\ }
+\newcommand{\BAPsrn}{BAP$_{\mbox{sr}}$}
+\newcommand{\BAPsr}{BAP$_{\mbox{sr}}$\ }
+\newcommand{\BAPucn}{BAP$_{\mbox{sr}}$}
+\newcommand{\BAPuc}{BAP$_{\mbox{sr}}$\ }
+\newcommand{\BSPrn}{BSP$_{\mbox{r}}$}
+\newcommand{\BSPr}{BSP$_{\mbox{r}}$\ }
+\newcommand{\BSPsn}{BSP$_{\mbox{s}}$}
+\newcommand{\BSPs}{BSP$_{\mbox{s}}$\ }
+\newcommand{\BSPsrn}{BSP$_{\mbox{sr}}$}
+\newcommand{\BSPsr}{BSP$_{\mbox{sr}}$\ }
+\newcommand{\BSPucn}{BSP$_{\mbox{sr}}$}
+\newcommand{\BSPuc}{BSP$_{\mbox{sr}}$\ }
+\newcommand{\NBAPrn}{NBAP$_{\mbox{r}}$}
+\newcommand{\NBAPr}{NBAP$_{\mbox{r}}$\ }
+\newcommand{\NBAPsn}{NBAP$_{\mbox{s}}$}
+\newcommand{\NBAPs}{NBAP$_{\mbox{s}}$\ }
+\newcommand{\NBAPsrn}{NBAP$_{\mbox{sr}}$}
+\newcommand{\NBAPsr}{NBAP$_{\mbox{sr}}$\ }
+\newcommand{\NBAPucn}{NBAP$_{\mbox{sr}}$}
+\newcommand{\NBAPuc}{NBAP$_{\mbox{sr}}$\ }
+\newcommand{\fixme}[1]{$\spadesuit$\marginpar{\tiny$\spadesuit$#1}}
+\newcommand{\Xhalf}{X_\frac{1}{2}}
+\newcommand{\Shalf}{\cS_{\frac{n}{2},n}}
+\newcommand{\chih}{\chi_n}
+\newcommand{\notchih}{\overline{\chi_n}}
+\newcommand{\upsh}{\upsilon_n}
+\newcommand{\notupsh}{\overline{\upsilon_n}}
+\newcommand{\singlespacing}{\baselineskip 1em}
+\newcommand{\onehalfspacing}{\baselineskip 1.25em}
+\newcommand{\doublespacing}{\baselineskip 1.75em}
+\newcommand{\truedoublespacing}{\baselineskip 2em}
+\newcommand{\normalspacing}{\singlespacing}
+\newcommand{\Paccept}[1]{{\Pr[#1 = \mathrm{accept}]}}
+\newcommand{\Maj}{\mathit{Maj}}
+\newcommand{\Nand}{\uparrow}
+\newcommand{\Nor}{\downarrow}
+\newcommand{\myem}[1]{{\bf #1}}
+\newcommand{\reccr}[1]{\overline{\nu}(#1)}
+\newcommand{\regcr}[1]{\nu(#1)}
+\newcommand{\LOGDCFLclass}{\mathbf{LOGDCFL}}
+\newcommand{\NLclass}{\mathbf{NL}}
+\newcommand{\ACclass}{\mathbf{AC}}
+\newcommand{\NCclass}{\mathbf{NC}}
+\newcommand{\SCclass}{\mathbf{SC}}
+\newcommand{\RCclass}{\mathbf{RC}}
+\newcommand{\coNLclass}{\mathbf{co\!-\!NL}}
+\newcommand{\Lclass}{\mathbf{L}}
+\newcommand{\Lpoly}{\mathbf{L}_{/\mathrm{poly}}}
+\newcommand{\Pclass}{\mathbf{P}}
+\newcommand{\BPclass}{\mathbf{P}_{BP}}
+\newcommand{\BPwidth}[1]{\mathbf{P}_{BP}^{#1}}
+\newcommand{\NPclass}{\mathbf{NP}}
+\newcommand{\coNPclass}{\mathbf{coNP}}
+\newcommand{\PPclass}{\mathbf{PP}}
+\newcommand{\BPPclass}{\mathbf{BPP}}
+\newcommand{\ZPPclass}{\mathbf{ZPP}}
+\newcommand{\RPclass}{\mathbf{RP}}
+\newcommand{\coRPclass}{\mathbf{co\!-\!RP}}
+\newcommand{\SigmaP}[1]{\mathbf{\Sigma_{#1}P}}
+\newcommand{\PHclass}{\mathbf{PH}}
+\newcommand{\PSPACE}{\mathbf{PSPACE}}
+\newcommand{\RSPACE}{\mathbf{RSPACE}}
+\newcommand{\DSPACE}{\mathbf{DSPACE}}
+\newcommand{\imin}{{\mathit{min}}}
+\newcommand{\imax}{{\mathit{max}}}
+\newcommand{\gbf}{{\mathbf{g}}}
+\newcommand{\zbf}{{\mathbf{z}}}
+\newcommand{\wbf}{{\mathbf{w}}}
+\newcommand{\vbf}{{\mathbf{v}}}
+\newcommand{\xbf}{{\mathbf{v}}}
+\newcommand{\onebf}{{\mathbf{1}}}
+\newcommand{\zerobf}{{\mathbf{0}}}
+\newcommand{\uvec}{\vec{u}}
+\newcommand{\vvec}{\vec{v}}
+\newcommand{\xvec}{\vec{x}}
+\newcommand{\Deltap}{\Delta^\prime}
+\newcommand{\Sigmap}{{\Sigma^\prime}}
+\newcommand{\alphap}{\alpha^\prime}
+\newcommand{\betap}{\beta^\prime}
+\newcommand{\betapp}{\beta^{\prime\prime}}
+\newcommand{\gammap}{\gamma^\prime}
+\newcommand{\mup}{\mu^\prime}
+\newcommand{\mupp}{\mu^{\prime\prime}}
+\newcommand{\nubar}{{\overline{\nu}}}
+\newcommand{\nubars}{\nubar^*}
+\newcommand{\nus}{\nu^*}
+\newcommand{\betas}{\beta^*}
+\newcommand{\deltas}{\delta^*}
+\newcommand{\deltap}{\delta^\prime}
+\newcommand{\deltapp}{\delta^{\prime\prime}}
+\newcommand{\lambdabar}{\overline{\lambda}}
+\newcommand{\lambdap}{\lambda^\prime}
+\newcommand{\lambdapp}{\lambda^{\prime\prime}}
+\newcommand{\pip}{\pi^\prime}
+\newcommand{\pipp}{{\pi^{\prime\prime}}}
+\newcommand{\Psip}{\Psi^\prime}
+\newcommand{\psip}{\psi^\prime}
+\newcommand{\phip}{\phi^\prime}
+\newcommand{\sigmap}{\sigma^\prime}
+\newcommand{\etap}{\eta^\prime}
+\newcommand{\etapp}{{\eta^{\prime\prime}}}
+\newcommand{\epsilonp}{{\epsilon^\prime}}
+\newcommand{\epsilonpp}{\epsilon^{\prime\prime}}
+\newcommand{\epsilonppp}{\epsilon^{\prime\prime\prime}}
+\newcommand{\ap}{a^\prime}
+\newcommand{\bp}{b^\prime}
+\newcommand{\cp}{c^\prime}
+\newcommand{\up}{u^\prime}
+\newcommand{\fp}{f^\prime}
+\newcommand{\ep}{e^\prime}
+\newcommand{\gp}{g^\prime}
+\newcommand{\ip}{i^\prime}
+\newcommand{\jp}{j^\prime}
+\newcommand{\mpr}{m^\prime}
+\newcommand{\np}{n^\prime}
+\newcommand{\op}{o^\prime}
+\newcommand{\qp}{q^\prime}
+\newcommand{\rp}{r^\prime}
+\newcommand{\spr}{s^\prime}
+\newcommand{\tp}{t^\prime}
+\newcommand{\gpp}{g^{\prime\prime}}
+\newcommand{\ipp}{i^{\prime\prime}}
+\newcommand{\jpp}{j^{\prime\prime}}
+\newcommand{\epp}{e^{\prime\prime}}
+\newcommand{\qpp}{q^{\prime\prime}}
+\newcommand{\rpp}{r^{\prime\prime}}
+\newcommand{\vp}{v^\prime}
+\newcommand{\ypp}{y^{\prime\prime}}
+\newcommand{\xpp}{x^{\prime\prime}}
+\newcommand{\zp}{z^\prime}
+\newcommand{\hp}{{h^\prime}}
+\newcommand{\lp}{{l^\prime}}
+\newcommand{\zpp}{{z^{\prime\prime}}}
+\newcommand{\kp}{{k^\prime}}
+\newcommand{\Dp}{{D^\prime}}
+\newcommand{\Pp}{P^\prime}
+\newcommand{\Ppp}{P^{\prime\prime}}
+\newcommand{\Qp}{Q^\prime}
+\newcommand{\Qpp}{Q^{\prime\prime}}
+\newcommand{\Spr}{S^\prime}
+\newcommand{\Tp}{T^\prime}
+\newcommand{\Ep}{E^\prime}
+\newcommand{\Dbar}{\overline{D}}
+\newcommand{\Lp}{L^\prime}
+\newcommand{\Lpp}{L^{\prime\prime}}
+\newcommand{\Lbar}{\overline{L}}
+\newcommand{\Lhat}{\widehat{L}}
+\newcommand{\Ltilde}{\tilde{L}}
+\newcommand{\Lcap}{{L^\cap}}
+\newcommand{\Lcup}{{L^\cup}}
+\newcommand{\Lpbar}{\overline{\Lp}}
+\newcommand{\Mp}{M^\prime}
+\newcommand{\Mpp}{M^{\prime\prime}}
+\newcommand{\Mbar}{\overline{M}}
+\newcommand{\Np}{N^\prime}
+\newcommand{\Npp}{N^{\prime\prime}}
+\newcommand{\Rp}{R^\prime}
+\newcommand{\xbar}{\bar{x}}
+\newcommand{\xp}{x^\prime}
+\newcommand{\yp}{y^\prime}
+\newcommand{\Uhat}{\widehat{U}}
+\newcommand{\Up}{U^\prime}
+\newcommand{\Upp}{U^{\prime\prime}}
+\newcommand{\Vp}{V^\prime}
+\newcommand{\Vhat}{\widehat{V}}
+\newcommand{\Vbar}{\overline{V}}
+\newcommand{\Ap}{{A^\prime}}
+\newcommand{\App}{{A^{\prime\prime}}}
+\newcommand{\Cp}{C^\prime}
+\newcommand{\Fp}{F^\prime}
+\newcommand{\Gp}{G^\prime}
+\newcommand{\Gtilde}{\tilde{G}}
+\newcommand{\Fpp}{F^{\prime\prime}}
+\newcommand{\Zf}{{\mathbb{Z}}}
+\newcommand{\Qf}{{\mathbb{Q}}}
+\newcommand{\Rf}{{\mathbb{R}}}
+\newcommand{\Cf}{{\mathbb{C}}}
+\providecommand{\mathbb}[1]{\Bbb{#1}}
+\newcommand{\qacc}{q^{acc}}
+\newcommand{\qrej}{q^{rej}}
+\newcommand{\qnon}{q^{non}}
+\newcommand{\Qadd}{Q_{add}}
+\newcommand{\Qacc}{Q_{acc}}
+\newcommand{\Qrej}{Q_{rej}}
+\newcommand{\Qnon}{Q_{non}}
+\newcommand{\Qhalt}{Q_{halt}}
+\newcommand{\Qjunk}{Q_{junk}}
+\newcommand{\Qaccp}{{Q_{acc}^\prime}}
+\newcommand{\Qrejp}{{Q_{rej}^\prime}}
+\newcommand{\Qnonp}{{Q_{non}^\prime}}
+\newcommand{\Qhaltp}{{Q_{halt}^\prime}}
+\newcommand{\Qjunkp}{{Q_{junk}^\prime}}
+\newcommand{\Qaccpp}{{Q_{acc}^{\prime\prime}}}
+\newcommand{\Qrejpp}{{Q_{rej}^{\prime\prime}}}
+\newcommand{\Qnonpp}{{Q_{non}^{\prime\prime}}}
+\newcommand{\Qjunkpp}{{Q_{junk}^{\prime\prime}}}
+\newcommand{\Cacc}{C_{acc}}
+\newcommand{\Crej}{C_{rej}}
+\newcommand{\Cnon}{C_{non}}
+\newcommand{\Eacc}{E_{acc}}
+\newcommand{\Erej}{E_{rej}}
+\newcommand{\Enon}{E_{non}}
+\def\cent{{\hbox{\rm\rlap/c}}}
+\newcommand{\centp}{{\cent}^\prime}
+\newcommand{\Bra}[1]{{\langle{#1}|}}
+\newcommand{\Ket}[1]{{|{#1}\rangle}}
+\newcommand{\BraKet}[2]{{\langle{#1}|{#2}\rangle}}
+\newcommand{\iprod}[2]{{\langle{#1},{#2}\rangle}}
+\newtheorem{theorem}{{\bf Theorem}}[\mytheoremcounter]
+\newtheorem{lemma}[theorem]{{\bf Lemma}}
+\newtheorem{aside}[theorem]{{\bf Aside}}
+%\newtheorem{claim}[theorem]{{\bf Claim}}
+\newtheorem{example}[theorem]{{\bf Example}}
+\newtheorem{question}[theorem]{{\bf Question}}
+\newtheorem{answer}[theorem]{{\bf Answer}}
+\newtheorem{conjecture}[theorem]{{\bf Conjecture}}
+\newtheorem{proposition}[theorem]{{\bf Proposition}}
+\newtheorem{property}[theorem]{{\bf Property}}
+\newtheorem{corollary}[theorem]{{\bf Corollary}}
+\newtheorem{observation}[theorem]{{\bf Observation}}
+%\newtheorem{fact}[theorem]{{\bf Fact}}
+\newtheorem{definition}[theorem]{{\bf Definition}}
+\newtheorem{remark}[theorem]{{\bf Remark}}
+\newtheorem{thoughts}[theorem]{{\bf Thoughts}}
+\newenvironment{proof}{ \begin{trivlist} 
+                        \item \vspace{-\topsep} \noindent{\bf Proof:}\ }
+                      {\rule{5pt}{5pt}\end{trivlist}}
+\newcommand{\Case}[2]{\noindent{\bf Case #1:}#2}
+\newcommand{\Subcase}[2]{\noindent{\bf Subcase #1:}#2}
+\newcommand{\Half}{\frac{1}{2}}
+\newcommand{\RtHalf}{\frac{1}{\sqrt{2}}}
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cC}{{\mathcal{C}}}
+\newcommand{\cE}{{\mathcal{E}}}
+\newcommand{\cF}{{\mathcal{F}}}
+\newcommand{\cH}{{\mathcal{H}}}
+\newcommand{\cI}{{\mathcal{I}}}
+\newcommand{\cK}{{\mathcal{K}}}
+\newcommand{\cL}{{\mathcal{L}}}
+\newcommand{\cM}{{\mathcal{M}}}
+\newcommand{\cO}{{\mathcal{O}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cR}{{\mathcal{R}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\Span}{{\mathit{Span}}}
+\newcommand{\Ch}[2]{{#1 \choose #2}}
+\newcommand{\Ul}[1]{{\underline{#1}}}
+\newcommand{\Floor}[1]{{\lfloor #1 \rfloor}}
+\newcommand{\ignore}[1]{}
+\newcommand{\noignore}[1]{#1}
+
+\newcommand{\RMO}{\mathbf{RMO}}
+\newcommand{\UMO}{\mathbf{UMO}}
+\newcommand{\RMOe}{\mathbf{RMO}_\epsilon}
+\newcommand{\RMM}{\mathbf{RMM}}
+\newcommand{\UMM}{\mathbf{UMM}}
+\newcommand{\RMMe}{\mathbf{RMM}_\epsilon}
+
+\newcommand{\MOQFA}{\mathbf{MOQFA}}
+\newcommand{\MOQFAe}{\mathbf{MOQFA}_\epsilon}
+\newcommand{\MMQFA}{\mathbf{MMQFA}}
+\newcommand{\MMQFAe}{\mathbf{MMQFA}_\epsilon}
+\newcommand{\GQFA}{\mathbf{GQFA}}
+\newcommand{\GQFAe}{\mathbf{GQFA}_\epsilon}
+
+\newcommand{\REG}{\mathbf{REG}}
+\newcommand{\PFA}{\mathbf{PFA}}
+\newcommand{\PFAe}{\mathbf{PFA}_\epsilon}
+\newcommand{\GFA}{\mathbf{GFA}}
+
+% Code environment
+\newcommand{\Foreach}[2]{\\{\bf\tt{for\ each}} $#1$ {\bf\tt{do}}\+ #2
+\- \\ {\bf\tt{rof}}}
+\newcommand{\Forloop}[2]{\\{\bf\tt{for}} $#1$ {\bf\tt{do}}\+ #2
+\- \\ {\bf\tt{rof}}}
+\newcommand{\Ifthen}[2]{\\{\bf\tt{if}} $#1$ {\bf\tt{then}}\+ #2
+\- \\ {\bf\tt{fi}}}
+\newcommand{\Ifelse}[3]{\\{\bf\tt{if}} $#1$ {\bf\tt{then}}\+ #2
+\- \\ {\bf\tt{else}}\+ #3 \- \\ {\bf\tt{fi}}}
+\newcommand{\Stmt}[1]{\\$#1$;}
+\newcommand{\StartStmt}[1]{\+\kill$#1$;}
+\newenvironment{pseudocode}{\begin{tabbing} 
+\ \ \ \ \=\ \ \ \ \=\ \ \ \ \=\ \ \ \ \=\ \ \ \ \=\ \ \ \ \=\ \ \ \ \=\
+\ \ \ \= } {\end{tabbing}}
+
+% Moving proofs around
+% #1 = proof \name   #2 = appendix ref    #3 = proof
+\providecommand{\SaveProof}[3]{#3}
+% #1 = proof \name   #2 = appendix ref    #3 = proof    #4 = sketch
+\providecommand{\SketchProof}[4]{#3}
+% #1 = proof \name   #2 = appendix label  #3 = title
+\providecommand{\AppendixProof}[3]{}
+
+\newcommand{\MoveProofsToAppendix}{\include{movemacs}}
+
+% Short equation separator
+\newcommand{\ShortSep}{\\ & &}
+\newcommand{\LongSep}{}
+\providecommand{\DefSep}{\LongSep}
+\newcommand{\UseShortSep}{\renewcommand{\DefSep}{\ShortSep}}
+
+
+% select abstract mechanism
+\newcommand{\UseAbstract}[2]{#1}
+\newcommand{\UseOtherAbstract}{\include{absselect}}
+
+% EVIL stuff to make it fit for 10 page limit (two lines per page extra)
+\newcommand{\StretchPage}{ \addtolength{\textheight}{0.05\textheight}
+                           \addtolength{\topmargin}{-0.03\textheight}
+                         }
+
+% figure macro
+
+\newcommand{\DoFigure}[4]{
+                          \begin{figure}[ht]
+\setlength{\topsep}{-10pt}
+\setlength{\parsep}{0pt}
+\setlength{\partopsep}{0pt}
+\setlength{\parskip}{0pt}
+                            \begin{center}
+                              \ \includegraphics[scale=#2]{#1}\ 
+                            \end{center}
+                            \caption{#3\label{#4}}
+                          \end{figure}
+                         }
+
+\newcommand{\DoBiFigure}[5]{
+                          \begin{figure}[ht]
+\setlength{\topsep}{-10pt}
+\setlength{\parsep}{0pt}
+\setlength{\partopsep}{0pt}
+\setlength{\parskip}{0pt}
+                            \begin{center}
+                              \mbox{\ \includegraphics[scale=#3]{#1}\ 
+                                    \hspace{1.0in}
+                                    \ \includegraphics[scale=#3]{#2}\ }
+                            \end{center}
+                            \caption{#4\label{#5}}
+                          \end{figure}
+                         }
+
+\newcommand{\DoDiFigure}[8]{ 
+                          \begin{figure}[ht]
+\setlength{\topsep}{-10pt}
+\setlength{\parsep}{0pt}
+\setlength{\partopsep}{0pt}
+\setlength{\parskip}{0pt}
+                            \begin{center}
+                              \begin{minipage}[b]{0.35\linewidth}
+                                \begin{center}
+                                  \includegraphics[scale=#2]{#1}
+                                \end{center}
+                                \caption{#3\label{#4}}
+                              \end{minipage}
+                              \hspace{1.0in}
+                              \begin{minipage}[b]{0.35\linewidth}
+                                \begin{center}
+                                  \includegraphics[scale=#6]{#5}
+                                \end{center}
+                                \caption{#7\label{#8}}
+                              \end{minipage}
+                            \end{center}
+                          \end{figure}
+                         }
+
+\newcommand{\DoTable}[3]{
+                          \begin{table}[ht]
+                            \begin{center}
+                              #1
+                            \end{center}
+                            \caption{#2\label{#3}}
+                          \end{table}
+                         }
+
+
+\newcommand{\pseudosection}[1]{\vspace{\baselineskip}
+\noindent{\sffamily\bfseries #1}\vspace{0.5\baselineskip}}
+\newcommand{\mycaption}[3]{
+ \begin{center}
+   \parbox{0.90\columnwidth}{\caption[#1]{
+     \setlength{\baselineskip}{1.3\baselineskip}
+     #2}\label{#3}}
+ \end{center}}
+

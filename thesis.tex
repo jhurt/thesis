@@ -1,6 +1,6 @@
-\documentclass[12pt]{report}
+\documentclass[10pt,openright]{report} 
 \usepackage[english]{babel}
-\usepackage{unlvthesis}
+\usepackage{unlv-thesis}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{amsmath}
@@ -12,6 +12,7 @@
 \usepackage [all,dvips]{xy}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{amssymb}
 \providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 
 %for lstlisting Clojure code
@@ -75,33 +76,44 @@ with-meta,with-open,with-out-str,with-precision,xml-seq,zero?,zipmap
 
 \numberwithin{algorithm}{chapter}
 
-\oneandhalfspace
-\mastersthesisS
+\mastersthesis
+\rightchapter
+
+\doublespace
+
+\makeindex
+
+\thesistitle{AUTOMATING CONSTRUCTION AND SELECTION OF A NEURAL NETWORK
+USING STOCHASTIC OPTIMIZATION}
 
 \thesisauthor{Jason Lee Hurt}
-\thesismonth{September}
-\thesisyear{2011}
-\thesistitle{Automating Construction and Selection of a Neural Network
-Using Stochastic Optimization}
 
-\bibliographystyle{alpha} 
+%%%
+%%% Add your previous degrees here
+\thesisauthorpreviousdegrees{
+Bachelor of Science (B.Sc.)\\ \vspace*{-0.12in}
+University of Nevada, Las Vegas\\ \vspace*{-0.12in}
+2004}
+
+\thesismonth{December}
+\thesisyear{2011}
+
+%\thesiscommitteesize{0}
+
+\include{my_macros}
 
 \begin{document}
 
+\newpage
 \thesistitlepage
 
-\input{copyright}
-\newpage
 \input{abstract}
-\newpage
-\input{acknowledgements}
 
 \tableofcontents
-
-%%% List of tables, figures and algorithms
-\newpage
-\listoftables
 \listoffigures
+\listoftables
+
+\input{acknowledgements}
 
 \input{introduction}
 \input{nn}
@@ -116,22 +128,28 @@ Using Stochastic Optimization}
 \input{futurework}
 
 \newpage
+\bibliographystyle{alpha} 
 \thesisbibliography{bibliography}
 
+%\newpage
+%\begin{thesisvita}
+%\begin{center}
+%Graduate College\\
+%University of Nevada, Las Vegas\\[1cm]
+%Jason Lee Hurt\\[1cm]
+%\end{center}
+
+%\noindent Degrees:\\
+%\indent Bachelor of Science in Computer Science 2004\\
+%\indent University of Nevada Las Vegas\\
+
+%\noindent Thesis Title: Automating Construction and Selection of a
+%Neural Network Using Stochastic Optimization\\
+
 \newpage
-\begin{thesisvita}
-\begin{center}
-Graduate College\\
-University of Nevada, Las Vegas\\[1cm]
-Jason Lee Hurt\\[1cm]
-\end{center}
-
-\noindent Degrees:\\
-\indent Bachelor of Science in Computer Science 2004\\
-\indent University of Nevada Las Vegas\\
-
-\noindent Thesis Title: Automating Construction and Selection of a
-Neural Network Using Stochastic Optimization\\
+%%%
+%%% Vita comes next
+\vita
 
 \noindent Thesis Examination Committee:\\
 \indent Chairperson, Dr. Jan B\ae{}kguard Pedersen, Ph.D.\\
@@ -139,6 +157,5 @@ Neural Network Using Stochastic Optimization\\
 \indent Committee Member, Dr. Kazem Taghva, Ph.D.\\
 \indent Graduate Faculty Representative, Dr. Aly Said, Ph.D.\\
 
-\end{thesisvita}
 
 \end{document}
